@@ -20,7 +20,7 @@ public class UserController {
 
     @GetMapping("/getAll")
     public ResponseData getAllUser(
-            @RequestParam(value = "sdt",required = false) String sdt,
+            @RequestParam(value = "phone",required = false) String phone,
             @RequestParam(value = "email",required = false) String email,
             @RequestParam(value = "fullname",required = false) String fullname,
             @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
@@ -30,7 +30,7 @@ public class UserController {
             return new ResponseData("Không có quyền truy cập",null);
         }
 
-        Page<UserDTO> page = this.userService.findAllUser(sdt,email,fullname, PageRequest.of(pageIndex,pageSize));
+        Page<UserDTO> page = this.userService.findAllUser(phone,email,fullname, PageRequest.of(pageIndex,pageSize));
 
         return new ResponseData("Thành công",page.getContent());
     }

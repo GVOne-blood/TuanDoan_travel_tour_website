@@ -15,12 +15,12 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "select u from User u " +
-            "WHERE ( :sdt IS NULL OR :sdt = '' OR u.sdt LIKE %:sdt% ) " +
+            "WHERE ( :phone IS NULL OR :phone = '' OR u.phone LIKE %:phone% ) " +
             "AND ( :email IS NULL OR :email = '' OR u.email LIKE %:email% ) " +
             "AND ( :fullname IS NULL OR :fullname = '' OR u.fullname LIKE %:fullname% ) " +
             "AND u.role = 1 " +
             " ORDER BY u.id desc")
-    Page<User> findAll(@Param("sdt") String sdt, @Param("email") String email, @Param("fullname") String fullname, Pageable pageable);
+    Page<User> findAll(@Param("phone") String phone, @Param("email") String email, @Param("fullname") String fullname, Pageable pageable);
 
     @Query(value = "select u from User u where u.id = :id")
     Optional<User> findById(@Param("id") Long id);

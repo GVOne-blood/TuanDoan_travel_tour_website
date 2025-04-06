@@ -21,7 +21,7 @@ public class RegisterDTO {
     @EnumPattern(name = "gender", regexp = "MALE|FEMALE|OTHER")
     private Gender gender;
 
-    private String sdt;
+    private String phone;
 
     private String email;
 

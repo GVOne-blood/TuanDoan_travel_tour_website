@@ -1,4 +1,4 @@
 package com.javaadvancedg9.JavaAdvancedG9.entity;
 
-public class TourGuide {
+public class TourGuide extends AbstractEntity {
 }

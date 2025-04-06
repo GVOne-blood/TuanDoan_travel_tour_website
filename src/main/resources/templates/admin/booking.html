@@ -181,8 +181,8 @@
                                                 <input type="text" class="form-control" id="fullname" disabled name="fullname">
                                             </div>
                                             <div class="form-group">
-                                                <label for="sdt">Số điện thoại liên hệ</label>
-                                                <input type="text" class="form-control" id="sdt" disabled name="sdt">
+                                                <label for="phone">Số điện thoại liên hệ</label>
+                                                <input type="text" class="form-control" id="phone" disabled name="phone">
                                             </div>
                                             <div class="form-group" >
                                                 <label for="tour_name">Tên tour</label>
@@ -364,7 +364,7 @@
             type: 'GET',
             success: function (data) {
                 $('#fullname').val(data.data.fullname);
-                $('#sdt').val(data.data.sdt);
+                $('#phone').val(data.data.phone);
                 $('#tour_name').val(data.data.tour_name);
                 $('#number_of_people').val(data.data.number_of_people);
                 $('#departing_at').val(data.data.departing_at);

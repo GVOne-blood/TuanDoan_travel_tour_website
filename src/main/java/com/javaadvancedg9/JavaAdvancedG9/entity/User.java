@@ -13,10 +13,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "user")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends AbstractEntity {
+
 
     private String username;
 
@@ -28,7 +26,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private String sdt;
+    private String phone;
 
     private String email;
 

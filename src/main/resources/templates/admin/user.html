@@ -180,8 +180,8 @@
                                                 <input type="text" class="form-control" id="fullname" name="fullname" required>
                                             </div>
                                             <div class="form-group mb-2">
-                                                <label for="sdt">Số điện thoại</label>
-                                                <input type="tel" class="form-control" id="sdt" name="sdt" required>
+                                                <label for="phone">Số điện thoại</label>
+                                                <input type="tel" class="form-control" id="phone" name="phone" required>
                                             </div>
                                             <div class="form-group mb-2">
                                                 <label for="gioi_tinh">Giới tính</label>
@@ -263,7 +263,7 @@
                 $('#editModal input[name="id"]').val(result.data.id);
                 $('#editModal input[name="username"]').val(result.data.username);
                 $('#editModal input[name="fullname"]').val(result.data.fullname);
-                $('#editModal input[name="sdt"]').val(result.data.sdt);
+                $('#editModal input[name="phone"]').val(result.data.phone);
                 $('#editModal input[name="gioi_tinh"]').val(result.data.gioi_tinh);
                 $('#editModal input[name="email"]').val(result.data.email);
                 $('#editModal input[name="address"]').val(result.data.address);
@@ -288,7 +288,7 @@
         var id = $("#id").val();
         var username = $("#username").val();
         var hoTen = $("#fullname").val();
-        var sdt = $("#sdt").val();
+        var phone = $("#phone").val();
         var gioiTinh = $("#gioi_tinh").val();
         var email = $("#email").val();
         var diaChi = $("#address").val();
@@ -297,7 +297,7 @@
         var updateUserDTO = {
             username: username,
             fullname: hoTen,
-            sdt: sdt,
+            phone: phone,
             gioi_tinh: gioiTinh,
             email: email,
             address: diaChi
@@ -368,7 +368,7 @@
                 { "data": "id" },
                 { "data": "username" },
                 { "data": "fullname" },
-                { "data": "sdt" },
+                { "data": "phone" },
                 { "data": "gioi_tinh" },
                 { "data": "email" },
                 { "data": "address" },

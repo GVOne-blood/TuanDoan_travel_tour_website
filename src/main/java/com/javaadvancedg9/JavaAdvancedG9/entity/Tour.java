@@ -26,7 +26,7 @@ import lombok.Setter;
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter
 @Entity
 @Table(name = "tour")
-public class Tour {
+public class Tour extends AbstractEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

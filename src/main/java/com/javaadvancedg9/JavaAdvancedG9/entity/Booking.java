@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jdk.jfr.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,11 +25,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "booking")
-public class Booking {
+public class Booking extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private Long user_id;
 
@@ -47,6 +45,8 @@ public class Booking {
     private Integer payment_method; //payment_method
 
     private String notes;
+
+
 
     @PrePersist
     public void onCreate() {

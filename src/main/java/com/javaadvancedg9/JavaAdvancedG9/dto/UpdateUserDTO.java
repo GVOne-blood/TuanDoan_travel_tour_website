@@ -15,7 +15,7 @@ public class UpdateUserDTO {
 
     private String fullname;
 
-    private String sdt;
+    private String phone;
     @EnumPattern(name = "gender", regexp = "MALE|FEMALE|OTHER")
     private Gender gender;
 

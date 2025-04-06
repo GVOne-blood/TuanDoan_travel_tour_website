@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "tin_tuc")
-public class TinTuc {
+public class TinTuc extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

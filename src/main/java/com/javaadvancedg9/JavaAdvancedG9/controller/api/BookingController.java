@@ -4,20 +4,21 @@ import com.javaadvancedg9.JavaAdvancedG9.dto.BookingDTO;
 import com.javaadvancedg9.JavaAdvancedG9.dto.response.ResponseData;
 import com.javaadvancedg9.JavaAdvancedG9.service.BookingService;
 import com.javaadvancedg9.JavaAdvancedG9.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/booking")
 public class BookingController {
 
-    @Autowired
-    private BookingService bookingService;
 
-    @Autowired
-    private UserService userService;
+    private final BookingService bookingService;
+    private final UserService userService;
+
 
     @GetMapping("/getAllBooking")
     public ResponseData getAllBooking(@RequestParam(value="status",required = false) Integer status,

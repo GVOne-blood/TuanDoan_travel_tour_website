@@ -40,7 +40,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long>{
             + " FROM Booking  b  JOIN Tour t ON b.tour_id = t.id  WHERE b.id = :id")
     BookingDTO findBookingById(@Param("id") Long id);
 
-    @Query(value = "SELECT new com.javaadvancedg9.JavaAdvancedG9.dto.BookingDetailDTO(b.id,b.user_id,u.fullname,u.sdt,b.tour_id,t.tour_name,b.number_of_people,b.departing_at,b.total_fee,b.status,b.payment_method,b.notes,b.booking_at) "
+    @Query(value = "SELECT new com.javaadvancedg9.JavaAdvancedG9.dto.BookingDetailDTO(b.id,b.user_id,u.fullname,u.phone,b.tour_id,t.tour_name,b.number_of_people,b.departing_at,b.total_fee,b.status,b.payment_method,b.notes,b.booking_at) "
             + " FROM Booking  b  JOIN Tour t ON b.tour_id = t.id JOIN User u ON b.user_id = u.id WHERE b.id = :id")
     BookingDetailDTO findBookingDetailById(@Param("id") Long id);
 

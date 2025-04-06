@@ -32,9 +32,9 @@ public class UserServiceImpl implements UserService {
     private BookingRepository bookingRepository;
 
     @Override
-    public Page<UserDTO> findAllUser(String sdt, String email, String fullname, Pageable pageable) {
+    public Page<UserDTO> findAllUser(String phone, String email, String fullname, Pageable pageable) {
 
-        Page<User> page = userRepository.findAll(sdt,email,fullname,pageable);
+        Page<User> page = userRepository.findAll(phone,email,fullname,pageable);
 
         Page<UserDTO> pageUserDTO = new PageImpl<>(
                 page.getContent().stream().map(user ->  {
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
 
             User user = this.userRepository.findById(user_id).get();
 
-            user.setSdt(updateUserDTO.getSdt());
+            user.setPhone(updateUserDTO.getPhone());
             user.setUsername(updateUserDTO.getUsername());
             user.setEmail(updateUserDTO.getEmail());
             user.setAddress(updateUserDTO.getAddress());
@@ -152,7 +152,7 @@ public class UserServiceImpl implements UserService {
         user.setGender(newUser.getGender());
         user.setRole(1);
         user.setAddress(newUser.getAddress());
-        user.setSdt(newUser.getSdt());
+        user.setPhone(newUser.getPhone());
 
 
         return this.saveUser(user);
@@ -186,7 +186,7 @@ public class UserServiceImpl implements UserService {
 
         User user = this.userRepository.findById(id).get();
         if(user!=null) {
-            user.setSdt(updateUserDTO.getSdt());
+            user.setPhone(updateUserDTO.getPhone());
             user.setUsername(updateUserDTO.getUsername());
             user.setEmail(updateUserDTO.getEmail());
             user.setAddress(updateUserDTO.getAddress());
