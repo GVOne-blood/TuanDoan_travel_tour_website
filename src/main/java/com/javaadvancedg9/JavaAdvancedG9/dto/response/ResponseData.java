@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 public class ResponseData<T>  {
     private int status;
     private final String message;
-    private  T data;
+    private T data;
 
     public ResponseData(int status, String message, T data) {
         this.status = status;

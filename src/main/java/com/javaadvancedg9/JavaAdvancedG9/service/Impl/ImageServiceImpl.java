@@ -4,19 +4,17 @@ import com.javaadvancedg9.JavaAdvancedG9.entity.Image;
 import com.javaadvancedg9.JavaAdvancedG9.repository.ImageRepository;
 import com.javaadvancedg9.JavaAdvancedG9.repository.TourRepository;
 import com.javaadvancedg9.JavaAdvancedG9.service.ImageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService {
-
-    @Autowired
-    private ImageRepository imageRepository;
-
-    @Autowired
-    private TourRepository tourRepository;
+    private final ImageRepository imageRepository;
+    private final TourRepository tourRepository;
 
     @Override
     public List<Image> findByTourId(Long id) {

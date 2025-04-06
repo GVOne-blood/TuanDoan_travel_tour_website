@@ -6,20 +6,21 @@ import com.javaadvancedg9.JavaAdvancedG9.utilities.ConvertUserToDto;
 import com.javaadvancedg9.JavaAdvancedG9.dto.UserDTO;
 import com.javaadvancedg9.JavaAdvancedG9.entity.User;
 import com.javaadvancedg9.JavaAdvancedG9.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @GetMapping("/getAll")
-    public ResponseData getAllUser(
+    public ResponseData<?> getAllUser(
             @RequestParam(value = "phone",required = false) String phone,
             @RequestParam(value = "email",required = false) String email,
             @RequestParam(value = "fullname",required = false) String fullname,
@@ -27,74 +28,74 @@ public class UserController {
             @RequestParam("pageIndex") Integer pageIndex
     ) {
         if(!this.userService.checkAdminLogin()) {
-            return new ResponseData("Không có quyền truy cập",null);
+            return new ResponseData<>("Không có quyền truy cập",null);
         }
 
         Page<UserDTO> page = this.userService.findAllUser(phone,email,fullname, PageRequest.of(pageIndex,pageSize));
 
-        return new ResponseData("Thành công",page.getContent());
+        return new ResponseData<>("Thành công",page.getContent());
     }
 
     @GetMapping("/{id}")
-    public ResponseData getOneUser(@PathVariable("id") Long id) {
+    public ResponseData<?> getOneUser(@PathVariable("id") Long id) {
 
         if(!this.userService.checkAdminLogin()) {
-            return new ResponseData("Không có quyền truy cập",null);
+            return new ResponseData<>("Không có quyền truy cập",null);
         }
 
         if(this.userService.findUserById(id)!=null) {
-            return new ResponseData("Thành công", ConvertUserToDto.convertUsertoDto(this.userService.findUserById(id)));
+            return new ResponseData<>("Thành công", ConvertUserToDto.convertUsertoDto(this.userService.findUserById(id)));
         }
-        return new ResponseData("Thất bại",null);
+        return new ResponseData<>("Thất bại",null);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseData updateUser(@PathVariable("id") Long id, @RequestBody UpdateUserDTO updateUserDTO) {
+    public ResponseData<?> updateUser(@PathVariable("id") Long id, @RequestBody UpdateUserDTO updateUserDTO) {
 
         if(!this.userService.checkAdminLogin()) {
-            return new ResponseData("Không có quyền truy cập",null);
+            return new ResponseData<>("Không có quyền truy cập",null);
         }
 
         User user = this.userService.findUserById(id);
 
         if(user!=null) {
             if(this.userService.updateUserByAdmin(updateUserDTO,id)) {
-                return new ResponseData("Cập nhật thành công",this.userService.findUserById(id));
+                return new ResponseData<>("Cập nhật thành công",this.userService.findUserById(id));
             }
         }
-        return new ResponseData("Cập nhật thất bại",null);
+        return new ResponseData<>("Cập nhật thất bại",null);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseData deleteUser(@PathVariable("id") Long id){
+    public ResponseData<?> deleteUser(@PathVariable("id") Long id){
 
 
         if(!this.userService.checkAdminLogin()) {
-            return new ResponseData("Không có quyền truy cập",null);
+            return new ResponseData<>("Không có quyền truy cập",null);
         }
 
         User user = this.userService.findUserById(id);
         if(user!=null) {
 
             if(this.userService.deleteUserById(id)) {
-                return new ResponseData("Xóa thành công",null);
+                return new ResponseData<>("Xóa thành công",null);
             }
         }
 
-        return new ResponseData("Không thể xóa người dùng này",null);
+        return new ResponseData<>("Không thể xóa người dùng này",null);
     }
 
     @PutMapping("/update/resetPass/{id}")
-    public ResponseData resetPass(@PathVariable("id") Long id) {
+    public ResponseData<?> resetPass(@PathVariable("id") Long id) {
 
         if(!this.userService.checkAdminLogin()) {
-            return new ResponseData("Không có quyền truy cập",null);
+            return new ResponseData<>("Không có quyền truy cập",null);
         }
 
         if(this.userService.resetPass(id)) {
-            return new ResponseData("Khôi phục mật khẩu mặc định thành công",null);
+            return new ResponseData<>("Khôi phục mật khẩu mặc định thành công",null);
         }
-        return new ResponseData("Khôi phục mật khẩu mặc định thất bại",null);
+        return new ResponseData<>("Khôi phục mật khẩu mặc định thất bại",null);
 
     }
 }

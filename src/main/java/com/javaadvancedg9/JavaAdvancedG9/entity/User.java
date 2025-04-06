@@ -15,7 +15,6 @@ import lombok.Setter;
 @Table(name = "user")
 public class User extends AbstractEntity {
 
-
     private String username;
 
     private String fullname;

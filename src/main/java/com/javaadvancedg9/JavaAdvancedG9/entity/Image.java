@@ -19,8 +19,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "image")
 public class Image extends AbstractEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private String url;
 

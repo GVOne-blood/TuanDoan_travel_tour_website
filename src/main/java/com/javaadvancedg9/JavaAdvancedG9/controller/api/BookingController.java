@@ -21,63 +21,63 @@ public class BookingController {
 
 
     @GetMapping("/getAllBooking")
-    public ResponseData getAllBooking(@RequestParam(value="status",required = false) Integer status,
+    public ResponseData<?> getAllBooking(@RequestParam(value="status",required = false) Integer status,
                                       @RequestParam(value = "status",required = false) String tour_name,
                                       @RequestParam(value="pageSize",defaultValue = "10") Integer pageSize,
                                       @RequestParam("pageIndex") Integer pageIndex){
 
 
         if(!this.userService.checkAdminLogin()) {
-            return new ResponseData("Không có quyền truy cập",null);
+            return new ResponseData<>("Không có quyền truy cập",null);
         }
 
         Page<BookingDTO> page = this.bookingService.findAllBooking(status,tour_name, PageRequest.of(pageIndex,pageSize));
 
-        return new ResponseData("Thành công",page.getContent());
+        return new ResponseData<>("Thành công",page.getContent());
 
     }
 
     @GetMapping("/{id}")
     public ResponseData<?> getOneBooking(@PathVariable("id") Long id) {
         if(!this.userService.checkAdminLogin()) {
-            return new ResponseData("Không có quyền truy cập",null);
+            return new ResponseData<>("Không có quyền truy cập",null);
         }
-        return new ResponseData("Thành công",this.bookingService.getBookingById(id));
+        return new ResponseData<>("Thành công",this.bookingService.getBookingById(id));
     }
     @GetMapping("/detail/{id}")
-    public ResponseData getOneDetailBooking(@PathVariable("id") Long id) {
+    public ResponseData<?> getOneDetailBooking(@PathVariable("id") Long id) {
         if(!this.userService.checkAdminLogin()) {
-            return new ResponseData("Không có quyền truy cập",null);
+            return new ResponseData<>("Không có quyền truy cập",null);
         }
-        return new ResponseData("Thành công",this.bookingService.getBookingDetailById(id));
+        return new ResponseData<>("Thành công",this.bookingService.getBookingDetailById(id));
     }
 
     @PutMapping("/approve/{id}")
-    public ResponseData changeStatus(@PathVariable("id") Long id, @RequestParam("status") Integer status) {
+    public ResponseData<?> changeStatus(@PathVariable("id") Long id, @RequestParam("status") Integer status) {
 
         if(!this.userService.checkAdminLogin()) {
-            return new ResponseData("Không có quyền truy cập",null);
+            return new ResponseData<>("Không có quyền truy cập",null);
         }
 
         if(this.bookingService.approveBooking(id,status)) {
-            return new ResponseData("Cập nhật thành công",null);
+            return new ResponseData<>("Cập nhật thành công",null);
         }
-        return new ResponseData("Cập nhật thất bại",null);
+        return new ResponseData<>("Cập nhật thất bại",null);
     }
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseData deleteBooking(@PathVariable("id") Long id) {
+    public ResponseData<?> deleteBooking(@PathVariable("id") Long id) {
 
         if(!this.userService.checkAdminLogin()) {
-            return new ResponseData("Không có quyền truy cập",null);
+            return new ResponseData<>("Không có quyền truy cập",null);
         }
 
         if(this.bookingService.deleteBooking(id)) {
-            return new ResponseData("Xóa thành công",null);
+            return new ResponseData<>("Xóa thành công",null);
         }
 
-        return new ResponseData("Chỉ có thể xóa tour đã hoàn thành và đã hủy",null);
+        return new ResponseData<>("Chỉ có thể xóa tour đã hoàn thành và đã hủy",null);
     }
 
 }

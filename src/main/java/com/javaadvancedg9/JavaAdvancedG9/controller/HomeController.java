@@ -9,6 +9,7 @@ import com.javaadvancedg9.JavaAdvancedG9.service.TourService;
 import com.javaadvancedg9.JavaAdvancedG9.service.UserService;
 import com.javaadvancedg9.JavaAdvancedG9.utilities.SessionUtilities;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,25 +26,21 @@ import java.util.List;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/")
 public class HomeController {
 
-    @Autowired
+
     public TourService tourService;
 
-    @Autowired
     private TourStartRepository tourStartRepository;
 
-    @Autowired
     private ImageRepository imageRepository;
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private BookingService bookingService;
 
-    @Autowired
     private HttpServletRequest request;
 
 
