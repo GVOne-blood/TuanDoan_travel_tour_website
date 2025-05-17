@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long>{
 
-    @Query(value = "SELECT new com.javaadvancedg9.JavaAdvancedG9.dto.BookingDTO(b.id,b.user_id,b.tour_id,t.tour_name,b.number_of_people,b.departing_at,b.total_fee,b.status,b.payment_method,b.notes,b.booking_at ) "
+    @Query(value = "SELECT new com.javaadvancedg9.JavaAdvancedG9.dto.BookingDTO (b.id,b.user_id,b.tour_id,t.tour_name,b.number_of_people,b.departing_at,b.total_fee,b.status,b.payment_method,b.notes,b.booking_at ) "
             + " FROM Booking b JOIN Tour t ON b.tour_id = t.id  "
             + " WHERE ( :status IS NULL OR b.status = :status ) "
             + " AND ( :tour_name IS NULL OR :tour_name = '' OR t.tour_name LIKE %:tour_name% ) "

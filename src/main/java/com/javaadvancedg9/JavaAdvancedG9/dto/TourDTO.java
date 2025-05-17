@@ -41,19 +41,4 @@ public class TourDTO {
 
     private Long price;
 
-    public TourDTO(Long id, String tour_name, String tour_introduction, Integer tour_duration, String tour_details, Date end_at, Date departing_at, String destination, Integer tour_type, String tour_illustration, String departure_point, Integer status, Long price) {
-        this.id = id;
-        this.tour_name = tour_name;
-        this.tour_introduction = tour_introduction;
-        this.tour_duration = tour_duration;
-        this.tour_details = tour_details;
-        this.end_at = end_at;
-        this.departing_at = departing_at;
-        this.destination = destination;
-        this.tour_type = tour_type;
-        this.tour_illustration = tour_illustration;
-        this.departure_point = departure_point;
-        this.status = status;
-        this.price = price;
-    }
 }

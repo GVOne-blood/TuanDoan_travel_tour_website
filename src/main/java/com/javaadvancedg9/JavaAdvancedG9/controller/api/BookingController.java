@@ -23,17 +23,19 @@ public class BookingController {
     @GetMapping("/getAllBooking")
     public ResponseData<?> getAllBooking(@RequestParam(value="status",required = false) Integer status,
                                       @RequestParam(value = "status",required = false) String tour_name,
-                                      @RequestParam(value="pageSize",defaultValue = "10") Integer pageSize,
-                                      @RequestParam("pageIndex") Integer pageIndex){
+                                      @RequestParam(value="pageSize", required = false, defaultValue = "10") Integer pageSize,
+                                      @RequestParam(value = "pageIndex", required = false) Integer pageIndex){
+        Page<BookingDTO> pageFake = this.bookingService.findAllBooking(status,tour_name, PageRequest.of(pageIndex,pageSize));
 
+        return new ResponseData<>("Thành công",pageFake.getContent());
 
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
-
-        Page<BookingDTO> page = this.bookingService.findAllBooking(status,tour_name, PageRequest.of(pageIndex,pageSize));
-
-        return new ResponseData<>("Thành công",page.getContent());
+//        if(!this.userService.checkAdminLogin()) {
+//            return new ResponseData<>("Không có quyền truy cập",null);
+//        }
+//
+//        Page<BookingDTO> page = this.bookingService.findAllBooking(status,tour_name, PageRequest.of(pageIndex,pageSize));
+//
+//        return new ResponseData<>("Thành công",page.getContent());
 
     }
 
