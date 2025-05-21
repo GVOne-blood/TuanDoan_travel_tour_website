@@ -4,8 +4,11 @@ import com.javaadvancedg9.JavaAdvancedG9.dto.*;
 import com.javaadvancedg9.JavaAdvancedG9.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService {
+
+    public UserDetailsService getUserDetailsService();
     public Page<UserDTO> findAllUser(String phone, String email, String fullname, Pageable pageable);
 
     public User findUserById(Long id);
