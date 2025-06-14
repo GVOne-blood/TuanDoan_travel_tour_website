@@ -1,5 +1,6 @@
 package com.javaadvancedg9.JavaAdvancedG9.service.Impl;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import com.javaadvancedg9.JavaAdvancedG9.dto.BookingDTO;
 import com.javaadvancedg9.JavaAdvancedG9.dto.BookingDetailDTO;
 import com.javaadvancedg9.JavaAdvancedG9.dto.TourDTO;
 import com.javaadvancedg9.JavaAdvancedG9.entity.Booking;
+import com.javaadvancedg9.JavaAdvancedG9.entity.Tour;
 import com.javaadvancedg9.JavaAdvancedG9.repository.BookingRepository;
 import com.javaadvancedg9.JavaAdvancedG9.repository.TourRepository;
 import com.javaadvancedg9.JavaAdvancedG9.service.BookingService;
@@ -42,7 +44,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public boolean addNewBooking(BookingDTO newBooking) {
+    public boolean addNewBooking(BookingDTO newBooking)  {
 
 
         List<BookingDTO> checkBooking  = this.bookingRepository.checkBookingByUserId(newBooking.getUser_id());
@@ -50,7 +52,7 @@ public class BookingServiceImpl implements BookingService {
             return false;
         }
 
-        TourDTO tourDTO = this.tourRepository.findTourById(newBooking.getTour_id());
+        Tour tourDTO = this.tourRepository.findTourById(newBooking.getTour_id()).orElseThrow();
 
         Booking booking = new Booking();
         booking.setNumber_of_people(newBooking.getNumber_of_people());

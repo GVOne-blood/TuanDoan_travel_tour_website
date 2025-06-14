@@ -1,5 +1,6 @@
 package com.javaadvancedg9.JavaAdvancedG9.service;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import com.javaadvancedg9.JavaAdvancedG9.dto.BookingDTO;
@@ -16,7 +17,7 @@ public interface BookingService {
 
     Page<BookingDTO> findBookingByTourId(Long tour_Id,Pageable pageable);
 
-    boolean addNewBooking(BookingDTO newBooking);
+    boolean addNewBooking(BookingDTO newBooking) throws FileNotFoundException;
 
     boolean approveBooking(Long bookingId,Integer status);
 

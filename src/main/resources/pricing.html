@@ -253,6 +253,10 @@
             <div class="col">
               <div class="card h-100 shadow-sm rounded tour-card">
                 <img src="${tour.main_image}" class="card-img-top mb-2" alt="${tour.title}">
+                <div class="card-img-bottom d-inline-flex flex-wrap">
+                <img src="${tour.sub_image_1}"  class="rounded card-img-bottom w-25 small m-1" alt="${tour.title}">
+                <img src="${tour.sub_image_2}" class="rounded card-img-bottom w-25 small m-1" alt="${tour.title}">
+                </div>
                 <div class="card-body">
                   <h5 class="card-title">${tour.title}</h5>
                   <p class="card-text text-muted tour-description-clamp">${tour.description}</p>

@@ -3,6 +3,7 @@ package com.javaadvancedg9.JavaAdvancedG9.controller.api;
 import com.javaadvancedg9.JavaAdvancedG9.dto.response.ResponseData;
 import com.javaadvancedg9.JavaAdvancedG9.dto.TourDTO;
 import com.javaadvancedg9.JavaAdvancedG9.dto.TourStartAtdDTO;
+import com.javaadvancedg9.JavaAdvancedG9.dto.response.ResponseError;
 import com.javaadvancedg9.JavaAdvancedG9.entity.Tour;
 import com.javaadvancedg9.JavaAdvancedG9.entity.TourStart;
 import com.javaadvancedg9.JavaAdvancedG9.repository.TourStartRepository;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -61,9 +63,9 @@ public class TourController {
         TourDTO tour = this.tourService.findTourById(id);
 
         if(tour!=null) {
-            return new ResponseData<>("Thành công",tour);
+            return new ResponseData<>(HttpStatus.OK.value(), "Thành công",tour);
         }
-        return new ResponseData<>("Thất bại" ,null);
+        return new ResponseError(HttpStatus.BAD_REQUEST.value(), "Thất bại" ,null);
     }
 
     @PostMapping("/test-up-anh")
@@ -238,11 +240,6 @@ public class TourController {
 
     @GetMapping("/StartDate/{id}")
     public ResponseData<?> getAllStartDate(@PathVariable("id") Long id) {
-
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
-
         return new ResponseData<>("Thành công",this.tourStartRepository.getDateStartByTourId(id));
     }
 

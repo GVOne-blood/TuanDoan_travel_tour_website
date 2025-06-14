@@ -1,13 +1,3 @@
-<!-- =========
-
-	Template Name: Play
-	Author: UIdeck
-	Author URI: https://uideck.com/
-	Support: https://uideck.com/support/
-	Version: 1.1
-
-========== -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,63 +18,163 @@
     <link rel="stylesheet" href="assets/css/animate.css" />
     <link rel="stylesheet" href="assets/css/lineicons.css" />
     <link rel="stylesheet" href="assets/css/ud-styles.css" />
-    <!-- Đã chuyển style .option-btn-card-1 vào ud-styles.css -->
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/58d4e782be.js" crossorigin="anonymous"></script>
+
+    <!-- ================================================== -->
+    <!-- CSS TÙY CHỈNH CHO LAYOUT VÀ ANIMATION MỚI -->
+    <!-- ================================================== -->
+    <style>
+        /* Khu vực hero title */
+        #tour-hero-title { padding: 60px 0; text-align: center; background: #f4f7ff; }
+        #tour-hero-title h1 { font-size: 3.5rem; font-weight: 700; margin-bottom: 15px; background: linear-gradient(45deg, #3652E1, #8A3CE5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; }
+        #tour-hero-title p { font-size: 1.1rem; color: #6c757d; max-width: 800px; margin: 0 auto; }
+
+        /* Khu vực chi tiết bổ sung */
+        #tour-extra-details { padding: 40px 0; }
+        .detail-item { display: flex; align-items: center; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; transition: all 0.3s ease; }
+        .detail-item:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .detail-item i { font-size: 2rem; color: #2563eb; margin-right: 20px; width: 50px; text-align: center; }
+        .detail-item .info span { display: block; font-size: 0.9rem; color: #6c757d; }
+        .detail-item .info p { margin: 0; font-size: 1.1rem; font-weight: 600; color: #333; }
+
+        /* CSS cho phần giá */
+        #price-value { font-size: 2.2rem; font-weight: 700; color: #e11d48; }
+        #service-info-icon { cursor: pointer; color: #2563eb; font-size: 1rem; margin-left: 8px; }
+
+        /* CSS cho phần thanh toán */
+        .payment-method-item, .bank-item { border: 2px solid #eee; border-radius: 12px; padding: 15px; cursor: pointer; transition: all 0.3s ease; position: relative; }
+        .payment-method-item:hover, .bank-item:hover { border-color: #2563eb; }
+        .payment-method-item.selected, .bank-item.selected { border-color: #16a34a; background-color: #f0fdf4; }
+        .payment-method-item img { max-height: 30px; }
+        .bank-item img { width: 100%; height: 40px; object-fit: contain; }
+        .bank-item.selected::after {
+            content: '\f058'; /* Font Awesome check-circle icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            color: #16a34a;
+            font-size: 1.2rem;
+            background-color: white;
+            border-radius: 50%;
+        }
+        #bank-selection { transition: all 0.5s ease; }
+
+        /* Hiệu ứng cho thẻ tour liên quan */
+        .related-tour-card { transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; }
+        .related-tour-card:hover { transform: translateY(-8px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important; }
+
+        /* Animation trượt cho tour liên quan */
+        @keyframes slideOutLeft { to { transform: translateX(-120%); opacity: 0; } }
+        @keyframes slideInRight { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOutRight { to { transform: translateX(120%); opacity: 0; } }
+        @keyframes slideInLeft { from { transform: translateX(-120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .slide-out-left { animation: slideOutLeft 0.5s forwards ease-in-out; }
+        .slide-in-right { animation: slideInRight 0.5s forwards ease-in-out; }
+        .slide-out-right { animation: slideOutRight 0.5s forwards ease-in-out; }
+        .slide-in-left { animation: slideInLeft 0.5s forwards ease-in-out; }
+
+        /* Nút điều hướng tour liên quan */
+        .tours-nav-btn { font-size: 2rem; font-weight: bold; color: #2563eb; cursor: pointer; transition: all 0.2s; user-select: none; }
+        .tours-nav-btn:hover { transform: scale(1.2); }
+        .tours-nav-btn.disabled { color: #ccc; cursor: not-allowed; transform: scale(1); }
+    </style>
 </head>
+
 <body>
 <!-- ====== Header Start ====== -->
-<div id="header-placeholder"></div>
+<header class="ud-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <nav class="navbar navbar-expand-lg">
+                    <a class="navbar-brand" href="index.html">
+                        <img src="assets/images/logo/logo-5.png" alt="Logo" />
+                    </a>
+                    <button class="navbar-toggler">
+                        <span class="toggler-icon"> </span>
+                        <span class="toggler-icon"> </span>
+                        <span class="toggler-icon"> </span>
+                    </button>
+
+                    <div class="navbar-collapse">
+                        <ul id="nav" class="navbar-nav mx-auto">
+                            <li class="nav-item">
+                                <a class="ud-menu-scroll" href="index.html">Trang chủ </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pricing.html">Giá Tour</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="ud-menu-scroll" href="#team">Hướng dẫn viên</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="ud-menu-scroll" href="#contact">Liên hệ</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="navbar-btn d-none d-sm-inline-block">
+                        <a href="#" class="ud-main-btn ud-login-btn js-logout-btn" style="display:none;">Đăng xuất</a>
+                        <a href="login.html" class="ud-main-btn ud-login-btn js-auth-btn">Đăng nhập</a>
+                        <a href="signup.html" class="ud-main-btn ud-login-btn js-auth-btn">Đăng kí</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
 <!-- ====== Header End ====== -->
 
-<!-- CÁC SECTION HTML CỦA BẠN ĐƯỢC GIỮ NGUYÊN -->
-<section id="pricing-1" class="ud-pricing-1"></section>
-<section id="faq-card-1" class="ud-card-1">
+<section id="tour-hero-title" style="display: none;">
+    <div class="container">
+        <h1 id="hero-tour-name">Đang tải tên tour...</h1>
+        <p id="hero-tour-introduction">Đang tải mô tả...</p>
+    </div>
+</section>
+
+<section id="main-content-section" class="ud-card-1" style="display: none;">
     <div class="container my-4 custom-container">
         <div class="row g-0">
             <div class="col-md-8">
                 <div class="img-card-1 h-100">
-                    <img id="main-image" src="" class="img-fluid h-100 no-radius" alt="Large Image" style="object-fit: cover;">
+                    <img id="main-image" src="assets/images/placeholder-large.png" class="img-fluid h-100 no-radius" alt="Large Image" style="object-fit: cover;">
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="d-flex flex-column h-100 gap-0">
                     <div class="img-card-2 flex-fill">
-                        <img id="sub-image-1" src="" class="img-fluid h-100 no-radius" alt="Small Image 1" style="object-fit: cover;">
+                        <img id="sub-image-1" src="assets/images/placeholder-small.png" class="img-fluid h-100 no-radius" alt="Small Image 1" style="object-fit: cover;">
                     </div>
                     <div class="img-card-3 flex-fill">
-                        <img id="sub-image-2" src="" class="img-fluid h-100 no-radius" alt="Small Image 2" style="object-fit: cover;">
+                        <img id="sub-image-2" src="assets/images/placeholder-small.png" class="img-fluid h-100 no-radius" alt="Small Image 2" style="object-fit: cover;">
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container my-4 custom-container">
-        <div class="row g-0">
-            <div class="col-md-9">
-                <div class="img-card-1 h-100">
-                    <div class="card-pricing-info h-100" id="tour-description">
-                        <!-- Dữ liệu sẽ được điền vào đây -->
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="d-flex flex-column h-100 gap-0">
-                    <div class="img-card-2 flex-fill"></div>
-                    <div class="img-card-3 flex-fill"></div>
-                </div>
-            </div>
-        </div>
+
+    <div id="tour-extra-details" class="container custom-container">
+        <div id="details-grid" class="row"></div>
     </div>
+
     <div class="container my-4 custom-container-card-1">
-        <div class="row g-0">
+        <div class="row g-0 justify-content-center">
             <div class="col-md-9">
                 <div class="service-card-info">
                     <h2>Vui lòng chọn ngày & gói dịch vụ</h2>
                     <div class="mb-3">
                         <p>Xin chọn ngày tham quan</p>
-                        <input type="text" class="form-control date-picker-card-1" placeholder="Chọn ngày" readonly>
+                        <input type="text" class="form-control date-picker-card-1" placeholder="Vui lòng chờ tải ngày khởi hành..." readonly>
                     </div>
                     <div class="mb-3">
-                        <p>Loại dịch vụ</p>
+                        <p>Loại dịch vụ
+                            <i class="fas fa-question-circle" id="service-info-icon"
+                               data-bs-toggle="popover" data-bs-trigger="hover" title="Chi Tiết Gói Dịch Vụ"></i>
+                        </p>
                         <div class="d-flex flex-row gap-2">
                             <button class="btn option-btn-card-1 mb-2 btn-book-now active" style="width: 150px;">Thường</button>
                             <button class="btn option-btn-card-1 mb-2" style="width: 150px;">Cao cấp</button>
@@ -97,249 +187,445 @@
                             <input type="number" class="form-control quantity-input-card-1" value="1" min="1">
                         </div>
                     </div>
-                    <div class="price mb-3"><span id="price-value"></span></div>
-                    <div class="mb-3"><p class="price-text-card-1">Vui lòng hoàn tất các mục yêu cầu để chuyến đi được thực hiện theo</p></div>
-                    <div class="select-button "><button class="btn-book-now" onclick="bookNow()">Đặt ngay</button></div>
-                    <div class="booking-date mt-3"><span class="clear-all-card-1" onclick="clearAll()">Xóa tất cả</span></div>
+
+                    <!-- Phần thanh toán -->
+                    <div class="mb-3">
+                        <p>Phương thức thanh toán</p>
+                        <div class="payment-method-item d-flex align-items-center gap-3" data-method="vnpay">
+                            <img src="https://vnpay.vn/s1/statics.vnpay.vn/vnpay.vn/logo.svg" alt="VNPay Logo">
+                            <span class="fw-bold">Cổng thanh toán VNPay</span>
+                        </div>
+                    </div>
+
+                    <div id="bank-selection" class="mb-3" style="display: none;">
+                        <p>Chọn ngân hàng thanh toán</p>
+                        <div id="bank-grid" class="row g-2">
+                            <!-- Ngân hàng sẽ được render ở đây -->
+                        </div>
+                    </div>
+
+                    <!-- Ghi chú -->
+                    <div class="mb-3">
+                        <p>Ghi chú cho chuyến đi</p>
+                        <textarea id="booking-notes" class="form-control" rows="3" placeholder="Ví dụ: Yêu cầu phòng tầng cao, ăn chay..."></textarea>
+                    </div>
+
+                    <div class="price mb-3">
+                        <span id="price-value">Đang tải giá...</span>
+                    </div>
+                    <div class="select-button ">
+                        <button id="btn-book-now" class="btn-book-now">Đặt ngay</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container my-4 custom-container-confirm" style="padding-left:0;">
-        <div class="row">
-            <div class="col-md-9" style="margin-left:0;">
-                <div class="card p-4 mb-4" style="border-radius:14px;box-shadow:none;border:none;">
-                    <div class="mb-3" style="font-size:20px;font-weight:600;color:#e11d48;">Những điều cần lưu ý</div>
-                    <h4 class="mb-3" style="color:#2563eb;font-weight:700;">Xác nhận</h4>
-                    <p class="mb-2">Xác nhận ngay tức thời. Nếu bạn không nhận được email xác nhận đơn hàng, hãy liên hệ với chúng tôi</p>
-                    <h5 class="mt-4 mb-2" style="color:#2563eb;font-weight:600;">Điều kiện</h5>
-                    <ul class="mb-2 ps-3">
-                        <li>Trẻ em từ 2+ tuổi sẽ được tính phí như người lớn</li>
-                        <li>Trẻ em dưới 2 tuổi được miễn phí nhưng phải đi cùng ít nhất một người lớn. Nếu bạn có trẻ em dưới 2 tuổi đi kèm, vui lòng cung cấp họ tên đầy đủ, quốc tịch và năm sinh tại trang thanh toán</li>
-                    </ul>
-                    <h5 class="mt-4 mb-2" style="color:#2563eb;font-weight:600;">Thông tin thêm</h5>
-                    <ul class="mb-2 ps-3">
-                        <li>Chú ý: Tuan Doan và nhà cung cấp dịch vụ sẽ không chịu trách nhiệm cho những vấn đề liên quan đến VISA của quý khách. Dịch vụ đón tiễn ưu tiên không bao gồm dịch vụ VISA</li>
-                        <li>Not available from 01:30 AM to 05:30 AM everyday.</li>
-                    </ul>
-                    <div class="mt-3"><b>Support Hotline:</b> <a href="tel:+84866624188" style="color:#e11d48;text-decoration:none;">+84866624188</a></div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div class="container my-4 custom-container-service-info">
         <div class="row">
             <div class="col-md-9">
                 <h4 class="mb-3" style="color:#2563eb;font-weight:700;">Về dịch vụ này</h4>
-                <div id="service-description" class="mb-4"></div>
-                <div class="d-flex flex-column align-items-start gap-3 mb-3" id="service-images">
-                    <img id="service-img-main" src="" alt="Ảnh dịch vụ chính" class="img-fluid rounded" style="height:800px;width:1000px;object-fit:cover;">
-                    <img id="service-img-1" src="" alt="Ảnh dịch vụ 1" class="img-fluid rounded" style="height:800px;width:1000px;object-fit:cover;">
-                    <img id="service-img-2" src="" alt="Ảnh dịch vụ 2" class="img-fluid rounded" style="height:800px;width:1000px;object-fit:cover;">
-                </div>
+                <div id="service-description" class="mb-4">Đang tải...</div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ====== Các hoạt động nổi bật Start ====== -->
-<div class="container my-5">
-    <h2 class="mb-4" style="font-size:2.2rem;font-weight:700;">Các tour liên quan</h2>
-    <div class="row" id="top-activities-row"></div>
+<div class="container my-5" id="related-tours-container" style="display: none;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 style="font-size:2.2rem;font-weight:700;">Các tour liên quan</h2>
+        <div class="d-flex align-items-center gap-3">
+            <a id="prev-tours-btn" class="tours-nav-btn disabled" title="Các tour trước đó">«</a>
+            <a id="next-tours-btn" class="tours-nav-btn" title="Các tour tiếp theo">»</a>
+        </div>
+    </div>
+    <div class="row" id="related-tours-row"></div>
 </div>
-<!-- ====== Các hoạt động nổi bật End ====== -->
 
 <!-- ====== Footer Start ====== -->
-<div id="footer-placeholder"></div>
+<footer class="ud-footer wow fadeInUp" data-wow-delay=".15s">
+    <div class="shape shape-1"><img src="assets/images/footer/shape-1.svg" alt="shape" /></div>
+    <div class="shape shape-2"><img src="assets/images/footer/shape-2.svg" alt="shape" /></div>
+    <div class="shape shape-3"><img src="assets/images/footer/shape-3.svg" alt="shape" /></div>
+    <div class="ud-footer-widgets">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="ud-widget">
+                        <a href="index.html" class="ud-footer-logo"><img src="assets/images/logo/logo-5.png" alt="logo" /></a>
+                        <p class="ud-widget-desc">Khám phá Việt Nam qua những hành trình độc đáo, được thiết kế riêng cho bạn.</p>
+                        <ul class="ud-widget-socials">
+                            <li><a href="#"><i class="lni lni-facebook-filled"></i></a></li>
+                            <li><a href="#"><i class="lni lni-twitter-filled"></i></a></li>
+                            <li><a href="#"><i class="lni lni-instagram-filled"></i></a></li>
+                            <li><a href="#"><i class="lni lni-linkedin-original"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6"></div>
+                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6">
+                    <div class="ud-widget">
+                        <h5 class="ud-widget-title">Về Chúng Tôi</h5>
+                        <ul class="ud-widget-links">
+                            <li><a href="javascript:void(0)">Trang Chủ</a></li>
+                            <li><a href="javascript:void(0)">Giới Thiệu</a></li>
+                            <li><a href="javascript:void(0)">Chính Sách</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6">
+                    <div class="ud-widget">
+                        <h5 class="ud-widget-title">Dịch Vụ</h5>
+                        <ul class="ud-widget-links">
+                            <li><a href="javascript:void(0)">Tour Trọn Gói</a></li>
+                            <li><a href="javascript:void(0)">Tour Cá Nhân</a></li>
+                            <li><a href="javascript:void(0)">Tư Vấn Lộ Trình</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6">
+                    <div class="ud-widget">
+                        <h5 class="ud-widget-title">Điểm Đến</h5>
+                        <ul class="ud-widget-links">
+                            <li><a href="#">Vịnh Hạ Long</a></li>
+                            <li><a href="#">Phố Cổ Hội An</a></li>
+                            <li><a href="#">Đà Lạt</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ud-footer-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8"></div>
+                <div class="col-md-4"><p class="ud-footer-bottom-right">Designed and Developed by doannt2004</p></div>
+            </div>
+        </div>
+    </div>
+</footer>
 <!-- ====== Footer End ====== -->
 
-<!-- ====== Back To Top Start ====== -->
-<a href="javascript:void(0)" class="back-to-top"><i class="lni lni-chevron-up"> </i></a>
-<!-- ====== Back To Top End ====== -->
+<a href="javascript:void(0)" class="back-to-top"><i class="lni lni-chevron-up"></i></a>
 
 <!-- ====== All Javascript Files ====== -->
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/wow.min.js"></script>
+<script src="assets/js/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="assets/js/include.js"></script>
-<script src="assets/js/main.js"></script>
 
-<!-- SCRIPT TÍCH HỢP API - BÁM SÁT FILE GỐC CỦA BẠN -->
 <script>
-    // ===================================================================
-    // PHẦN 1: CÁC HÀM VÀ BIẾN CỦA BẠN - GIỮ NGUYÊN 100%
-    // ===================================================================
-    let selectedDate = null;
-    let selectedServiceType = 'Thường';
+    // --- BIẾN TOÀN CỤC ---
     let pricePerAdult = 0;
+    let flatpickrInstance = null;
+    let relatedToursPage = 0;
+    let totalRelatedPages = 0;
+    const TOURS_PER_PAGE = 4;
 
-    function getQueryParam(name) {
-        const url = new URL(window.location.href);
-        return url.searchParams.get(name);
-    }
-
+    // --- HÀM CẬP NHẬT GIÁ ---
     function updatePriceDisplay() {
-        const quantityInput = document.querySelector('.quantity-input-card-1');
-        const priceValue = document.getElementById('price-value');
-        let qty = 1;
-        if (quantityInput) {
-            qty = parseInt(quantityInput.value, 10);
-            if (isNaN(qty) || qty < 1) qty = 1;
-        }
-        let price = pricePerAdult;
-        if (selectedServiceType === 'Cao cấp') {
-            price = Math.round(pricePerAdult * 1.5);
-        }
-        if (priceValue) {
-            priceValue.textContent = (price * qty).toLocaleString('vi-VN') + ' VND';
-        }
+        const quantityInput = $('.quantity-input-card-1');
+        const priceValue = $('#price-value');
+        let qty = parseInt(quantityInput.val(), 10) || 1;
+        if (qty < 1) { qty = 1; quantityInput.val(1); }
+        let selectedServiceType = $('.option-btn-card-1.active').text().trim();
+        let finalPrice = pricePerAdult;
+        if (selectedServiceType === 'Cao cấp') { finalPrice = Math.round(pricePerAdult * 1.5); }
+        priceValue.text((finalPrice * qty).toLocaleString('vi-VN') + ' VND');
     }
 
-    function bookNow() {
-        if (!localStorage.getItem('accessToken')) {
-            alert('Bạn cần đăng nhập để đặt tour!');
-            window.location.href = 'login.html';
+    // --- HÀM TẠO MODAL ---
+    function showModal(message) {
+        const oldModal = document.getElementById('custom-modal');
+        if (oldModal) oldModal.remove();
+        const modal = document.createElement('div');
+        modal.id = 'custom-modal';
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100vw';
+        modal.style.height = '100vh';
+        modal.style.background = 'rgba(0,0,0,0.35)';
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.style.zIndex = '9999';
+        modal.innerHTML = `
+            <div style="background:#fff;padding:40px 32px 32px 32px;border-radius:18px;min-width:340px;max-width:95vw;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.18);position:relative;">
+              <div style="margin-bottom:18px;">
+                <svg width="48" height="48" fill="none" viewBox="0 0 48 48" style="margin-bottom:8px;"><circle cx="24" cy="24" r="24" fill="#f0f4ff"/><path d="M24 14v12" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/><circle cx="24" cy="32" r="2" fill="#2563eb"/></svg>
+              </div>
+              <div style="margin-bottom:24px;font-size:20px;font-weight:600;color:#222;line-height:1.4;">${message}</div>
+              <div id="modal-btns" style="display:flex;justify-content:center;gap:16px;"></div>
+              <button id="modal-close-btn" style="position:absolute;top:12px;right:16px;background:none;border:none;font-size:22px;color:#888;cursor:pointer;">×</button>
+            </div>
+          `;
+        document.body.appendChild(modal);
+        modal.onclick = function (e) { if (e.target === modal) modal.remove(); };
+        modal.querySelector('#modal-close-btn').onclick = function () { modal.remove(); };
+        return modal;
+    }
+
+    // --- LOGIC CHÍNH KHI TẢI TRANG ---
+    $(document).ready(function() {
+        const tourId = new URL(window.location.href).searchParams.get('id');
+        if (!tourId) {
+            $('body').html('<div class="container text-center py-5"><h2>Không tìm thấy tour.</h2></div>');
             return;
         }
-        const date = document.querySelector('.date-picker-card-1')?.value || null;
-        if (!date) {
-            alert('Vui lòng chọn ngày tham quan!');
-            return;
+
+        initializePopovers();
+        attachEventListeners();
+        renderBankGrid();
+        fetchTourDetails(tourId);
+
+        function initializePopovers() {
+            const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl, {
+                    content: `<div><b>Gói Thường:</b><ul><li>Dịch vụ cơ bản của tour.</li><li>Phương tiện di chuyển tiêu chuẩn.</li><li>Khách sạn 3 sao.</li></ul><b>Gói Cao cấp:</b><ul><li>Nâng cấp xe di chuyển (Limousine).</li><li>Khách sạn/resort 4-5 sao.</li><li>Bao gồm bữa ăn đặc sản.</li></ul></div>`,
+                    html: true, placement: 'top'
+                });
+            });
         }
-        const quantity = document.querySelector('.quantity-input-card-1').value;
-        const totalPrice = document.getElementById('price-value').textContent.replace(/[^\d]/g, '');
-        const tourId = getQueryParam('id');
-        const dateParts = date.split('/');
-        const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-        const bookingUrl = `booking.html?tour_id=${tourId}&departing_at=${formattedDate}&so_nguoi=${quantity}&total_fee=${totalPrice}`;
-        window.location.href = bookingUrl;
-    }
 
-    function clearAll() {
-        selectedDate = null;
-        const fp = document.querySelector(".date-picker-card-1")._flatpickr;
-        if (fp) fp.clear();
-        document.querySelector('.quantity-input-card-1').value = 1;
-        document.querySelectorAll('.option-btn-card-1').forEach(btn => btn.classList.remove('btn-book-now', 'active'));
-        document.querySelector('.option-btn-card-1').classList.add('btn-book-now', 'active');
-        selectedServiceType = 'Thường';
-        updatePriceDisplay();
-    }
+        function attachEventListeners() {
+            $('.option-btn-card-1').on('click', function() {
+                $('.option-btn-card-1').removeClass('btn-book-now active');
+                $(this).addClass('btn-book-now active');
+                updatePriceDisplay();
+            });
+            $('.quantity-input-card-1').on('input', updatePriceDisplay);
+            $('#next-tours-btn').on('click', () => handleRelatedNav('next'));
+            $('#prev-tours-btn').on('click', () => handleRelatedNav('prev'));
+            $('#btn-book-now').on('click', bookNow);
 
-    // ===================================================================
-    // PHẦN 2: LOGIC CHÍNH - THAY THẾ `fetch` BẰNG GỌI API
-    // ===================================================================
-    const tourId = parseInt(getQueryParam('id'), 10);
-
-    // --- THAY THẾ fetch('data.json') ĐẦU TIÊN ---
-    if (!isNaN(tourId)) {
-        $.ajax({
-            url: `/api/tour/${tourId}`,
-            success: function(response) {
-                if (response.status === 200 && response.data) {
-                    const tour = response.data;
-
-                    // ĐIỀN DỮ LIỆU GIỐNG HỆT LOGIC CŨ
-                    document.title = tour.tour_name || "Chi tiết Tour";
-                    if (document.getElementById('tour-description')) {
-                        document.getElementById('tour-description').innerHTML = `
-                                <h2 class="mb-3">${tour.tour_name}</h2>
-                                <p>${tour.tour_introduction || ''}</p>
-                            `;
-                    }
-                    if (document.getElementById('main-image')) document.getElementById('main-image').src = tour.imageUrls && tour.imageUrls.length > 0 ? tour.imageUrls[0] : '';
-                    if (document.getElementById('sub-image-1')) document.getElementById('sub-image-1').src = tour.imageUrls && tour.imageUrls.length > 1 ? tour.imageUrls[1] : '';
-                    if (document.getElementById('sub-image-2')) document.getElementById('sub-image-2').src = tour.imageUrls && tour.imageUrls.length > 2 ? tour.imageUrls[2] : '';
-
-                    if (tour.price) {
-                        pricePerAdult = tour.price;
-                        updatePriceDisplay();
-                    }
+            $('.payment-method-item').on('click', function() {
+                $(this).toggleClass('selected');
+                if ($(this).hasClass('selected')) {
+                    $('#bank-selection').slideDown();
                 } else {
-                    renderErrorPage('body', 'Không tìm thấy tour.');
+                    $('#bank-selection').slideUp();
+                    $('#bank-grid .bank-item').removeClass('selected');
                 }
-            },
-            error: (jqXHR) => renderErrorPage('body', 'Lỗi tải dữ liệu tour.')
-        });
-    }
+            });
 
-    // --- THAY THẾ fetch('data.json') THỨ HAI ---
-    $.ajax({
-        url: `http://localhost:8085/api/tour/${tourId}`, // Gọi lại API nếu cần, hoặc tốt hơn là dùng dữ liệu đã có
-        success: function(response) {
-            if (response.status === 200 && response.data) {
-                const tour = response.data;
-                if (document.getElementById('service-description')) {
-                    document.getElementById('service-description').innerHTML = tour.tour_details || '';
-                }
-                if (document.getElementById('service-img-main')) document.getElementById('service-img-main').src = tour.imageUrls && tour.imageUrls.length > 0 ? tour.imageUrls[0] : '';
-                if (document.getElementById('service-img-1')) document.getElementById('service-img-1').src = tour.imageUrls && tour.imageUrls.length > 1 ? tour.imageUrls[1] : '';
-                if (document.getElementById('service-img-2')) document.getElementById('service-img-2').src = tour.imageUrls && tour.imageUrls.length > 2 ? tour.imageUrls[2] : '';
-            }
+            $('#bank-grid').on('click', '.bank-item', function() {
+                $('#bank-grid .bank-item').removeClass('selected');
+                $(this).addClass('selected');
+            });
         }
-    });
 
-    // --- THAY THẾ fetch('data.json') THỨ BA ---
-    $.ajax({
-        url: `http://localhost:8085/tours/search?size=4`, // Tạm thời lấy 4 tour bất kỳ làm tour liên quan
-        success: function(response) {
-            if (response.data && response.data.content) {
-                const topTours = response.data.content.filter(t => t.id !== tourId);
-                const row = document.getElementById('top-activities-row');
-                if (row) {
-                    row.innerHTML = topTours.map(tour => {
-                        const priceFormatted = new Intl.NumberFormat('vi-VN').format(tour.price);
-                        return `
-                                <div class="col-md-3 mb-4">
-                                    <div class="card h-100 shadow-sm" style="cursor:pointer;" onclick="window.location.href='card-1.html?id=${tour.id}'">
-                                        <img src="${tour.imageUrls && tour.imageUrls.length > 0 ? tour.imageUrls[0] : ''}" class="card-img-top" alt="${tour.tour_name}" style="height:180px;object-fit:cover;">
-                                        <div class="card-body p-3">
-                                            <h5 class="card-title fs-6">${tour.tour_name}</h5>
-                                            <p class="card-price fw-bold text-danger">Từ ${priceFormatted} VND</p>
-                                        </div>
-                                    </div>
-                                </div>`;
-                    }).join('');
-                }
-            }
+        function renderBankGrid() {
+            const banks = [
+                { name: 'NCB', code: 'NCB', logo: 'https://www.ncb-bank.vn/images/logo-red.png' },
+                { name: 'Vietcombank', code: 'VCB', logo: 'https://vietcombank.com.vn/images/logo_vcb.png' },
+                { name: 'Vietinbank', code: 'VTB', logo: 'https://www.vietinbank.vn/web/home/vn/logo/logo-vi.png' },
+                { name: 'BIDV', code: 'BIDV', logo: 'https://www.bidv.com.vn/wps/wcm/connect/bidv/a8989a19-ae73-4a7b-a13a-939d8a39f02c/logo-bidv.png?MOD=AJPERES' },
+                { name: 'Agribank', code: 'AGB', logo: 'https://www.agribank.com.vn/wps/wcm/connect/agribank/a05a8b7d-86a3-4f3a-80de-62833236a91c/logo-agribank.png?MOD=AJPERES' },
+                { name: 'Techcombank', code: 'TCB', logo: 'https://www.techcombank.com/front-assets/images/logo-khong-chu.svg' },
+                { name: 'MB Bank', code: 'MB', logo: 'https://mbbank.com.vn/images/logo/logo-mbbank-2023.svg' },
+                { name: 'ACB', code: 'ACB', logo: 'https://acb.com.vn/themes/acb/images/logo.png' }
+            ];
+            const grid = $('#bank-grid');
+            grid.empty();
+            banks.forEach(bank => {
+                grid.append(`<div class="col-3"><div class="bank-item" data-code="${bank.code}"><img src="${bank.logo}" alt="${bank.name}"></div></div>`);
+            });
         }
-    });
 
-    // --- PHẦN LOGIC TƯƠNG TÁC CỦA BẠN - GIỮ NGUYÊN ---
-    document.addEventListener('DOMContentLoaded', function () {
-        const serviceButtons = document.querySelectorAll('.option-btn-card-1');
-        serviceButtons.forEach(btn => btn.addEventListener('click', function () {
-            serviceButtons.forEach(b => b.classList.remove('btn-book-now', 'active'));
-            this.classList.add('btn-book-now', 'active');
-            selectedServiceType = this.textContent.trim();
+        function fetchTourDetails(id) {
+            $.ajax({
+                url: `http://localhost:8085/api/tour/${id}`,
+                type: 'GET',
+                success: (response) => {
+                    if (response && response.data) {
+                        renderTourDetails(response.data);
+                        fetchStartDates(id);
+                        fetchRelatedTours('next');
+                    } else { $('body').html('<div class="container text-center py-5"><h2>Lỗi: Không nhận được dữ liệu tour.</h2></div>'); }
+                },
+                error: () => $('body').html('<div class="container text-center py-5"><h2>Lỗi khi tải thông tin tour.</h2></div>')
+            });
+        }
+
+        function renderTourDetails(tour) {
+            document.title = tour.tour_name || "Chi tiết Tour";
+            pricePerAdult = tour.price || 0;
+            $('#hero-tour-name').text(tour.tour_name);
+            $('#hero-tour-introduction').text(tour.tour_introduction);
+            const placeholder = 'assets/images/placeholder-large.png';
+            const placeholderSmall = 'assets/images/placeholder-small.png';
+            $('#main-image').attr('src', tour.tour_illustration || placeholder);
+            $('#sub-image-1').attr('src', tour.imageUrls && tour.imageUrls.length > 0 ? tour.imageUrls[0] : placeholderSmall);
+            $('#sub-image-2').attr('src', tour.imageUrls && tour.imageUrls.length > 1 ? tour.imageUrls[1] : placeholderSmall);
+            renderExtraDetails(tour);
+            $('#service-description').html(tour.tour_details || 'Chưa có mô tả chi tiết cho dịch vụ này.');
             updatePriceDisplay();
-        }));
+            $('#tour-hero-title, #main-content-section').fadeIn(600);
+        }
 
-        // Khởi tạo flatpickr với ngày lấy từ API
-        $.ajax({
-            url: `http://localhost:8085/api/tour/StartDate/${tourId}`,
-            success: function(response) {
-                if (response.data) {
-                    const enabledDates = response.data.map(d => new Date(d.departing_at).toISOString().split('T')[0]);
-                    flatpickr(".date-picker-card-1", {
-                        dateFormat: "d/m/Y",
-                        minDate: "today",
-                        enable: enabledDates,
-                        onChange: function (selectedDates, dateStr) {
-                            selectedDate = dateStr;
+        function renderExtraDetails(tour) {
+            const detailsGrid = $('#details-grid');
+            detailsGrid.empty();
+            const details = [
+                { icon: 'fa-solid fa-clock', label: 'Thời lượng', value: tour.tour_duration ? `${tour.tour_duration} ngày` : 'N/A' },
+                { icon: 'fa-solid fa-map-location-dot', label: 'Điểm đến', value: tour.destination || 'N/A' },
+                { icon: 'fa-solid fa-flag', label: 'Điểm khởi hành', value: tour.departure_point || 'N/A' },
+                { icon: 'fa-solid fa-earth-americas', label: 'Loại tour', value: tour.tour_type === 1 ? 'Trong nước' : 'Nước ngoài' },
+                { icon: 'fa-solid fa-calendar-days', label: 'Ngày khởi hành', value: tour.departing_at ? new Date(tour.departing_at).toLocaleDateString('vi-VN') : 'Linh hoạt' },
+                { icon: 'fa-solid fa-circle-check', label: 'Tình trạng', value: tour.status === 1 ? 'Còn chỗ' : 'Hết chỗ' }
+            ];
+            details.forEach(detail => {
+                detailsGrid.append(`<div class="col-md-4"><div class="detail-item" style="display:none;"><i class="${detail.icon}"></i><div class="info"><span>${detail.label}</span><p>${detail.value}</p></div></div></div>`);
+            });
+            detailsGrid.find('.detail-item').each(function(i) { $(this).delay(i * 100).fadeIn(300); });
+        }
+
+        function fetchStartDates(id) {
+            $.ajax({
+                url: `http://localhost:8085/api/tour/StartDate/${id}`,
+                type: 'GET',
+                success: (response) => {
+                    let config = { dateFormat: "d/m/Y", minDate: "today" };
+                    if (response && response.data && response.data.length > 0) {
+                        config.enable = response.data;
+                        $('.date-picker-card-1').attr('placeholder', 'Chọn ngày khởi hành');
+                    } else {
+                        $('.date-picker-card-1').attr('placeholder', 'Tour linh hoạt, vui lòng chọn ngày');
+                    }
+                    flatpickrInstance = flatpickr(".date-picker-card-1", config);
+                },
+                error: () => $('.date-picker-card-1').attr('placeholder', 'Lỗi tải ngày khởi hành')
+            });
+        }
+
+        function handleRelatedNav(direction) {
+            if ($(`#${direction === 'next' ? 'next' : 'prev'}-tours-btn`).hasClass('disabled')) return;
+            relatedToursPage += (direction === 'next' ? 1 : -1);
+            fetchRelatedTours(direction);
+        }
+
+        function fetchRelatedTours(direction) {
+            const row = $('#related-tours-row');
+            const slideOutClass = direction === 'next' ? 'slide-out-left' : 'slide-out-right';
+            row.children().addClass(slideOutClass);
+            $.ajax({
+                url: 'http://localhost:8085/tours/search',
+                type: 'GET',
+                data: { sortBy: 'recommended', page: relatedToursPage, size: TOURS_PER_PAGE },
+                success: (response) => {
+                    setTimeout(() => {
+                        if (response && response.data && response.data.content.length > 0) {
+                            totalRelatedPages = response.data.totalPages;
+                            renderRelatedTours(response.data.content, direction);
+                        } else {
+                            totalRelatedPages = relatedToursPage;
                         }
-                    });
-                }
-            }
-        });
+                        updateNavButtonsState();
+                    }, 500);
+                },
+                error: () => setTimeout(() => row.html('<p class="text-danger col-12">Lỗi tải tour liên quan.</p>'), 500)
+            });
+        }
 
-        const quantityInput = document.querySelector('.quantity-input-card-1');
-        if (quantityInput) {
-            quantityInput.addEventListener('input', updatePriceDisplay);
+        function renderRelatedTours(tours, direction) {
+            const row = $('#related-tours-row');
+            row.empty();
+            const slideInClass = direction === 'next' ? 'slide-in-right' : 'slide-in-left';
+            const cardsHtml = tours.map(tour => {
+                const priceFormatted = tour.price ? tour.price.toLocaleString('vi-VN') + ' VND' : 'Liên hệ';
+                return `<div class="col-md-3 mb-4 ${slideInClass}"><div class="card h-100 shadow-sm related-tour-card" data-tour-id="${tour.id}" style="border-radius:18px;overflow:hidden;cursor:pointer;"><img src="${tour.tour_illustration || 'assets/images/placeholder-small.png'}" class="card-img-top" alt="${tour.tour_name}" style="height:180px;object-fit:cover;"><div class="card-body p-3"><div class="fw-bold mb-1" style="font-size:1.05rem;min-height:48px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${tour.tour_name}</div><div class="fw-bold" style="font-size:1.1rem;">Từ ${priceFormatted}</div></div></div></div>`;
+            }).join('');
+            row.html(cardsHtml);
+            $('#related-tours-container').fadeIn(600);
+            row.find('.related-tour-card').on('click', function() { window.location.href = `card-1.html?id=${$(this).data('tour-id')}`; });
+        }
+
+        function updateNavButtonsState() {
+            $('#prev-tours-btn').toggleClass('disabled', relatedToursPage <= 0);
+            $('#next-tours-btn').toggleClass('disabled', relatedToursPage >= totalRelatedPages - 1);
+        }
+
+        function bookNow() {
+            const accessToken = localStorage.getItem('accessToken');
+            if (!accessToken) {
+                showModal('Bạn cần đăng nhập để thực hiện chức năng này! <br/> <a href=\'login.html\'>Đăng nhập ngay</a>');
+                return;
+            }
+
+            const departingAt = $('.date-picker-card-1').val();
+            const selectedBank = $('#bank-grid .bank-item.selected');
+            const bankCode = selectedBank.data('code');
+            const totalFeeText = $('#price-value').text();
+            const totalFee = parseInt(totalFeeText.replace(/[^\d]/g, ''), 10);
+
+            if (!departingAt) { showModal('Vui lòng chọn ngày tham quan!'); return; }
+            if (!$('.payment-method-item').hasClass('selected')) { showModal('Vui lòng chọn phương thức thanh toán!'); return; }
+            if (!bankCode) { showModal('Vui lòng chọn ngân hàng để thanh toán!'); return; }
+
+            const bookingData = {
+                tour_id: tourId,
+                number_of_people: parseInt($('.quantity-input-card-1').val(), 10),
+                departing_at: departingAt.split('/').reverse().join('-'),
+                notes: $('#booking-notes').val(),
+                total_fee: totalFee,
+                payment_method: 1
+            };
+
+            const $bookBtn = $('#btn-book-now');
+            $bookBtn.prop('disabled', true).text('Đang xử lý...');
+
+            // BƯỚC 1: LƯU BOOKING VÀO DATABASE TRƯỚC
+            $.ajax({
+                url: `http://localhost:8085/tour/booking/${bookingData.tour_id}`,
+                type: 'POST',
+                headers: { 'Authorization': 'Bearer ' + accessToken },
+                data: {
+                    number_of_people: bookingData.number_of_people,
+                    departing_at: bookingData.departing_at,
+                    notes: bookingData.notes,
+                    total_fee: bookingData.total_fee,
+                    payment_method: bookingData.payment_method
+                },
+                success: function(bookingResponse) {
+                    if (bookingResponse.status === 200) {
+                        // BƯỚC 2: NẾU LƯU THÀNH CÔNG, LẤY LINK THANH TOÁN
+                        $.ajax({
+                            url: `http://localhost:8085/api/booking/vn-pay?amount=${bookingData.total_fee}&bankCode=${bankCode}`,
+                            type: 'GET',
+                            headers: { 'Authorization': 'Bearer ' + accessToken },
+                            success: function(vnpayResponse) {
+                                const vnpayData = vnpayResponse.data;
+                                if (vnpayResponse.status === 200 && vnpayData && vnpayData.paymentUrl) {
+                                    // BƯỚC 3: CHUYỂN HƯỚNG ĐẾN CỔNG THANH TOÁN
+                                    window.location.href = vnpayData.paymentUrl;
+                                } else {
+                                    showModal('Không thể tạo yêu cầu thanh toán: ' + (vnpayResponse.message || 'Vui lòng thử lại.'));
+                                    $bookBtn.prop('disabled', false).text('Đặt ngay');
+                                }
+                            },
+                            error: (err) => {
+                                showModal('Lỗi kết nối đến cổng thanh toán: ' + (err.responseJSON?.message || 'Vui lòng thử lại sau.'));
+                                $bookBtn.prop('disabled', false).text('Đặt ngay');
+                            }
+                        });
+                    } else {
+                        showModal('Lỗi khi lưu thông tin đặt tour: ' + (bookingResponse.message || 'Vui lòng thử lại.'));
+                        $bookBtn.prop('disabled', false).text('Đặt ngay');
+                    }
+                },
+                error: (err) => {
+                    showModal('Lỗi hệ thống khi lưu booking: ' + (err.responseJSON?.message || 'Vui lòng liên hệ hỗ trợ.'));
+                    $bookBtn.prop('disabled', false).text('Đặt ngay');
+                }
+            });
         }
     });
 </script>
-</body>
 
+</body>
 </html>

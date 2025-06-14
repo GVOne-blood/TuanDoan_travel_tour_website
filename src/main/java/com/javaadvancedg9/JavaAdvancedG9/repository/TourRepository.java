@@ -4,6 +4,7 @@ import com.javaadvancedg9.JavaAdvancedG9.dto.TourDTO;
 import com.javaadvancedg9.JavaAdvancedG9.entity.Tour;
 import org.springframework.data.domain.Pageable;
 import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -57,13 +58,13 @@ public interface TourRepository extends JpaRepository<Tour, Long>,JpaSpecificati
 
 //    @Query(value = "SELECT new com.javaadvancedg9.JavaAdvancedG9.dto.TourDTO(t.id,t.tour_name,t.tour_introduction,t.tour_duration,t.tour_details,t.end_at,t.departing_at,t.destination,t.tour_type,t.tour_illustration,t.departure_point,t.status,t.price) FROM Tour t "
 //            + " WHERE t.id = :id")
-//    TourDTO findTourById(Long id);
+//    TourDTO findTourDTOById(Long id);
 
 //    @Query(value ="SELECT new com.javaadvancedg9.JavaAdvancedG9.dto.TourDTO(t.id,t.tour_name,t.tour_introduction,t.tour_duration,t.tour_details,t.end_at,t.departing_at,t.destination,t.tour_type,t.tour_illustration,t.departure_point,t.status,t.price) FROM Tour t "
 //            + " JOIN Booking b ON t.id = b.tour_id WHERE b.tour_id = :booking_id" )
 //    TourDTO findTourByBookingId(@Param("booking_id") Long booking_id);
 
-    public TourDTO findTourById(Long id);
+    public Optional<Tour> findTourById(Long id);
 
     @Query("SELECT COUNT(*) > 0 FROM Booking b WHERE b.tour_id = :tourId")
     boolean existsBookingByTourId(@Param("tourId") Long tourId);
