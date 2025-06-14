@@ -1,0 +1,402 @@
+<!-- =========
+
+	Template Name: Play
+	Author: UIdeck
+	Author URI: https://uideck.com/
+	Support: https://uideck.com/support/
+	Version: 1.1
+
+========== -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đặt Tour
+  </title>
+
+  <!--====== Favicon Icon ======-->
+  <link rel="shortcut icon" href="assets/images/logo/logo-8.png" type="image/png" />
+
+  <!-- ===== All CSS files ===== -->
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/animate.css" />
+  <link rel="stylesheet" href="assets/css/lineicons.css" />
+  <link rel="stylesheet" href="assets/css/ud-styles.css" />
+</head>
+<style>
+  .tour-description-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Số dòng tối đa bạn muốn hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
+<body>
+
+<div id="header-placeholder"></div>
+  <!-- ====== Pricing Start ====== -->
+  <section id="pricing-1" class="ud-pricing-1">
+    <!-- <div class="pricing-1-center>
+      <div class="pricing-1>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="ud-section-title-pricing-1 mx-auto text-center">
+              <input type="text" placeholder="Ngày khởi hành" class="input-field">
+              <input type="text" placeholder="Điểm đến" class="input-field">
+              <select class="input-field">
+                <option value="">Mức giá</option>
+               
+              </select>
+              <button class="search-button">Tìm kiếm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </section>
+  <!-- ====== Pricing End ====== -->
+
+  <!-- ====== FAQ Start ====== -->
+  <!-- ====== FAQ Start ====== -->
+  <section id="faq-pricing" class="ud-faq-pricing py-5">
+    <div class="container-pricing">
+      <!-- Phần tìm kiếm (luôn hiển thị giống sau khi bấm tìm kiếm) -->
+      <div class="ud-section-title-pricing-1 mx-auto text-center mb-5">
+        <!-- Tìm đến thẻ form và thay thế nội dung bên trong nó -->
+        <form>
+          <!-- Sử dụng Row của Bootstrap để chứa các input -->
+          <div class="row g-3 justify-content-center align-items-center">
+
+            <!-- Mỗi input-group là một cột (col) -->
+            <div class="col-12 col-sm-6 col-md-auto">
+              <div class="input-group">
+                <span class="input-group-text"><i class="lni lni-map-marker"></i></span>
+                <input type="text" id="destination-input" class="form-control" placeholder="Điểm đến">
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-auto">
+              <div class="input-group">
+                <span class="input-group-text">Từ</span>
+                <input type="number" id="price-from-input" class="form-control" placeholder="0" min="0" style="min-width: 100px;">
+                <span class="input-group-text">VNĐ</span>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-auto">
+              <div class="input-group">
+                <span class="input-group-text">Đến</span>
+                <input type="number" id="price-to-input" class="form-control" placeholder="1,000,000" min="0" style="min-width: 100px;">
+                <span class="input-group-text">VNĐ</span>
+              </div>
+            </div>
+
+            <!-- Cột cho nút tìm kiếm -->
+            <div class="col-12 col-sm-6 col-md-auto">
+              <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+            </div>
+            <div class="col-12 col-sm-6 col-md-auto">
+            <button type="button" id="reset-filters-btn" class="btn btn-danger w-100 " title="Tải lại tất cả tour">
+              <i class="lni lni-reload"></i>
+            </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Bộ lọc và sắp xếp (luôn hiển thị) -->
+      <div class="filter-sort-container-flex mb-4">
+        <div class="filter-sort-container d-flex justify-content-between align-items-center flex-wrap gap-3">
+          <div class="result-info">
+            <span> <strong></strong></span>
+          </div>
+          <div class="sort-option d-flex align-items-center gap-2">
+            <span>Sắp xếp theo:</span>
+            <select class="form-select sort-select" style="width: 200px;">
+              <option value="recommended">Nên đặt</option>
+              <option value="price-asc">Giá tăng dần</option>
+              <option value="price-desc">Giá giảm dần</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================== -->
+      <!-- DANH SÁCH TOUR TRONG NƯỚC -->
+      <!-- ================================================== -->
+      <div class="tour-category-section mb-5">
+        <h2 class="text-center mb-4">Tour Trong Nước</h2>
+        <div id="domestic-tour-list" class="row row-cols-1 row-cols-md-3 g-4">
+          <!-- Tour trong nước sẽ được render ở đây -->
+        </div>
+        <nav class="mt-4" aria-label="Domestic tour pagination">
+          <ul id="domestic-pagination" class="pagination justify-content-center">
+            <!-- Các nút phân trang sẽ được render ở đây -->
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Dải phân cách -->
+      <hr class="my-5">
+
+      <!-- ================================================== -->
+      <!-- DANH SÁCH TOUR NƯỚC NGOÀI -->
+      <!-- ================================================== -->
+      <div class="tour-category-section">
+        <h2 class="text-center mb-4">Tour Nước Ngoài</h2>
+        <div id="international-tour-list" class="row row-cols-1 row-cols-md-3 g-4">
+          <!-- Tour nước ngoài sẽ được render ở đây -->
+        </div>
+        <!-- Nút "Xem thêm" cho tour nước ngoài -->
+        <nav class="mt-4" aria-label="International tour pagination">
+          <ul id="international-pagination" class="pagination justify-content-center">
+            <!-- Các nút phân trang sẽ được render ở đây -->
+          </ul>
+        </nav>
+      </div>
+
+    </div>
+  </section>
+  <!-- ====== FAQ End ====== -->
+<div id="footer-placeholder"></div>
+
+  <!-- ====== Back To Top Start ====== -->
+  <a href="javascript:void(0)" class="back-to-top">
+    <i class="lni lni-chevron-up"> </i>
+  </a>
+  <!-- ====== Back To Top End ====== -->
+
+  <!-- ====== All Javascript Files ====== -->
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/wow.min.js"></script>
+
+  <!-- ... các file script khác ... -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/include.js"></script>
+
+  <!-- ... các file script khác như bootstrap, wow, jquery, main, include ... -->
+  <!-- ... các file script khác như bootstrap, wow, jquery, main, include ... -->
+
+  <!-- ... các file script khác ... -->
+
+  <!-- SCRIPT HOÀN CHỈNH CHO TRANG PRICING (CHIA DANH MỤC) -->
+  <!-- ... các file script khác ... -->
+
+  <!-- SCRIPT HOÀN CHỈNH CHO TRANG PRICING (PHÂN TRANG KÉP) -->
+  <script>
+    $(document).ready(function() {
+      // --- CÁC BIẾN CẤU HÌNH VÀ TRẠNG THÁI ---
+      const TOURS_PER_PAGE = 6;
+
+      let domesticCurrentPage = 0;
+      let internationalCurrentPage = 0;
+
+      // --- LẤY CÁC PHẦN TỬ GIAO DIỆN ---
+      const searchForm = $('.ud-section-title-pricing-1 form');
+      const destinationInput = $('#destination-input');
+      const priceFromInput = $('#price-from-input');
+      const priceToInput = $('#price-to-input');
+      const sortSelect = $('.sort-select');
+
+      const resetFiltersBtn = $('#reset-filters-btn');
+      const domesticTourList = $('#domestic-tour-list');
+      const internationalTourList = $('#international-tour-list');
+      const domesticPagination = $('#domestic-pagination');
+      const internationalPagination = $('#international-pagination');
+
+      // ===================================================================
+      // HÀM ADAPT VÀ RENDER TOUR (GIỮ NGUYÊN NHƯ CŨ)
+      // ===================================================================
+      // ===================================================================
+// BỘ CHUYỂN ĐỔI DỮ LIỆU (ADAPTER) - ĐÃ CẬP NHẬT ĐỂ DÙNG TRƯỜNG 'image'
+// ===================================================================
+      function adaptTourData(tourDto) {
+        const formatter = new Intl.NumberFormat('vi-VN', {
+          style: 'currency',
+          currency: 'VND'
+        });
+        const formattedPrice = tourDto.price ? formatter.format(tourDto.price) : 'Liên hệ';
+
+        // SỬ DỤNG TRỰC TIẾP TRƯỜNG 'image' MỚI LÀM ẢNH ĐẠI DIỆN
+        // Cung cấp ảnh placeholder nếu trường 'image' rỗng hoặc null
+        const main_image = tourDto.tour_illustration || 'assets/images/placeholder-small.png';
+
+        // Tạo đối tượng mới có cấu trúc khớp với giao diện
+        const adaptedTour = {
+          title: tourDto.tour_name,
+          description: tourDto.tour_introduction,
+          price: formattedPrice,
+          rating: (4.5 + (tourDto.id % 5) / 10.0).toFixed(1), // Giả lập rating
+          reviews: 600 + (tourDto.id * 50), // Giả lập reviews
+          details_link: `card-1.html?id=${tourDto.id}`,
+          main_image: main_image, // Sử dụng ảnh đại diện đã lấy
+          // Các ảnh phụ không cần thiết cho trang danh sách này
+          sub_image_1: 'assets/images/placeholder-small.png',
+          sub_image_2: 'assets/images/placeholder-small.png'
+        };
+
+        return adaptedTour;
+      }
+      function renderTours(tours, container) { /* ... Giữ nguyên, bỏ tham số append ... */
+        if (!tours || tours.length === 0) {
+          container.html('<div class="col-12 text-center py-4"><p>Không có tour nào phù hợp.</p></div>');
+          return;
+        }
+        const adaptedTours = tours.map(adaptTourData);
+        const tourCardsHtml = adaptedTours.map(tour => `
+            <div class="col">
+              <div class="card h-100 shadow-sm rounded tour-card">
+                <img src="${tour.main_image}" class="card-img-top mb-2" alt="${tour.title}">
+                <div class="card-body">
+                  <h5 class="card-title">${tour.title}</h5>
+                  <p class="card-text text-muted tour-description-clamp">${tour.description}</p>
+                  <p class="card-price"><strong>${tour.price}</strong></p>
+                  <p class="card-rating">Đánh giá: ${tour.rating} (${tour.reviews} lượt)</p>
+                  <a href="${tour.details_link}" class="btn btn-outline-primary btn-sm" target="_blank">Xem thêm</a>
+                </div>
+              </div>
+            </div>
+        `).join('');
+        container.html(tourCardsHtml);
+      }
+
+      // ===================================================================
+      // HÀM RENDER PHÂN TRANG (TÁI SỬ DỤNG)
+      // ===================================================================
+      function renderPagination(pageData, paginationContainer) {
+        paginationContainer.empty();
+        if (pageData.totalPages <= 1) return;
+
+        const totalPages = pageData.totalPages;
+        const currentPageIndex = pageData.number;
+
+        let prevClass = currentPageIndex === 0 ? 'disabled' : '';
+        paginationContainer.append(`<li class="page-item ${prevClass}"><a class="page-link" href="#" data-page="${currentPageIndex - 1}">«</a></li>`);
+
+        for (let i = 0; i < totalPages; i++) {
+          let activeClass = i === currentPageIndex ? 'active' : '';
+          paginationContainer.append(`<li class="page-item ${activeClass}"><a class="page-link" href="#" data-page="${i}">${i + 1}</a></li>`);
+        }
+
+        let nextClass = currentPageIndex === totalPages - 1 ? 'disabled' : '';
+        paginationContainer.append(`<li class="page-item ${nextClass}"><a class="page-link" href="#" data-page="${currentPageIndex + 1}">»</a></li>`);
+      }
+
+      // ===================================================================
+      // HÀM GỌI API CHO TỪNG LOẠI TOUR (ĐÃ CẬP NHẬT)
+      // ===================================================================
+      function fetchTours(tourType, page) {
+        const destination = destinationInput.val();
+        const priceFrom = priceFromInput.val();
+        const priceTo = priceToInput.val();
+        const sortBy = sortSelect.val();
+
+        let container, pagination;
+        if (tourType === 1) {
+          container = domesticTourList;
+          pagination = domesticPagination;
+        } else {
+          container = internationalTourList;
+          pagination = internationalPagination;
+        }
+
+        container.html('<div class="col-12 text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>');
+        pagination.empty(); // Xóa phân trang cũ trong khi tải
+
+        $.ajax({
+          url: 'http://localhost:8085/tours/search',
+          type: 'GET',
+          data: {
+            destination: destination,
+            priceFrom: priceFrom,
+            priceTo: priceTo,
+            tour_type: tourType,
+            sortBy: sortBy,
+            page: page,
+            size: TOURS_PER_PAGE
+          },
+          success: function(response) {
+            if (response.status === 200 && response.data) {
+              const pageData = response.data;
+              renderTours(pageData.content, container);
+              renderPagination(pageData, pagination);
+            } else {
+              container.html('<div class="col-12 text-center py-4"><p>Không có tour nào phù hợp.</p></div>');
+            }
+          },
+          error: function() {
+            container.html('<div class="col-12 text-center py-4"><p class="text-danger">Lỗi tải dữ liệu.</p></div>');
+          }
+        });
+      }
+
+      // ===================================================================
+      // HÀM THỰC HIỆN TÌM KIẾM/SẮP XẾP MỚI
+      // ===================================================================
+      function performSearch() {
+        domesticCurrentPage = 0;
+        internationalCurrentPage = 0;
+        fetchTours(1, domesticCurrentPage);
+        fetchTours(2, internationalCurrentPage);
+      }
+
+      // ===================================================================
+      //  RESET CÁC BỘ LỌC
+      // ===================================================================
+      function resetFiltersAndSearch() {
+        // Xóa giá trị của các ô input
+        destinationInput.val('');
+        priceFromInput.val('');
+        priceToInput.val('');
+
+        // Đưa select sắp xếp về giá trị mặc định
+        sortSelect.val('recommended');
+
+        // Gọi lại hàm tìm kiếm để tải lại dữ liệu gốc
+        performSearch();
+      }
+      // ===================================================================
+      // GẮN CÁC SỰ KIỆN
+      // ===================================================================
+      searchForm.on('submit', function(e) {
+        e.preventDefault();
+        performSearch();
+      });
+
+      sortSelect.on('change', function() {
+        performSearch();
+      });
+
+      // Gắn sự kiện cho cả 2 thanh phân trang
+      domesticPagination.on('click', '.page-link', function(e) {
+        e.preventDefault();
+        if ($(this).parent().hasClass('disabled')) return;
+        domesticCurrentPage = $(this).data('page');
+        fetchTours(1, domesticCurrentPage);
+      });
+
+      internationalPagination.on('click', '.page-link', function(e) {
+        e.preventDefault();
+        if ($(this).parent().hasClass('disabled')) return;
+        internationalCurrentPage = $(this).data('page');
+        fetchTours(2, internationalCurrentPage);
+      });
+      resetFiltersBtn.on('click', function() {
+        resetFiltersAndSearch();
+      });
+
+      // ===================================================================
+      // TẢI DỮ LIỆU LẦN ĐẦU KHI VÀO TRANG
+      // ===================================================================
+      performSearch();
+    });
+  </script>
+</body>
+
+</html>

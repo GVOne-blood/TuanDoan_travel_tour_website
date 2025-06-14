@@ -3,6 +3,7 @@ package com.javaadvancedg9.JavaAdvancedG9.repository;
 import java.util.Optional;
 
 import com.javaadvancedg9.JavaAdvancedG9.entity.User;
+import com.javaadvancedg9.JavaAdvancedG9.enumtype.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,9 +19,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "WHERE ( :phone IS NULL OR :phone = '' OR u.phone LIKE %:phone% ) " +
             "AND ( :email IS NULL OR :email = '' OR u.email LIKE %:email% ) " +
             "AND ( :fullname IS NULL OR :fullname = '' OR u.fullname LIKE %:fullname% ) " +
-            "AND u.role = 1 " +
+            "AND u.role = :role " +
             " ORDER BY u.id desc")
-    Page<User> findAll(@Param("phone") String phone, @Param("email") String email, @Param("fullname") String fullname, Pageable pageable);
+    Page<User> findAll(@Param("phone") String phone, @Param("email") String email, @Param("fullname") String fullname, @Param("role") Role role, Pageable pageable);
 
     @Query(value = "select u from User u where u.id = :id")
     Optional<User> findById(@Param("id") Long id);

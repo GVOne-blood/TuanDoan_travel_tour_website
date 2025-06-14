@@ -1,20 +1,31 @@
 package com.javaadvancedg9.JavaAdvancedG9.service.Impl;
 
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.javaadvancedg9.JavaAdvancedG9.dto.*;
+import com.javaadvancedg9.JavaAdvancedG9.dto.response.TokenResponse;
 import com.javaadvancedg9.JavaAdvancedG9.entity.User;
+import com.javaadvancedg9.JavaAdvancedG9.enumtype.Role;
+import com.javaadvancedg9.JavaAdvancedG9.enumtype.TokenType;
 import com.javaadvancedg9.JavaAdvancedG9.repository.BookingRepository;
 import com.javaadvancedg9.JavaAdvancedG9.repository.UserRepository;
+import com.javaadvancedg9.JavaAdvancedG9.service.JwtService;
+import com.javaadvancedg9.JavaAdvancedG9.service.MailService;
 import com.javaadvancedg9.JavaAdvancedG9.service.UserService;
 import com.javaadvancedg9.JavaAdvancedG9.utilities.ConvertUserToDto;
+import com.javaadvancedg9.JavaAdvancedG9.utilities.PasswordEncoderUtil;
 import com.javaadvancedg9.JavaAdvancedG9.utilities.SessionUtilities;
+import jakarta.mail.MessagingException;
+import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -24,24 +35,34 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private BookingRepository bookingRepository;
+    private final UserRepository userRepository;
+    private final BookingRepository bookingRepository;
+    private final JwtService jwtService;
+    private final MailService mailService;
 
     @Override
-    public UserDetailsService getUserDetailsService() {
+    public UserDetailsService userDetailsService() {
         return username -> userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    @Override
+    public void confirmUser(Long userId, String token) throws MessagingException, UnsupportedEncodingException {
+        User user = findUserById(userId);
+
+        if (jwtService.isValid(token, user, TokenType.RESET_TOKEN)){
+            return;
+        }
+        return;
     }
 
     @Override
     public Page<UserDTO> findAllUser(String phone, String email, String fullname, Pageable pageable) {
 
-        Page<User> page = userRepository.findAll(phone,email,fullname,pageable);
+        Page<User> page = userRepository.findAll(phone,email,fullname,Role.USER, pageable);
 
         Page<UserDTO> pageUserDTO = new PageImpl<>(
                 page.getContent().stream().map(user ->  {
@@ -76,9 +97,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean saveUser(User user) {
+
         if(this.userRepository.save(user)!=null) {
             return true;
         }
+
         return false;
     }
 
@@ -143,26 +166,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean register(RegisterDTO newUser) {
+    public boolean register(RegisterDTO newUser) throws MessagingException, UnsupportedEncodingException {
 
-        User userCheckByUserName = this.findUserByUsername(newUser.getUsername());
-        User userCheckByEmail = this.userRepository.getUserByEmail(newUser.getEmail());
-        if(userCheckByUserName!=null || userCheckByEmail!=null) {
-            return false;
-        }
 
         User user= new User();
         user.setUsername(newUser.getUsername());
         user.setFullname(newUser.getFullname());
-        user.setPassword(BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt(10)));
+        user.setPassword(PasswordEncoderUtil.encode(newUser.getPassword()));
         user.setEmail(newUser.getEmail());
-        user.setGender(newUser.getGender());
-        user.setRole(1);
-        user.setAddress(newUser.getAddress());
+        user.setRole(Role.USER);
         user.setPhone(newUser.getPhone());
 
+        userRepository.save(user);
+        if (user.getId() != null){
+            mailService.sendConfirmationEmail(user.getEmail(), user.getId(), jwtService.generateResetToken(user) );
+        }
+        else return false;
 
-        return this.saveUser(user);
+        return true;
     }
 
     @Override
@@ -218,7 +239,7 @@ public class UserServiceImpl implements UserService {
 
         log.info("userCheck:{}",userCheck.getUsername());
 
-        if(BCrypt.checkpw(user.getPassword(), userCheck.getPassword()) && userCheck.getRole()==0) {
+        if(BCrypt.checkpw(user.getPassword(), userCheck.getPassword()) && userCheck.getRole()==Role.ADMIN) {
 
             SessionUtilities.setAdmin(ConvertUserToDto.convertUsertoDto(userCheck));
 
@@ -254,5 +275,11 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-
+    public void encodeAllPassword(){
+        List<User> users = userRepository.findAll();
+        for (User user : users){
+            user.setPassword(PasswordEncoderUtil.encode(user.getPassword()));
+            userRepository.save(user);
+        }
+    }
 }

@@ -23,11 +23,31 @@ springdoc:
     enabled: true
   swagger-ui:
     path: /swagger-ui
+
 logging:
   level:
     org:
       springframework:
         security: DEBUG
+
+jwt:
+  secretKey: CBoS4CXAH4EoFXNDEb+LzqWbLSk9oG9DqXMDxajeRAQ=
+  refreshKey: hX/0uw8wXNWyUcyvzTMyZHojyStwB43oPtlUDfvMiIE=
+  expiryTime: 86400000 # 1 day in milliseconds
+  expiryDay: 14
+  resetKey: CBoS4CXAH4EoFXNDEb+LzqWbLSk9oG9DqXMDxajeRAQ=
+  google_client_id: 130671492349-p2ji1nle22b3p1ep4eeq4k19i7bk1n6m.apps.googleusercontent.com
+
+payment:
+  vnPay:
+    url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+    tmnCode: EEIFB4OW
+    secretKey: IJCIOEJ17JGYD7VCCC63NCHA2ID5TV2E
+    returnUrl: http://localhost:8085/api/booking/vn-pay-callback
+    version: 2.1.0
+    command: pay
+    orderType: other
+
 #springdoc:
 #  api-docs:
 #    enabled: true

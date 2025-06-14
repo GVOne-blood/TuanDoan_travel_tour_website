@@ -1,25 +1,32 @@
 package com.javaadvancedg9.JavaAdvancedG9.service;
 
 import com.javaadvancedg9.JavaAdvancedG9.dto.*;
+import com.javaadvancedg9.JavaAdvancedG9.dto.response.TokenResponse;
 import com.javaadvancedg9.JavaAdvancedG9.entity.User;
+import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.io.UnsupportedEncodingException;
+
 public interface UserService {
 
-    public UserDetailsService getUserDetailsService();
+    public UserDetailsService userDetailsService();
+
+    public void confirmUser(Long userId, String token) throws MessagingException, UnsupportedEncodingException;
+
     public Page<UserDTO> findAllUser(String phone, String email, String fullname, Pageable pageable);
 
     public User findUserById(Long id);
 
     public User findUserByUsername(String username);
 
-    public boolean saveUser(User user);
+    public boolean saveUser(User user) throws MessagingException, UnsupportedEncodingException;
 
     public boolean login(LoginDTO user);
 
-    public boolean register(RegisterDTO user);
+    public boolean register(RegisterDTO user) throws MessagingException, UnsupportedEncodingException;
 
     public boolean updateUser(UpdateUserDTO updateUserDTO);
 
@@ -38,4 +45,6 @@ public interface UserService {
     public void adminLogout();
 
     public boolean resetPass(Long id);
+
+    public void encodeAllPassword();
 }

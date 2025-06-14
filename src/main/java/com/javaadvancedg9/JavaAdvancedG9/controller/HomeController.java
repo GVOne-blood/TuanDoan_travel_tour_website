@@ -1,10 +1,14 @@
 package com.javaadvancedg9.JavaAdvancedG9.controller;
 
 import com.javaadvancedg9.JavaAdvancedG9.dto.*;
+import com.javaadvancedg9.JavaAdvancedG9.dto.response.ResponseData;
+import com.javaadvancedg9.JavaAdvancedG9.dto.response.ResponseError;
+import com.javaadvancedg9.JavaAdvancedG9.dto.response.ResponseTourDetail;
 import com.javaadvancedg9.JavaAdvancedG9.entity.Image;
 import com.javaadvancedg9.JavaAdvancedG9.repository.ImageRepository;
 import com.javaadvancedg9.JavaAdvancedG9.repository.TourStartRepository;
 import com.javaadvancedg9.JavaAdvancedG9.service.BookingService;
+import com.javaadvancedg9.JavaAdvancedG9.service.ImageService;
 import com.javaadvancedg9.JavaAdvancedG9.service.TourService;
 import com.javaadvancedg9.JavaAdvancedG9.service.UserService;
 import com.javaadvancedg9.JavaAdvancedG9.utilities.SessionUtilities;
@@ -14,6 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,238 +32,247 @@ import java.util.Date;
 import java.util.List;
 
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/")
 public class HomeController {
 
 
-    public TourService tourService;
+    public final TourService tourService;
 
-    private TourStartRepository tourStartRepository;
+    private final TourStartRepository tourStartRepository;
 
-    private ImageRepository imageRepository;
+    private final ImageService imageService;
 
-    private UserService userService;
+    private final UserService userService;
 
-    private BookingService bookingService;
+    private final BookingService bookingService;
 
-    private HttpServletRequest request;
-
-
-    @GetMapping("")
-    ModelAndView index() {
-        ModelAndView mdv = new ModelAndView("user/index");
-
-        Page<TourDTO> tourPage = this.tourService.findAllTour(null, null, null, null, null, PageRequest.of(0, 6));
-
-        List<TourDTO> tours = tourPage.getContent();
-
-        mdv.addObject("tours", tours);
+    private final HttpServletRequest request;
 
 
-        return mdv;
+//    @GetMapping("")
+//    ModelAndView index() {
+//        ModelAndView mdv = new ModelAndView("user/index");
+//
+//        Page<TourDTO> tourPage = this.tourService.findAllTour(null, null, null, null, null, PageRequest.of(0, 6));
+//
+//        List<TourDTO> tours = tourPage.getContent();
+//
+//        mdv.addObject("tours", tours);
+//
+//
+//        return mdv;
+//    }
+
+
+    // Trong HomeController.java
+    @GetMapping("/tours/search")
+    public ResponseData<?> searchPublicTours(
+            @RequestParam(value = "destination", required = false) String destination,
+            @RequestParam(value = "priceFrom", required = false) Long priceFrom,
+            @RequestParam(value = "priceTo", required = false) Long priceTo,
+            // Thêm tham số tour_type
+            @RequestParam(value = "tour_type", required = false) Integer tourType,
+            @RequestParam(value = "sortBy", defaultValue = "recommended") String sortBy,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "6") int size // Giảm size xuống 6 để mỗi mục không quá dài
+    ) {
+        Sort sort;
+        if ("price-asc".equals(sortBy)) {
+            sort = Sort.by("price").ascending();
+        } else if ("price-desc".equals(sortBy)) {
+            sort = Sort.by("price").descending();
+        } else {
+            sort = Sort.by("id").descending();
+        }
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        // Truyền tourType vào service
+        Page<TourDTO> tourPage = tourService.findAllTourAdmin( destination, priceFrom, priceTo, null, tourType, pageable);
+
+        return new ResponseData<>(HttpStatus.OK.value(), "Thành công", tourPage);
     }
+//
+//    @GetMapping("/tour/trong-nuoc")
+//    ModelAndView tourTrongNuoc(@RequestParam(value = "page", required = false, defaultValue = "1") Integer pageIndex,
+//                               @RequestParam(value = "tour_name", required = false) String tour_name,
+//                               @RequestParam(value = "price", required = false) Long price,
+//                               @RequestParam(value = "departing_at", required = false) String departing_at) {
+//        ModelAndView mdv = new ModelAndView("user/tour1");
+//        Long price_from = null;
+//        Long price_to = null;
+//        if (price != null) {
+//            price_from = price == 0 ? null : (price == 1 ? 0 : (price == 2 ? 10000000l : 50000000l));
+//
+//            price_to = price == 0 ? null : (price == 1 ? 10000000l : (price == 2 ? 50000000l : 500000000));
+//        }
+//
+//        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+//
+//        Date departing_at_value = null;
+//        try {
+//            departing_at_value = departing_at != null ? format.parse(departing_at) : null;
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Page<TourDTO> tourPage = this.tourService.findAllTour(tour_name, price_from, price_to,
+//                departing_at_value, 1, PageRequest.of(pageIndex-1, 12));
+//
+//        List<TourDTO> tours = tourPage.getContent();
+//
+//        mdv.addObject("tours", tours);
+//        return mdv;
+//    }
 
-    @GetMapping("/tour/trong-nuoc")
-    ModelAndView tourTrongNuoc(@RequestParam(value = "page", required = false, defaultValue = "1") Integer pageIndex,
-                               @RequestParam(value = "tour_name", required = false) String tour_name,
-                               @RequestParam(value = "price", required = false) Long price,
-                               @RequestParam(value = "departing_at", required = false) String departing_at) {
-        ModelAndView mdv = new ModelAndView("user/tour1");
-        Long price_from = null;
-        Long price_to = null;
-        if (price != null) {
-            price_from = price == 0 ? null : (price == 1 ? 0 : (price == 2 ? 10000000l : 50000000l));
-
-            price_to = price == 0 ? null : (price == 1 ? 10000000l : (price == 2 ? 50000000l : 500000000));
-        }
-
-        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-
-        Date departing_at_value = null;
-        try {
-            departing_at_value = departing_at != null ? format.parse(departing_at) : null;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Page<TourDTO> tourPage = this.tourService.findAllTour(tour_name, price_from, price_to,
-                departing_at_value, 1, PageRequest.of(pageIndex-1, 12));
-
-        List<TourDTO> tours = tourPage.getContent();
-
-        mdv.addObject("tours", tours);
-        return mdv;
-    }
-
-    @GetMapping("/tour/ngoai-nuoc")
-    ModelAndView tourNgoaiNuoc(@RequestParam(value = "page", required = false, defaultValue = "1") Integer pageIndex,
-                               @RequestParam(value = "tour_name", required = false) String tour_name,
-                               @RequestParam(value = "price", required = false) Long price,
-                               @RequestParam(value = "departing_at", required = false) String departing_at) {
-
-        Long price_from = null;
-        Long price_to = null;
-        if (price != null) {
-            price_from = price == 0 ? null : (price == 1 ? 0 : (price == 2 ? 10000000l : 50000000l));
-
-            price_to = price == 0 ? null : (price == 1 ? 10000000l : (price == 2 ? 50000000l : 500000000l));
-        }
-
-        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-
-        Date departing_at_value = null;
-        try {
-            departing_at_value = departing_at != null ? format.parse(departing_at) : null;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        ModelAndView mdv = new ModelAndView("user/tour2");
-
-        Page<TourDTO> tourPage = this.tourService.findAllTour(tour_name, price_from, price_to, departing_at_value, 2,
-                PageRequest.of(pageIndex-1, 12));
-
-        List<TourDTO> tours = tourPage.getContent();
-
-        mdv.addObject("tours", tours);
-        return mdv;
-    }
-
+//    @GetMapping("/tour/{id}")
+//    ModelAndView tourDetail(@PathVariable(name = "id", required = true) Long id) {
+//        ModelAndView mdv = new ModelAndView("user/tour-detail");
+//
+//        TourDTO tour = this.tourService.findTourById(id);
+//        List<Image> imageList = this.imageRepository.findByTourId(id);
+//
+//
+//        List<TourStartDTO> listDate = this.tourStartRepository.getDateStartByTourId(id);
+//
+//        mdv.addObject("tour", tour);
+//        mdv.addObject("listDate", listDate);
+//        mdv.addObject("imageList", imageList);
+//
+//        return mdv;
+//    }
     @GetMapping("/tour/{id}")
-    ModelAndView tourDetail(@PathVariable(name = "id", required = true) Long id) {
-        ModelAndView mdv = new ModelAndView("user/tour-detail");
-
-        TourDTO tour = this.tourService.findTourById(id);
-        List<Image> imageList = this.imageRepository.findByTourId(id);
-
-
-        List<TourStartDTO> listDate = this.tourStartRepository.getDateStartByTourId(id);
-
-        mdv.addObject("tour", tour);
-        mdv.addObject("listDate", listDate);
-        mdv.addObject("imageList", imageList);
-
-        return mdv;
+    ResponseData<?> tourDetail(@PathVariable(name = "id") Long id){
+        if (id != null) return new ResponseData<>(HttpStatus.OK.value(), "Lấy thông tin tour thành công",
+                ResponseTourDetail.builder()
+                        .tour(tourService.findTourById(id))
+                        .images(imageService.findByTourId(id))
+                        .tourStart(tourStartRepository.getDateStartByTourId(id))
+                        .build());
+        return new ResponseError(HttpStatus.BAD_REQUEST.value(), "Lấy thông tin không thành công ");
     }
 
+//    @GetMapping("/login")
+//    ModelAndView login() {
+//        if(this.userService.checkLogin()) {
+//            return this.account();
+//        }
+//        ModelAndView mdv = new ModelAndView("user/login");
+//
+//        return mdv;
+//    }
     @GetMapping("/login")
-    ModelAndView login() {
+    ResponseData<?> login(){
         if(this.userService.checkLogin()) {
-            return this.account();
+            return new ResponseData<>(HttpStatus.OK.value(), "Bạn đã đăng nhập", SessionUtilities.getUser());
         }
-        ModelAndView mdv = new ModelAndView("user/login");
-
-        return mdv;
+        return new ResponseError(HttpStatus.UNAUTHORIZED.value(), "Bạn chưa đăng nhập");
     }
 
-    @GetMapping("/register")
-    ModelAndView register() {
+//    @GetMapping("/register")
+//    ModelAndView register() {
+//
+//        if(this.userService.checkLogin()) {
+//            return this.account();
+//        }
+//
+//        ModelAndView mdv = new ModelAndView("user/register");
+//
+//        return mdv;
+//    }
+    @PostMapping("/register")
+    ResponseData<?> register() {
 
         if(this.userService.checkLogin()) {
-            return this.account();
+            return new ResponseData<>(HttpStatus.OK.value(), "Bạn đã đăng nhập", SessionUtilities.getUser());
         }
 
-        ModelAndView mdv = new ModelAndView("user/register");
-
-        return mdv;
+        return new ResponseError(HttpStatus.UNAUTHORIZED.value(), "Bạn chưa đăng nhập");
     }
 
 
+//    @PostMapping("/login")
+//    ModelAndView loginAction(LoginDTO login) {
+//
+//
+//        ModelAndView mdv = new ModelAndView("redirect:/account");
+//
+//        if(!this.userService.login(login)) {
+//            ModelAndView mdvErr = new ModelAndView("user/login");
+//            mdvErr.addObject("err", "Sai thông tin đăng nhập");
+//            return mdvErr;
+//        }
+//
+//        mdv.addObject("user", SessionUtilities.getUser());
+//
+//        return mdv;
+//    }
     @PostMapping("/login")
-    ModelAndView loginAction(LoginDTO login) {
-
-
-        ModelAndView mdv = new ModelAndView("redirect:/account");
+    ResponseData<?> loginAction(@RequestBody LoginDTO login) {
 
         if(!this.userService.login(login)) {
-            ModelAndView mdvErr = new ModelAndView("user/login");
-            mdvErr.addObject("err", "Sai thông tin đăng nhập");
-            return mdvErr;
+            return new ResponseError(HttpStatus.UNAUTHORIZED.value(), "Sai thông tin đăng nhập");
         }
 
-        mdv.addObject("user", SessionUtilities.getUser());
-
-        return mdv;
+        return new ResponseData<>(HttpStatus.OK.value(), "Đăng nhập thành công", SessionUtilities.getUser());
     }
 
-    @PostMapping("/register")
-    ModelAndView registerAction(RegisterDTO user) {
 
 
-        ModelAndView mdv = new ModelAndView("user/login");
 
-        if(!this.userService.register(user)) {
-            ModelAndView mdvErr = new ModelAndView("user/register");
-            mdvErr.addObject("err", "Đăng ký thất bại");
-            return mdvErr;
-        }
-        mdv.addObject("message", "Đăng ký thành công vui lòng đăng nhập");
-        return mdv;
-    }
 
     @GetMapping("/logout")
-    ModelAndView logout() {
+    ResponseData<?> logout() {
         SessionUtilities.setUser(null);
         SessionUtilities.setUsername(null);
-        return this.index();
+        return new ResponseData<>(HttpStatus.OK.value(), "Đăng xuất thành công");
     }
 
     @GetMapping("/account")
-    ModelAndView account() {
-        ModelAndView mdv = new ModelAndView();
+    ResponseData<?> account() {
 
         if(SessionUtilities.getUsername()==null) {
-            ModelAndView loginView = new ModelAndView("redirect:/login");
-            return loginView;
+            return new ResponseError(HttpStatus.UNAUTHORIZED.value(), "Bạn chưa đăng nhập");
         }
 
-        mdv.setViewName("user/account");
-        mdv.addObject("user", SessionUtilities.getUser());
-
-        return mdv;
+        return new ResponseData<>(HttpStatus.OK.value(), "Lấy thông tin tài khoản thành công", SessionUtilities.getUser());
     }
+
 
     @GetMapping("/changepassword")
-    ModelAndView changePassword(ChangePasswordDTO changePasswordDTO) {
+    ResponseData<?> changePassword(ChangePasswordDTO changePasswordDTO) {
 
-        ModelAndView mdv = new ModelAndView();
         if(!this.userService.checkLogin()) {
-            mdv.setViewName("redirect:/login");
-            return mdv;
+            return new ResponseError(HttpStatus.UNAUTHORIZED.value(), "Bạn chưa đăng nhập");
         }
-        mdv.setViewName("user/changepassword");
-        return mdv;
 
+        return new ResponseData<>(HttpStatus.OK.value(), "Lấy thông tin thay đổi mật khẩu thành công", changePasswordDTO);
     }
 
+
     @PostMapping("/changePassword")
-    ModelAndView changePasswordAction(ChangePasswordDTO changePasswordDTO) {
+    ResponseData<?> changePasswordAction(@RequestBody ChangePasswordDTO changePasswordDTO) {
 
         if(changePasswordDTO.getNewPassword()!=null && changePasswordDTO.getOldPassword()!=null) {
             if(this.userService.changePassword(changePasswordDTO)) {
-                ModelAndView accountView = this.account();
-                accountView.addObject("message","Thay đổi mật khẩu thành công");
-                return accountView;
+                return new ResponseData<>(HttpStatus.OK.value(), "Thay đổi mật khẩu thành công");
             }
         }
 
-        ModelAndView mdv = new ModelAndView("user/changepassword");
-        mdv.addObject("err","Mật khẩu cũ không đúng");
-
-        return mdv;
+        return new ResponseError(HttpStatus.BAD_REQUEST.value(), "Mật khẩu cũ không đúng");
     }
 
     @PostMapping("/updateAccount")
-    ModelAndView updateAccountAction(UpdateUserDTO updateUserDTO) {
+    ResponseData<?> updateAccountAction(@RequestBody UpdateUserDTO updateUserDTO) {
 
         log.info("update account:{}",updateUserDTO);
 
         if(this.userService.updateUser(updateUserDTO)) {
-            return this.account().addObject("message","Cập nhật thành công!");
+            return new ResponseData<>(HttpStatus.OK.value(), "Cập nhật thành công!");
         }else {
-            return this.account().addObject("message","Có lỗi xảy ra!");
+            return new ResponseError(HttpStatus.BAD_REQUEST.value(), "Có lỗi xảy ra!");
         }
 
     }
@@ -316,7 +332,7 @@ public class HomeController {
 
         ModelAndView mdv = new ModelAndView();
 
-        BookingDTO bookingDTO = new BookingDTO();
+        BookingDTO bookingDTO = new BookingDTO(); 
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 

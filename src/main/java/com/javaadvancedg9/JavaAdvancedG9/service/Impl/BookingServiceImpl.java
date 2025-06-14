@@ -10,6 +10,7 @@ import com.javaadvancedg9.JavaAdvancedG9.entity.Booking;
 import com.javaadvancedg9.JavaAdvancedG9.repository.BookingRepository;
 import com.javaadvancedg9.JavaAdvancedG9.repository.TourRepository;
 import com.javaadvancedg9.JavaAdvancedG9.service.BookingService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,13 +18,13 @@ import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
 
-    @Autowired
-    private BookingRepository bookingRepository;
+    private final BookingRepository bookingRepository;
 
-    @Autowired
-    private TourRepository tourRepository;
+
+    private final TourRepository tourRepository;
 
     @Override
     public Page<BookingDTO> findAllBooking(Integer status,String tour_name,Pageable pageable) {

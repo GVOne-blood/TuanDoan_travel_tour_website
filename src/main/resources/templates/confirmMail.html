@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Tiêu đề email sẽ hiển thị trên tab của trình duyệt mail -->
+    <title th:remove="all">Xác nhận tài khoản - Tuan Doan Travel Tour</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px" align="center">
+    <tbody>
+    <tr>
+        <td role="modules-container" style="padding:0px 0px 0px 0px;color:#626262;text-align:left" bgcolor="#ffffff"
+            width="100%" align="left">
+
+            <!-- Header và Lời chào -->
+            <table role="module" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed">
+                <tbody>
+                <tr>
+                    <td role="module-content" valign="top" height="100%" style="padding:50px 34px 10px 34px"
+                        bgcolor="#ffffff">
+                        <div style="color:#626262;font-family:helvetica,arial,sans-serif">
+                            <h1 style="font-family:helvetica,arial,sans-serif;font-size:24px;color:#173849;margin-top:0;margin-bottom:20px;">
+                                Chào mừng bạn đến với Tuan Doan Travel Tour!</h1>
+                            <p style="font-family:helvetica,arial,sans-serif;font-size:16px;line-height:1.5;">
+                                Cảm ơn bạn đã đăng ký tài khoản. Để bắt đầu hành trình khám phá những điểm đến tuyệt vời,
+                                vui lòng xác nhận địa chỉ email của bạn.
+                            </p>
+                            <p style="font-family:helvetica,arial,sans-serif;font-size:16px;line-height:1.5;">
+                                Bạn chỉ cần nhấp vào nút bên dưới:
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Nút Call-to-Action -->
+            <table role="module" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed">
+                <tbody>
+                <tr>
+                    <td style="padding:20px 0px 30px 0px" align="center" bgcolor="#ffffff">
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                            <tr>
+                                <td align="center" style="border-radius:6px;font-size:16px" bgcolor="#173849">
+                                    <a th:href="${confirmLink}"
+                                       style="font-size:16px;font-family:Helvetica,Arial,sans-serif;color:#ffffff;padding:14px 40px;text-decoration:none;border-radius:6px;border:1px solid #173849;display:inline-block"
+                                       rel="noopener" target="_blank">
+                                        <strong>Xác nhận tài khoản</strong>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Link dự phòng và Lời kết -->
+            <table role="module" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed">
+                <tbody>
+                <tr>
+                    <td style="padding:0px 34px 30px 34px" bgcolor="#ffffff">
+                        <p style="color:#626262; font-family:helvetica,arial,sans-serif; font-size:14px; line-height:1.5; margin:0;">
+                            Liên kết có hiệu lực trong vòng 5 phút <br>
+                            Nếu nút trên không hoạt động, vui lòng sao chép và dán liên kết sau vào trình duyệt của bạn:<br>
+                            <a th:href="${linkConfirm}" th:text="${linkConfirm}" target="_blank" style="color: #173849; text-decoration: underline;"></a>
+                        </p>
+                        <br>
+                        <p style="color:#626262; font-family:helvetica,arial,sans-serif; font-size:16px; line-height:1.5; margin-top:20px;">
+                            Chúc bạn có những chuyến đi tuyệt vời,<br>
+                            <strong>Đội ngũ Tuan Doan Travel Tour</strong>
+                        </p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Footer -->
+            <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module">
+                <tbody>
+                <tr>
+                    <td style="padding:24px 35px 24px 35px" bgcolor="#F4F4F4">
+                        <div style="font-family:helvetica,arial,sans-serif;font-size:12px;line-height:1.5;text-align:center;color:#626262">
+                            <p style="margin:0;margin-bottom:10px;"><strong>Tuan Doan Travel Tour</strong><br>
+                                123 Đường Du Lịch, Quận 1, Thành phố Hồ Chí Minh, Việt Nam</p>
+                            <p style="margin:0;margin-bottom:10px;">Bạn nhận được email này vì đã đăng ký tài khoản tại website của chúng tôi.</p>
+                            <p style="margin:0;">© 2024 Tuan Doan Travel Tour. All rights reserved.</p>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

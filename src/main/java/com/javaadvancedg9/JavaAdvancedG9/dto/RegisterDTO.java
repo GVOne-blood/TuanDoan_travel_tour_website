@@ -18,16 +18,16 @@ public class RegisterDTO {
 
     private String password;
 
-    @EnumPattern(name = "gender", regexp = "MALE|FEMALE|OTHER")
-    private Gender gender;
+//    @EnumPattern(name = "gender", regexp = "MALE|FEMALE|OTHER")
+//    private Gender gender;
 
     private String phone;
 
     private String email;
 
-    private String address;
+    //private String address;
 
-    private Integer role;
+   // private Integer role;
 
 
 }

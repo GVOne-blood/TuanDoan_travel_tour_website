@@ -3,16 +3,18 @@ package com.javaadvancedg9.JavaAdvancedG9.service.Impl;
 import com.javaadvancedg9.JavaAdvancedG9.entity.TinTuc;
 import com.javaadvancedg9.JavaAdvancedG9.repository.TinTucRepository;
 import com.javaadvancedg9.JavaAdvancedG9.service.TinTucService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class TinTucServiceImpl implements TinTucService {
 
-    @Autowired
-    private TinTucRepository tinTucRepository;
+
+    private final TinTucRepository tinTucRepository;
 
     @Override
     public Page<TinTuc> getAllPage(Pageable pageable) {

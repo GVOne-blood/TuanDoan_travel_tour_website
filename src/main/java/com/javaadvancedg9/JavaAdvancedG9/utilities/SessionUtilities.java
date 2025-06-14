@@ -32,6 +32,7 @@ public class SessionUtilities {
     public static void setAdmin(UserDTO user) {
         getSession().setAttribute("admin",user);
     }
+
     public static UserDTO getAdmin() {
         return (UserDTO)getSession().getAttribute("admin");
     }

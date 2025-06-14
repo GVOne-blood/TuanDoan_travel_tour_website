@@ -2,7 +2,7 @@ package com.javaadvancedg9.JavaAdvancedG9.controller.api;
 
 import com.javaadvancedg9.JavaAdvancedG9.dto.response.ResponseData;
 import com.javaadvancedg9.JavaAdvancedG9.dto.TourDTO;
-import com.javaadvancedg9.JavaAdvancedG9.dto.TourStartAddDTO;
+import com.javaadvancedg9.JavaAdvancedG9.dto.TourStartAtdDTO;
 import com.javaadvancedg9.JavaAdvancedG9.entity.Tour;
 import com.javaadvancedg9.JavaAdvancedG9.entity.TourStart;
 import com.javaadvancedg9.JavaAdvancedG9.repository.TourStartRepository;
@@ -13,7 +13,6 @@ import com.javaadvancedg9.JavaAdvancedG9.utilities.DateUtils;
 import com.javaadvancedg9.JavaAdvancedG9.utilities.FileUploadUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
@@ -58,10 +57,6 @@ public class TourController {
 
     @GetMapping("/{id}")
     public ResponseData<?> getOneTour(@PathVariable("id") Long id) {
-
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
 
         TourDTO tour = this.tourService.findTourById(id);
 
@@ -276,7 +271,7 @@ public class TourController {
     }
 
     @PostMapping("/add-date/{id}")
-    public ResponseData<?> addStartDate(@PathVariable("id") Long id , @RequestBody TourStartAddDTO toutStartAddDTO) {
+    public ResponseData<?> addStartDate(@PathVariable("id") Long id , @RequestBody TourStartAtdDTO toutStartAddDTO) {
 
         if(!this.userService.checkAdminLogin()) {
             return new ResponseData<>("Không có quyền truy cập",null);

@@ -1,0 +1,146 @@
+<!-- =========
+
+	Template Name: Play
+	Author: UIdeck
+	Author URI: https://uideck.com/
+	Support: https://uideck.com/support/
+	Version: 1.1
+
+========== -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tuấn Đoàn Tour - Hành trình trải nghiệm không giới hạn</title>
+  <!--===== Google Authentication =====-->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <!--====== Favicon Icon ======-->
+  <link rel="shortcut icon" href="assets/images/logo/logo-8.png" type="image/png" />
+
+  <!-- ===== All CSS files ===== -->
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/animate.css" />
+  <link rel="stylesheet" href="assets/css/lineicons.css" />
+  <link rel="stylesheet" href="assets/css/ud-styles.css" />
+</head>
+
+<body>
+  <!-- ====== Header Start ====== -->
+  <div class="ud-login-image-background">
+    <header class="ud-header">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 ">
+            <nav class="navbar navbar-expand-lg">
+              <a class="navbar-brand" href="index.html">
+                <img src="assets/images/logo/logo-5.png" alt="Logo" />
+              </a>
+              <button class="navbar-toggler">
+                <span class="toggler-icon"> </span>
+                <span class="toggler-icon"> </span>
+                <span class="toggler-icon"> </span>
+              </button>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- ====== Header End ====== -->
+
+    <!-- ====== Banner Start ====== -->
+    <!-- <section class="ud-page-banner">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="ud-banner-content">
+              <h1>Tuấn Đoàn Tour - Hành trình trải nghiệm không giới hạn</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+    <!-- ====== Banner End ====== -->
+
+    <!-- ====== Login Start ====== -->
+    <section class="ud-login">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="ud-login-wrapper">
+              <!-- VÙNG HIỂN THỊ THÔNG BÁO XÁC THỰC EMAIL -->
+              <div id="confirmation-message" style="display: none; margin-bottom: 20px;"></div>
+
+              <div class="ud-login-logo">
+                <h1>Đăng nhập</h1>
+              </div>
+              <form class="ud-login-form" id="loginForm" method="post">
+                <div class="ud-form-group">
+                  <input type="text" id="username1212" name="username1212" placeholder="Email/tên người dùng" required
+                    maxlength="50" />
+                </div>
+                <div class="ud-form-group">
+                  <input type="password" id="password1212" name="password1212" placeholder="*********" required />
+                </div>
+                <div class="ud-form-group">
+                  <button type="submit" class="ud-main-btn w-100">Đăng nhập</button>
+                </div>
+              </form>
+              <p class="m-2 text-md-center "> Hoặc </p>
+              <!--        div for google        -->
+              <div id="g_id_onload"
+                   data-client_id="130671492349-p2ji1nle22b3p1ep4eeq4k19i7bk1n6m.apps.googleusercontent.com"
+                   data-callback="handleGoogleCredentialResponse"
+                   data-auto_prompt="false">
+              </div>
+              <div class="g_id_signin"
+                   data-type="standard"
+                   data-size="large"
+                   data-theme="outline"
+                   data-text="sign_in_with"
+                   data-shape="rectangular"
+                   data-logo_alignment="left">
+              </div>
+              <!-- VÙNG HIỂN THỊ THÔNG BÁO LỖI -->
+              <div id="form-message" class="form-message" style="display: none; margin-bottom: 15px;"></div>
+
+              <a class="forget-pass m-3" href="javascript:void(0)">
+                Quên mật khẩu?
+              </a>
+              <p class="signup-option">
+                Chưa có tài khoản? <a href="signup.html"> Đăng ký </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- <script src="assets/js/main.js"></script> -->
+
+
+    <!-- ====== Login End ====== -->
+    <div id="footer-placeholder"></div>
+  </div>
+    <!-- ====== Back To Top Start ====== -->
+    <a href="javascript:void(0)" class="back-to-top">
+      <i class="lni lni-chevron-up"> </i>
+    </a>
+    <!-- ====== Back To Top End ====== -->
+
+
+    <!-- ====== All Javascript Files ====== -->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/include.js"></script>
+  <!-- SCRIPT XỬ LÝ LOGIN GOOGLE ĐÃ ĐƯỢC CẬP NHẬT -->
+
+
+</body>
+
+</html>

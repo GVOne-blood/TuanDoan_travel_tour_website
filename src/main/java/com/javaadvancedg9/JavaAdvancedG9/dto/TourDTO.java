@@ -11,6 +11,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Setter
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TourDTO {
 
     private Long id;
@@ -40,5 +42,13 @@ public class TourDTO {
     private Integer status;
 
     private Long price;
+
+    // Các trường không có trong entity, sẽ được tính toán ở Service
+    private Double rating;
+    private Integer reviews;
+    private String details_link;
+
+    // THAY THẾ CÁC TRƯỜNG ẢNH CŨ BẰNG MỘT LIST
+    private List<String> imageUrls;
 
 }

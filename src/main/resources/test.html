@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Google Sign-In Minimal Test</title>
+    <!-- 1. Tải thư viện của Google -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+<h1>Trang kiểm tra đăng nhập Google tối giản</h1>
+<p>Nếu nút Google hiện ra và bạn có thể đăng nhập, thì vấn đề nằm ở file login.html hoặc main.js.</p>
+<hr>
+
+<!-- 2. Thẻ div để Google render nút đăng nhập -->
+<div id="g_id_onload"
+     data-client_id="130671492349-p2ji1nle22b3p1ep4eeq4k19i7bk1n6m.apps.googleusercontent.com"
+     data-callback="handleCredentialResponse"
+     data-auto_prompt="false">
+</div>
+<div class="g_id_signin"
+     data-type="standard"
+     data-theme="filled_blue"
+     data-size="large"
+     data-text="sign_in_with"
+     data-shape="rectangular"
+     data-logo_alignment="left">
+</div>
+
+<!-- 3. Hàm callback đơn giản chỉ để log ra console -->
+<script>
+    function handleCredentialResponse(response) {
+        console.log("ĐĂNG NHẬP THÀNH CÔNG! Dữ liệu nhận được từ Google:");
+        console.log(response);
+        console.log("ID Token là:", response.credential);
+        alert("Đăng nhập Google thành công! Hãy kiểm tra Console (F12).");
+    }
+</script>
+
+</body>
+</html>
