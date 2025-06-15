@@ -37,9 +37,6 @@ public class UserController {
             @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
             @RequestParam("pageIndex") Integer pageIndex
     ) {
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
 
         Page<UserDTO> page = this.userService.findAllUser(phone,email,fullname, PageRequest.of(pageIndex,pageSize));
 
@@ -49,14 +46,11 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseData<?> getOneUser(@PathVariable("id") Long id) {
 
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
 
         if(this.userService.findUserById(id)!=null) {
-            return new ResponseData<>("Thành công", ConvertUserToDto.convertUsertoDto(this.userService.findUserById(id)));
+            return new ResponseData<>(HttpStatus.OK.value(), "Thành công", ConvertUserToDto.convertUsertoDto(this.userService.findUserById(id)));
         }
-        return new ResponseData<>("Thất bại",null);
+        return new ResponseError(HttpStatus.BAD_REQUEST.value(), "Thất bại",null);
     }
 
     @PostMapping("/register")
@@ -87,10 +81,6 @@ public class UserController {
     @PutMapping("/update/{id}")
     public ResponseData<?> updateUser(@PathVariable("id") Long id, @RequestBody UpdateUserDTO updateUserDTO) {
 
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
-
         User user = this.userService.findUserById(id);
 
         if(user!=null) {
@@ -105,10 +95,6 @@ public class UserController {
     public ResponseData<?> deleteUser(@PathVariable("id") Long id){
 
 
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
-
         User user = this.userService.findUserById(id);
         if(user!=null) {
 
@@ -122,10 +108,6 @@ public class UserController {
 
     @PutMapping("/update/resetPass/{id}")
     public ResponseData<?> resetPass(@PathVariable("id") Long id) {
-
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
 
         if(this.userService.resetPass(id)) {
             return new ResponseData<>("Khôi phục mật khẩu mặc định thành công",null);

@@ -14,6 +14,8 @@
     import jakarta.validation.constraints.Min;
     import lombok.RequiredArgsConstructor;
     import org.springframework.http.HttpStatus;
+    import org.springframework.security.access.AccessDeniedException;
+    import org.springframework.security.authentication.BadCredentialsException;
     import org.springframework.web.bind.annotation.*;
 
     import java.io.IOException;
@@ -43,6 +45,19 @@
             response.sendRedirect(redirectUrl);
         }
 
+        @PostMapping("/admin-login")
+        public ResponseData<?> adminLogin(@RequestBody LoginDTO request) {
+            try {
+                TokenResponse tokenResponse = this.authService.adminAuthenticate(request);
+                return new ResponseData<>(HttpStatus.OK.value(), "Đăng nhập quản trị thành công", tokenResponse);
+            } catch (BadCredentialsException e) {
+                return new ResponseError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
+            } catch (AccessDeniedException e) {
+                return new ResponseError(HttpStatus.FORBIDDEN.value(), e.getMessage());
+            } catch (Exception e) {
+                return new ResponseError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Lỗi hệ thống.");
+            }
+        }
 
         @PostMapping("/login")
         public ResponseData<TokenResponse> login (@RequestBody LoginDTO request){
@@ -87,6 +102,7 @@
         public ResponseData<TokenResponse> refreshToken(HttpServletRequest request){
         return new ResponseData<>(HttpStatus.OK.value(), "Làm mới token thành công", this.authService.refresh(request));
         }
+
         @GetMapping("/logout")
         public ResponseData<?> logout() {
             this.userService.adminLogout();

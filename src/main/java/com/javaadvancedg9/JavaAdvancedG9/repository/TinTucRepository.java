@@ -10,12 +10,18 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TinTucRepository extends JpaRepository<TinTuc,Long> {
-    @Query(value = "SELECT t FROM TinTuc t ORDER BY t.ngay_dang DESC ")
-    public Page<TinTuc> findAllPage(Pageable pageable);
 
-    @Query("SELECT t FROM TinTuc t WHERE t.id=:id")
-    public TinTuc findOnePage(@Param("id") Long id);
+ // THÊM PHƯƠNG THỨC MỚI NÀY
+ @Query(value = "SELECT t FROM TinTuc t LEFT JOIN FETCH t.user",
+         countQuery = "SELECT count(t) FROM TinTuc t")
+ Page<TinTuc> findAllWithUser(Pageable pageable);
 
-    @Query(value = "SELECT COUNT(*)>0 FROM TinTuc t WHERE t.tieu_de=:tieu_de")
-    public boolean checkExistTieuDe(@Param("tieu_de") String tieu_de);
+ // Phương thức findAll mặc định của JpaRepository đã đủ, không cần khai báo lại
+ // public Page<TinTuc> findAll(Pageable pageable);
+
+ @Query("SELECT t FROM TinTuc t LEFT JOIN FETCH t.user WHERE t.id = :id")
+ public TinTuc findOnePage(@Param("id") Long id);
+
+ @Query(value = "SELECT COUNT(*)>0 FROM TinTuc t WHERE t.tieu_de=:tieu_de")
+ public boolean checkExistTieuDe(@Param("tieu_de") String tieu_de);
 }

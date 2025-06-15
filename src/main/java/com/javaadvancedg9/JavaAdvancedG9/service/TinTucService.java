@@ -1,13 +1,15 @@
 package com.javaadvancedg9.JavaAdvancedG9.service;
 
+import com.javaadvancedg9.JavaAdvancedG9.dto.TinTucDTO;
+import com.javaadvancedg9.JavaAdvancedG9.dto.TinTucDetailDTO;
 import com.javaadvancedg9.JavaAdvancedG9.entity.TinTuc;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface TinTucService {
-    public Page<TinTuc> getAllPage(Pageable pageable);
+    Page<TinTucDTO> getAllPage(Pageable pageable);
 
-    public TinTuc findOnePage(Long id);
+    public TinTucDetailDTO findOnePage(Long id);
 
     public  void deleteOnePage(Long id);
 

@@ -194,85 +194,22 @@ public class HomeController {
 
     }
 
-    @GetMapping("/tour/booking/{id}")
-    ModelAndView booking(@PathVariable("id") Long tour_id,
-                         @RequestParam String departing_at,
-                         @RequestParam Integer so_nguoi,
-                         @RequestParam Long total_fee ) {
-
-        log.info("ngay khoi hanh log: {}",departing_at);
-        ModelAndView mdv = new ModelAndView("user/booking-checkout");
-
-
-        if(tour_id==null || departing_at==null || so_nguoi==null || total_fee==null) {
-            return new ModelAndView("redirect:/err");
-        }
-
-        if(SessionUtilities.getUsername()==null) {
-            ModelAndView loginView = new ModelAndView("redirect:/login");
-            return loginView;
-        }
-
-        if(this.tourService.findTourById(tour_id)==null) {
-            return new ModelAndView("redirect:/error");
-        }
-
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
-        Date departing_at_value = null;
-        try {
-            departing_at_value = departing_at != null ? format.parse(departing_at.split(" ")[0]) : null;
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return new ModelAndView("redirect:/error");
-        }
-
-        mdv.addObject("user",SessionUtilities.getUser());
-        TourDTO tour = this.tourService.findTourById(tour_id);
-        mdv.addObject("tour",tour);
-        mdv.addObject("departing_at",departing_at_value);
-        mdv.addObject("so_nguoi",so_nguoi);
-        mdv.addObject("total_fee",total_fee);
-
-        return mdv;
-
-    }
-
     @PostMapping(value = "/tour/booking/{tour_id}")
     public ResponseData<?> bookingAction(@PathVariable("tour_id") Long tour_id,
-                                         @RequestParam("number_of_people") Integer number_of_people,
-                                         @RequestParam("departing_at") String departing_at,
-                                         @RequestParam("notes") String notes,
-                                         @RequestParam("total_fee") Long total_fee,
-                                         @RequestParam("payment_method") Integer payment_method,
-                                         @AuthenticationPrincipal UserDetails userDetails) throws FileNotFoundException { // Sử dụng AuthenticationPrincipal
+                                         @RequestBody BookingDTO bookingDTO, // THAY ĐỔI QUAN TRỌNG NHẤT
+                                         @AuthenticationPrincipal UserDetails userDetails) throws FileNotFoundException {
 
         if (userDetails == null) {
             return new ResponseError(HttpStatus.UNAUTHORIZED.value(), "Người dùng chưa được xác thực.");
         }
 
-        BookingDTO bookingDTO = new BookingDTO();
-
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date departing_at_value = null;
-        try {
-            departing_at_value = departing_at != null ? format.parse(departing_at) : null;
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return new ResponseError(HttpStatus.BAD_REQUEST.value(), "Ngày khởi hành không hợp lệ");
-        }
-
-        // Lấy username trực tiếp từ principal đã được xác thực
+        // Lấy username và ID người dùng từ principal đã được xác thực
         String username = userDetails.getUsername();
-        Long id = userService.findUserByUsername(username).getId();
+        Long userId = userService.findUserByUsername(username).getId();
 
-        bookingDTO.setNumber_of_people(number_of_people);
-        bookingDTO.setNotes(notes);
-        bookingDTO.setTotal_fee(total_fee);
-        bookingDTO.setDeparting_at(departing_at_value);
-        bookingDTO.setPayment_method(payment_method);
-        bookingDTO.setTour_id(tour_id);
-        bookingDTO.setUser_id(id);
+        // Gán các giá trị còn thiếu vào DTO nhận được từ frontend
+        bookingDTO.setTour_id(tour_id); // Lấy tour_id từ URL để đảm bảo tính nhất quán
+        bookingDTO.setUser_id(userId);  // Gán ID người dùng đã được xác thực
 
         if (this.bookingService.addNewBooking(bookingDTO)) {
             return new ResponseData<>(HttpStatus.OK.value(), "Đặt tour thành công", bookingDTO);
@@ -287,20 +224,14 @@ public class HomeController {
         return "user/error";
     }
 
-    @GetMapping("/user/tour")
-    ModelAndView userTour(){
+    @GetMapping("booking/user/{id}" )
+    ResponseData<?> userTour(@PathVariable Long id) {
+        List<BookingDTO> bookingList = this.bookingService.findBookingByUserId(id);
 
-        if(!this.userService.checkLogin()){
-            return new ModelAndView("redirect:/login");
+        if (bookingList == null || bookingList.isEmpty()) {
+            return new ResponseError(HttpStatus.NOT_FOUND.value(), "Không tìm thấy thông tin đặt tour cho người dùng này");
         }
-
-        ModelAndView mdv = new ModelAndView("user/user-booking-list");
-
-        List<BookingDTO> bookingList = this.bookingService.findBookingByUserId(SessionUtilities.getUser().getId());
-
-        mdv.addObject("bookingList",bookingList);
-
-        return mdv;
+        return new ResponseData<>(HttpStatus.OK.value(), "Lấy thông tin tour thành công",bookingList);
 
     }
 

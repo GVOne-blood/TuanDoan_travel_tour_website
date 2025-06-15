@@ -1,8 +1,113 @@
 (function () {
   "use strict";
 
-  console.log("main.js đã được tải!");
+  console.log("main.js đã được tải và sẵn sàng!");
 
+  // ===================================================================
+  // LOGIC REFRESH TOKEN TRUNG TÂM
+  // ===================================================================
+  let isRefreshing = false;
+  let failedQueue = [];
+
+  const processFailedQueue = (error, token) => {
+    failedQueue.forEach(prom => {
+      if (error) { prom.reject(error); }
+      else { prom.resolve(token); }
+    });
+    failedQueue = [];
+  };
+
+  const refreshToken = () => {
+    const refreshTokenValue = localStorage.getItem('refreshToken');
+    if (!refreshTokenValue) {
+      logout();
+      return $.Deferred().reject({ status: 401, responseText: 'No refresh token available' }).promise();
+    }
+    isRefreshing = true;
+    return $.ajax({
+      url: 'http://localhost:8085/api/auth/refresh',
+      type: 'POST',
+      headers: { 'r_token': refreshTokenValue }
+    }).done(response => {
+      if (response && response.data) {
+        localStorage.setItem('accessToken', response.data.accessToken);
+        localStorage.setItem('refreshToken', response.data.refreshToken);
+        processFailedQueue(null, response.data.accessToken);
+      }
+    }).fail(err => {
+      processFailedQueue(err, null);
+      logout();
+    }).always(() => {
+      isRefreshing = false;
+    });
+  };
+
+  const logout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+    alert('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+    window.location.href = 'login.html';
+  };
+
+  // Thiết lập Interceptor cho TẤT CẢ các yêu cầu AJAX
+  // Trong main.js
+  $.ajaxSetup({
+    beforeSend: function(xhr) {
+      const token = localStorage.getItem('accessToken');
+      if (token) {
+        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+      }
+    },
+    error: function(jqXHR) {
+      const originalRequest = this;
+      // === THAY ĐỔI Ở ĐÂY ===
+      // Xử lý cả 2 trường hợp 401 (Unauthorized) và 403 (Forbidden)
+      if ((jqXHR.status === 401 || jqXHR.status === 403) && !originalRequest._retry) {
+        // =======================
+        if (isRefreshing) {
+          return new Promise((resolve, reject) => {
+            failedQueue.push({ resolve, reject });
+          }).then(token => {
+            originalRequest.headers.Authorization = 'Bearer ' + token;
+            return $.ajax(originalRequest);
+          });
+        }
+        originalRequest._retry = true;
+        return refreshToken().then(() => {
+          originalRequest.headers.Authorization = 'Bearer ' + localStorage.getItem('accessToken');
+          return $.ajax(originalRequest);
+        });
+      }
+      return Promise.reject(jqXHR);
+    }
+  });
+  // ===================================================================
+  // HÀM QUẢN LÝ GIAO DIỆN (HEADER, PROFILE DROPDOWN)
+  // ===================================================================
+  function handleNavbarAuthButtons() {
+    const authBtns = document.querySelectorAll('.js-auth-btn');
+    const profileSection = document.querySelector('.js-profile-section');
+    const logoutLink = document.querySelector('#logout-link');
+    const greetNameSpan = document.querySelector('#user-greet-name');
+
+    if (localStorage.getItem('accessToken')) {
+      if (authBtns) authBtns.forEach(btn => btn.style.display = 'none');
+      if (profileSection) profileSection.style.display = 'block';
+      if (greetNameSpan) greetNameSpan.textContent = localStorage.getItem('username') || 'bạn';
+    } else {
+      if (authBtns) authBtns.forEach(btn => btn.style.display = 'inline-block');
+      if (profileSection) profileSection.style.display = 'none';
+    }
+
+    if (logoutLink) {
+      logoutLink.onclick = function (e) {
+        e.preventDefault();
+        logout();
+      };
+    }
+  }
   // ===================================================================
   // HÀM QUẢN LÝ TRẠNG THÁI ĐĂNG NHẬP
   // ===================================================================
@@ -91,18 +196,6 @@
   // ===================================================================
   if (window.location.pathname.toLowerCase().includes('login.html')) {
     $(document).ready(function () {
-      const urlParams = new URLSearchParams(window.location.search);
-      const confirmSuccess = urlParams.get('confirm_success');
-      const confirmError = urlParams.get('confirm_error');
-      const $confirmationMessage = $('#confirmation-message');
-
-      if (confirmSuccess) {
-        $confirmationMessage.text('Xác thực tài khoản thành công! Vui lòng đăng nhập.').addClass('alert alert-success').show();
-      } else if (confirmError) {
-        const message = urlParams.get('message') || 'Xác thực thất bại.';
-        $confirmationMessage.text('Lỗi: ' + message).addClass('alert alert-danger').show();
-      }
-
       $('#loginForm button[type="submit"]').on('click', function (e) {
         e.preventDefault();
         const $formMessage = $('#form-message');
@@ -120,9 +213,12 @@
           data: JSON.stringify({ username: username, password: password }),
           success: function (response) {
             if (response && response.data && response.data.accessToken) {
+              // SỬA LỖI Ở ĐÂY: LƯU TẤT CẢ DỮ LIỆU CẦN THIẾT
               localStorage.setItem('accessToken', response.data.accessToken);
               localStorage.setItem('refreshToken', response.data.refreshToken);
               localStorage.setItem('username', response.data.username);
+              localStorage.setItem('userId', response.data.id); // <-- DÒNG QUAN TRỌNG ĐÃ THÊM
+
               window.location.href = 'index.html';
             } else {
               $formMessage.text('Đăng nhập thất bại: Dữ liệu không hợp lệ.').addClass('error').slideDown();
@@ -137,7 +233,7 @@
     });
   }
 
-  // ===================================================================
+// ===================================================================
   // LOGIC GOOGLE LOGIN
   // ===================================================================
   window.handleGoogleCredentialResponse = function(response) {
@@ -152,9 +248,12 @@
       data: JSON.stringify({ token: idToken }),
       success: function (backendResponse) {
         if (backendResponse && backendResponse.data && backendResponse.data.accessToken) {
+          // SỬA LỖI Ở ĐÂY: LƯU TẤT CẢ DỮ LIỆU CẦN THIẾT
           localStorage.setItem('accessToken', backendResponse.data.accessToken);
           localStorage.setItem('refreshToken', backendResponse.data.refreshToken);
           localStorage.setItem('username', backendResponse.data.username);
+          localStorage.setItem('userId', backendResponse.data.id); // <-- DÒNG QUAN TRỌNG ĐÃ THÊM
+
           window.location.href = 'index.html';
         } else {
           $formMessage.text('Xác thực thất bại từ máy chủ.').addClass('error').slideDown();

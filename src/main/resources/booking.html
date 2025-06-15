@@ -7,11 +7,12 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Quản lý người booking</title>
-    <link rel="stylesheet" href="/public/admin/css/fontawesome.min.css">
+    <link rel="stylesheet" href="static/public/admin/css/fontawesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!--    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />-->
 <!--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.css"/>-->
-    <link rel="stylesheet" type="text/css" href="/public/admin/css/datatables.min.css"/>
-    <link href="/public/admin/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="static/public/admin/css/datatables.min.css"/>
+    <link href="static/public/admin/css/styles.css" rel="stylesheet" />
 <!--    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>-->
     <style>
         label {
@@ -34,7 +35,7 @@
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="index.html">Quản lý booking</a>
+    <a class="navbar-brand ps-3" href="/index.html">Quản lý booking</a>
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
     <!-- Navbar Search-->
@@ -55,6 +56,7 @@
     </ul>
 </nav>
 <div id="layoutSidenav">
+    <!-- File: /admin/_layouts/_sidebar.html -->
     <div id="layoutSidenav_nav">
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div class="sb-sidenav-menu">
@@ -65,31 +67,31 @@
                         Trang chủ
                     </a>
                     <div class="sb-sidenav-menu-heading">Trang quản lý</div>
-                    <a class="nav-link" href="/admin/user">
-                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    <a class="nav-link" href="/user.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                         Quản lý người dùng
                     </a>
-                    <a class="nav-link collapsed" href="/admin/tour" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-map-marked-alt"></i></div>
                         Quản lý tour
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
                     <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="/admin/tour">Danh sách Tour</a>
-                            <a class="nav-link" href="/admin/tour">Ngày khởi hành</a>
-                            <a class="nav-link" href="/admin/tour">Quản lý ảnh</a>
+                            <a class="nav-link" href="/tourManage.html">Danh sách Tour</a>
+                            <a class="nav-link" href="/tourstart.html">Ngày khởi hành</a>
+                            <a class="nav-link" href="/tourImage.html">Quản lý ảnh</a>
                         </nav>
                     </div>
-                    <a class="nav-link" href="/admin/booking">
-                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    <a class="nav-link" href="/booking.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                         Quản lý booking
                     </a>
                 </div>
             </div>
             <div class="sb-sidenav-footer">
                 <div class="small">Logged in as:</div>
-                Admin
+                <span id="admin-username">Admin</span>
             </div>
         </nav>
     </div>
@@ -98,7 +100,7 @@
             <div class="container-fluid px-4">
                 <h1 class="mt-4">Danh sách booking</h1>
                 <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="/index.html">Trang chủ</a></li>
                     <li class="breadcrumb-item active">Quản lý booking</li>
                 </ol>
                 <div class="card mb-4">
@@ -268,183 +270,217 @@
 
                     </div>
                 </div>
+                <!-- ============================================= -->
+                <!-- === DÁN ĐOẠN CODE NÚT BẤM CỦA BẠN VÀO ĐÂY === -->
+                <!-- ============================================= -->
+                <div class="my-4 d-flex justify-content-end">
+                    <a href="https://sandbox.vnpayment.vn/merchantv2/" target="_blank" rel="noopener noreferrer" class="btn btn-success btn-lg">
+                        <i class="fas fa-credit-card me-2"></i>
+                        Quản lý Giao dịch VNPAY
+                    </a>
+                </div>
             </div>
         </main>
     </div>
 </div>
-<script src="/public/admin/js/jquery.js"></script>
-<script src="/public/admin/js/boostrap-bundle.min.js"></script>
-<script src="/public/admin/js/scripts.js"></script>
-<script type="text/javascript" src="/public/admin/js/datatables.min.js"></script>
-<script src="/public/admin/js/all.min.js"></script>
-<script src="/public/admin/js/ckeditor.js"></script>
+<script src="static/public/admin/js/jquery.js"></script>
+<script src="static/public/admin/js/boostrap-bundle.min.js"></script>
+<script src="static/public/admin/js/scripts.js"></script>
+<script type="text/javascript" src="static/public/admin/js/datatables.min.js"></script>
+<script src="static/public/admin/js/all.min.js"></script>
+<script src="static/public/admin/js/ckeditor.js"></script>// file: booking.html
 <script>
+    // --- BƯỚC 1: THIẾT LẬP BẢO MẬT VÀ CÁC HÀM TIỆN ÍCH ---
+    const accessToken = localStorage.getItem('accessToken');
+    let dataTable;
 
-    function hideModal() {
-        $("#editModal").modal('hide');
-    }
-
-    function hideViewModal() {
-        $('#detailBookingModal').modal('hide');
-    }
-
-    function hideDeleteModal() {
-        $("#deleteModal").modal('hide');
-    }
-    function deleteBooking(id) {
-        $('#deleteModal').modal('show');
-        $('#deleteModal input[name="deleteId"]').val(id);
-    }
-
-    function deleteBookingAction() {
-        let id = $('#deleteModal input[name="deleteId"]').val();
-        $.ajax({
-            url: '/api/booking/delete/' + id,
-            type: 'DELETE',
-            success: function(response) {
-                // Nếu xóa thành công, cập nhật lại bảng dữ liệu
-                alert(response.message);
-                location.reload();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // Nếu xóa không thành công, thông báo lỗi
-                alert('Xóa người dùng không thành công: ' + textStatus + ' ' + errorThrown);
-            }
-        });
-
-        // Đóng modal xóa
-        $('#deleteModal').modal('hide');
-    }
-
-
-    $('#editBookingForm').submit(function(e) {
-        e.preventDefault(); // Ngăn chặn sự kiện mặc định của form
-        submitEditForm();
-    });
-
-    function submitEditForm() {
-        // Lấy giá trị từ các input trong form
-        var id = $("#id").val();
-        var trang_thai = $("#trang_thai").val();
-
-        // Gửi yêu cầu Ajax
-        $.ajax({
-            url: "http://localhost:8085/api/booking/approve/" + id +"?trang_thai="+trang_thai,
-            type: "PUT",
-            success: function(data) {
-                // Cập nhật dữ liệu thành công, đóng modal và tải lại trang
-                console.log(data)
-                $("#editModal").modal("hide");
-                alert("Sửa thành công !")
-                location.reload();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // Xử lý lỗi
-                console.log("Error:", jqXHR.responseText);
-            }
+    function showSuccessToast(message) {
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: message,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
         });
     }
 
-    function editBooking(id) {
-        $('#editModal').modal('show');
-        $.ajax({
-            url: '/api/booking/'+ id,
-            type: 'GET',
-            success: function (data) {
-                $('#trang_thai').val(data.data.trang_thai);
-            }
-        });
-        $('#id').val(id);
-    }
-
-
-    function viewDetailBooking(id) {
-        $.ajax({
-            url: '/api/booking/detail/' + id,
-            type: 'GET',
-            success: function (data) {
-                $('#ho_ten').val(data.data.ho_ten);
-                $('#sdt').val(data.data.sdt);
-                $('#ten_tour').val(data.data.ten_tour);
-                $('#so_luong_nguoi').val(data.data.so_luong_nguoi);
-                $('#ngay_khoi_hanh').val(data.data.ngay_khoi_hanh);
-                $('#tong_tien').val(data.data.tong_tien.toLocaleString());
-                $('#trang_thai_view').val(data.data.trang_thai);
-                $('#pt_thanh_toan').val(data.data.pt_thanh_toan);
-                $('#ghi_chu').val(data.data.ghi_chu);
-                $('#booking_at').val(data.data.booking_at);
-                $('#detailBookingModal').modal('show');
-            }
+    function showErrorAlert(message) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Có lỗi xảy ra',
+            text: message,
         });
     }
 
+    function logout() {
+        localStorage.removeItem('accessToken');
+        window.location.href = '/login.html'; // Điều chỉnh lại nếu cần
+    }
 
+    // --- BƯỚC 2: KIỂM TRA ĐĂNG NHẬP, CẤU HÌNH AJAX VÀ DATATABLE ---
     $(document).ready(function() {
-        $('#datatablesSimple').DataTable({
+        if (!accessToken) {
+            showErrorAlert("Bạn chưa đăng nhập hoặc phiên đã hết hạn.");
+            setTimeout(() => window.location.href = '/login.html', 2000);
+            return;
+        }
+
+        $.ajaxSetup({
+            headers: { 'Authorization': 'Bearer ' + accessToken }
+        });
+
+        $('.dropdown-item[href="#!"]').on('click', function(e) {
+            e.preventDefault();
+            logout();
+        });
+
+        dataTable = $('#datatablesSimple').DataTable({
+            "processing": true,
             "ajax": {
-                "url": "http://localhost:8085/api/booking/getAllBooking?pageIndex=0&pageSize=100",
-                "dataSrc": "data"
+                "url": "http://localhost:8085/api/booking/getAllBooking?pageIndex=0&pageSize=1000",
+                "dataSrc": "data",
+                "error": function (jqXHR) {
+                    if (jqXHR.status === 401 || jqXHR.status === 403) {
+                        showErrorAlert("Phiên đăng nhập không hợp lệ. Đang chuyển hướng...");
+                        setTimeout(logout, 2000);
+                    }
+                }
             },
             "columns": [
                 { "data": "id" },
                 { "data": "user_id" },
                 { "data": "tour_id" },
-                { "data": "ten_tour" },
+                { "data": "ten_tour", "width": "15%" },
                 { "data": "so_luong_nguoi" },
                 { "data": "ngay_khoi_hanh" },
-                { "data": "tong_tien" ,"render":function (data,type,row) {
-                        return data.toLocaleString();
+                { "data": "tong_tien", "render": $.fn.dataTable.render.number(',', '.', 0, '', ' đ') },
+                { "data": "trang_thai", "render": function(data) {
+                        const statuses = ['Đang xử lý', 'Đã thanh toán', 'Đang tiến hành', 'Đã hoàn thành', 'Đã hủy'];
+                        const colors = ['secondary', 'success', 'primary', 'info', 'danger'];
+                        return `<span class="badge bg-${colors[data] || 'dark'}">${statuses[data] || 'Không xác định'}</span>`;
                     }
                 },
-                { "data": "trang_thai", "render": function (data, type, row) {
-                        if (data == 0) {
-                            return "Đang xử lý";
-                        } else if (data == 1) {
-                            return "Đã thanh toán";
-                        } else if (data == 2) {
-                            return "Đang tiến hành";
-                        } else if (data == 3) {
-                            return "Đã hoàn thành";
-                        } else if (data == 4) {
-                            return "Đã hủy";
-                        } else {
-                            return "";
-                        }
-                    }},
-                { "data": "pt_thanh_toan" ,"render":function (data, type, row) {
-                        if(data==0) {
-                            return "Tiền mặt";
-                        }else {
-                            return "Chuyển khoản";
-                        }
-                    }
-                },
-                { "data": "ghi_chu" },
+                { "data": "pt_thanh_toan", "render": data => data == 0 ? "Tiền mặt" : "Chuyển khoản" },
+                { "data": "ghi_chu", "render": data => data && data.length > 20 ? data.substring(0, 20) + '...' : data },
                 { "data": "booking_at" },
                 {
                     "data": null,
-                    "render": function ( data, type, row ) {
-                        return '<div class="d-flex flex-row">'+'<button type="button" class="btn btn-primary btn-sm mx-2" data-toggle="modal" data-target="#editModal" onclick="editBooking('+row.id+')"><i class="fa-solid fa-pen-to-square"></i></button>' +
-                            '<button type="button" class="btn btn-danger btn-sm ml-2" onclick="deleteBooking('+row.id+')"><i class="fa-solid fa-trash"></i></button>'+'</div>'+
-                            '<div>'+ '<button onclick="viewDetailBooking('+row.id+')"  class="btn btn-sm btn-info mx-2"><i class="fa-solid fa-circle-info"></i></button>'+
-                            '<a href="/admin/tourStart/'+row.id+'"  class="btn btn-sm btn-info"><i class="fa-solid fa-calendar-days"></i></a>'+'</div>';
+                    "orderable": false,
+                    "searchable": false,
+                    // =========================================================================
+                    // === KHÔI PHỤC LẠI ĐẦY ĐỦ CÁC NÚT BẤM CỦA BẠN TẠI ĐÂY ===
+                    // =========================================================================
+                    "render": function (data, type, row) {
+                        const editButton = `<button type="button" class="btn btn-primary btn-sm" title="Cập nhật trạng thái" onclick="editBooking(${row.id})"><i class="fa-solid fa-pen-to-square"></i></button>`;
+                        const deleteButton = `<button type="button" class="btn btn-danger btn-sm" title="Xóa booking" onclick="deleteBooking(${row.id})"><i class="fa-solid fa-trash"></i></button>`;
+                        const viewButton = `<button type="button" class="btn btn-info btn-sm" title="Xem chi tiết" onclick="viewDetailBooking(${row.id})"><i class="fa-solid fa-circle-info"></i></button>`;
+                        // Giả sử tourStart là một trang khác, ta tạo link trực tiếp
+                        const calendarButton = `<a href="/admin/tourStart/${row.id}" title="Quản lý ngày khởi hành" class="btn btn-success btn-sm"><i class="fa-solid fa-calendar-days"></i></a>`;
+
+                        // Kết hợp tất cả các nút lại
+                        return `<div class="d-flex justify-content-center flex-wrap">${viewButton}${editButton}${deleteButton}${calendarButton}</div>`;
                     }
                 }
-            ]
-        } );
+            ],
+            "language": { "sSearch": "Tìm kiếm:" }
+        });
+    });
 
+    // --- BƯỚC 3: ĐỊNH NGHĨA CÁC HÀM THAO TÁC (Giữ nguyên logic cải tiến) ---
 
+    // XEM CHI TIẾT
+    function viewDetailBooking(id) {
+        $.ajax({
+            url: '/api/booking/detail/' + id,
+            type: 'GET',
+            success: function(response) {
+                if (response.data) {
+                    const d = response.data;
+                    $('#ho_ten').val(d.ho_ten);
+                    $('#sdt').val(d.sdt);
+                    $('#ten_tour').val(d.ten_tour);
+                    $('#so_luong_nguoi').val(d.so_luong_nguoi);
+                    $('#ngay_khoi_hanh').val(d.ngay_khoi_hanh);
+                    $('#tong_tien').val(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(d.tong_tien));
+                    $('#trang_thai_view').val(d.trang_thai);
+                    $('#pt_thanh_toan').val(d.pt_thanh_toan);
+                    $('#ghi_chu').val(d.ghi_chu);
+                    $('#booking_at').val(d.booking_at);
+                    $('#detailBookingModal').modal('show');
+                } else {
+                    showErrorAlert(response.message || 'Không thể tải chi tiết booking.');
+                }
+            },
+            error: () => showErrorAlert('Lỗi kết nối khi lấy chi tiết booking.')
+        });
+    }
 
+    // CẬP NHẬT TRẠNG THÁI
+    function editBooking(id) {
+        $.ajax({
+            url: '/api/booking/' + id,
+            type: 'GET',
+            success: function(response) {
+                if(response.data) {
+                    $('#editModal #id').val(id);
+                    $('#editModal #trang_thai').val(response.data.trang_thai);
+                    $('#editModal').modal('show');
+                } else {
+                    showErrorAlert(response.message || 'Không tìm thấy booking này.');
+                }
+            },
+            error: () => showErrorAlert('Lỗi khi lấy thông tin booking.')
+        });
+    }
 
-        function deleteUser(id) {
-            // Hiển thị modal xác nhận xóa user
-            $('#deleteModal input[name="id"]').val(id);
-            $('#deleteModal').modal('show');
-        }
+    function submitEditForm() {
+        const id = $("#editModal #id").val();
+        const trang_thai = $("#editModal #trang_thai").val();
 
+        $.ajax({
+            url: `/api/booking/approve/${id}?trang_thai=${trang_thai}`,
+            type: "PUT",
+            success: function() {
+                $('#editModal').modal("hide");
+                showSuccessToast("Cập nhật trạng thái thành công!");
+                dataTable.ajax.reload(null, false);
+            },
+            error: (jqXHR) => showErrorAlert(jqXHR.responseJSON?.message || "Cập nhật thất bại.")
+        });
+    }
 
+    // XÓA BOOKING
+    function deleteBooking(id) {
+        Swal.fire({
+            title: `Bạn có chắc muốn xóa đơn booking #${id}?`,
+            text: "Hành động này không thể hoàn tác!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Vâng, xóa đi!',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/api/booking/delete/' + id,
+                    type: 'DELETE',
+                    success: function(response) {
+                        showSuccessToast(response.message || 'Xóa booking thành công!');
+                        dataTable.ajax.reload(null, false);
+                    },
+                    error: (jqXHR) => showErrorAlert(jqXHR.responseJSON?.message || "Xóa booking không thành công.")
+                });
+            }
+        });
+    }
 
-    } );
+    // Hàm ẩn các modal
+    function hideModal() { $("#editModal").modal('hide'); }
+    function hideViewModal() { $('#detailBookingModal').modal('hide'); }
+
 </script>
 </body>
 </html>

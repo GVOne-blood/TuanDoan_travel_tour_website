@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lịch sử Đặt Tour - Tuấn Đoàn Tour</title>
+
+    <!--====== Favicon Icon ======-->
+    <link rel="shortcut icon" href="assets/images/logo/logo-8.png" type="image/png" />
+
+    <!-- ===== All CSS files ===== -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/animate.css" />
+    <link rel="stylesheet" href="assets/css/lineicons.css" />
+    <link rel="stylesheet" href="assets/css/ud-styles.css" />
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/58d4e782be.js" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        /* Hero Section Styling */
+        .page-hero {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(54, 82, 225, 0.9), rgba(138, 60, 229, 0.9)), url('assets/images/hero/hero-image.svg');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            color: white;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            margin-bottom: 40px;
+        }
+
+        .page-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .page-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Booking Card Styling */
+        .booking-card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.07);
+            margin-bottom: 25px;
+            transition: all 0.3s ease-in-out;
+            border: 1px solid #e9ecef;
+            overflow: hidden;
+        }
+
+        .booking-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header-custom {
+            padding: 20px 25px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header-custom h5 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #3652E1;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .card-body-custom {
+            padding: 25px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .detail-item i {
+            font-size: 1.1rem;
+            color: #8A3CE5;
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .detail-item span {
+            color: #6c757d;
+        }
+
+        .detail-item p {
+            margin: 0;
+            color: #212529;
+            font-weight: 500;
+        }
+
+        .card-footer-custom {
+            background-color: #f8f9fa;
+            padding: 15px 25px;
+            text-align: right;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* Loading and Message States */
+        .message-container {
+            text-align: center;
+            padding: 80px 20px;
+            background: #fff;
+            border-radius: 15px;
+        }
+        .message-container i {
+            font-size: 4rem;
+            color: #3652E1;
+            margin-bottom: 20px;
+        }
+        .message-container h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+<!-- ====== Header Start ====== -->
+<div id="header-placeholder"></div>
+<!-- ====== Header End ====== -->
+
+<!-- ====== Hero Section Start ====== -->
+<section class="page-hero">
+    <div class="container">
+        <h1>Hành Trình Của Bạn</h1>
+        <p>Xem lại tất cả các chuyến đi bạn đã đặt cùng Tuấn Đoàn Tour</p>
+    </div>
+</section>
+<!-- ====== Hero Section End ====== -->
+
+<!-- ====== Main Content Start ====== -->
+<section class="ud-history pb-5">
+    <div class="container">
+        <div id="booking-list-container" class="row">
+            <!-- Booking cards will be injected here by JavaScript -->
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loading-spinner" class="message-container">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <h4 class="mt-3">Đang tải lịch sử đặt tour...</h4>
+        </div>
+    </div>
+</section>
+<!-- ====== Main Content End ====== -->
+
+<!-- ====== Footer Start ====== -->
+<div id="footer-placeholder"></div>
+<!-- ====== Footer End ====== -->
+
+<a href="javascript:void(0)" class="back-to-top"><i class="lni lni-chevron-up"></i></a>
+
+<!-- ====== All Javascript Files ====== -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/wow.min.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/include.js"></script>
+
+<script>
+    $(document).ready(function () {
+        const bookingListContainer = $('#booking-list-container');
+        const loadingSpinner = $('#loading-spinner');
+
+        // --- KIỂM TRA ĐĂNG NHẬP ---
+        const userId = localStorage.getItem('userId');
+        const accessToken = localStorage.getItem('accessToken');
+
+        if (!userId || !accessToken) {
+            // Nếu không có thông tin đăng nhập, hiển thị thông báo và chuyển hướng
+            const notLoggedInHtml = `
+                    <div class="col-12">
+                        <div class="message-container">
+                            <i class="fas fa-user-lock"></i>
+                            <h4>Vui lòng đăng nhập</h4>
+                            <p class="text-muted">Bạn cần đăng nhập để xem lịch sử đặt tour.</p>
+                            <a href="login.html" class="ud-main-btn">Đăng nhập ngay</a>
+                        </div>
+                    </div>`;
+            loadingSpinner.hide();
+            bookingListContainer.html(notLoggedInHtml);
+            return; // Dừng thực thi
+        }
+
+        // --- GỌI API LẤY LỊCH SỬ BOOKING ---
+        $.ajax({
+            url: `http://localhost:8085/booking/user/${userId}`,
+            type: 'GET',
+            // Không cần `headers` vì main.js đã tự động thêm vào qua $.ajaxSetup
+            success: function (response) {
+                loadingSpinner.hide();
+                if (response.status === 200 && response.data && response.data.length > 0) {
+                    // Sắp xếp các booking theo ngày đặt mới nhất lên đầu
+                    const sortedBookings = response.data.sort((a, b) => new Date(b.booking_at) - new Date(a.booking_at));
+                    sortedBookings.forEach(booking => {
+                        const bookingCard = createBookingCard(booking);
+                        bookingListContainer.append(bookingCard);
+                    });
+                } else {
+                    // Trường hợp API trả về thành công nhưng không có dữ liệu
+                    const noBookingsHtml = `
+                            <div class="col-12">
+                                <div class="message-container">
+                                    <i class="fas fa-suitcase-rolling"></i>
+                                    <h4>Chưa có chuyến đi nào</h4>
+                                    <p class="text-muted">Có vẻ như bạn chưa đặt tour nào cả. Hãy bắt đầu hành trình của bạn ngay!</p>
+                                    <a href="index.html" class="ud-main-btn">Khám phá các tour</a>
+                                </div>
+                            </div>`;
+                    bookingListContainer.html(noBookingsHtml);
+                }
+            },
+            error: function (err) {
+                loadingSpinner.hide();
+                const errorMessage = err.responseJSON?.message || "Đã có lỗi xảy ra khi tải dữ liệu.";
+                const errorHtml = `
+                        <div class="col-12">
+                            <div class="message-container">
+                                <i class="fas fa-exclamation-triangle text-danger"></i>
+                                <h4 class="text-danger">Lỗi Tải Dữ Liệu</h4>
+                                <p class="text-muted">${errorMessage}</p>
+                            </div>
+                        </div>`;
+                bookingListContainer.html(errorHtml);
+            }
+        });
+
+        // --- HÀM TẠO GIAO DIỆN CHO MỘT BOOKING ---
+        function createBookingCard(booking) {
+            const { statusText, statusClass } = getStatusInfo(booking.status);
+            const formattedDepartingDate = new Date(booking.departing_at).toLocaleDateString('vi-VN');
+            const formattedBookingDate = new Date(booking.booking_at).toLocaleDateString('vi-VN');
+            const formattedPrice = booking.total_fee.toLocaleString('vi-VN') + ' VND';
+
+            return `
+                    <div class="col-lg-6 col-md-12">
+                        <div class="booking-card">
+                            <div class="card-header-custom">
+                                <h5>${booking.tour_name || 'Tên tour không xác định'}</h5>
+                                <span class="status-badge ${statusClass}">${statusText}</span>
+                            </div>
+                            <div class="card-body-custom">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="detail-item">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <div>
+                                                <span>Ngày khởi hành</span>
+                                                <p>${formattedDepartingDate}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="detail-item">
+                                            <i class="fas fa-users"></i>
+                                            <div>
+                                                <span>Số lượng</span>
+                                                <p>${booking.number_of_people} người</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="detail-item">
+                                            <i class="fas fa-money-bill-wave"></i>
+                                            <div>
+                                                <span>Tổng chi phí</span>
+                                                <p>${formattedPrice}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="detail-item">
+                                            <i class="fas fa-sticky-note"></i>
+                                            <div>
+                                                <span>Ghi chú</span>
+                                                <p>${booking.notes || 'Không có ghi chú'}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer-custom">
+                                Mã đặt tour: #${booking.id} - Ngày đặt: ${formattedBookingDate}
+                            </div>
+                        </div>
+                    </div>
+                `;
+        }
+
+        // --- HÀM CHUYỂN ĐỔI TRẠNG THÁI (STATUS) ---
+        function getStatusInfo(status) {
+            switch (status) {
+                case 0: return { statusText: 'Đã hủy', statusClass: 'bg-danger' };
+                case 1: return { statusText: 'Đã xác nhận', statusClass: 'bg-success' };
+                case 2: return { statusText: 'Đã hoàn thành', statusClass: 'bg-info' };
+                default: return { statusText: 'Chờ xử lý', statusClass: 'bg-warning text-dark' };
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

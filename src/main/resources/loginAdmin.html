@@ -49,44 +49,68 @@
 <script src="/public/admin/js/all.min.js"></script>
 <script src="/public/admin/js/ckeditor.js"></script>
 
+// file: login.html
 <script>
-
-
-    function loginAction() {
-
-        let username  = document.getElementById('username').value;
-        let password  = document.getElementById('password').value;
-
-        if(username=='' || password=='') {
-            alert("Vui lòng nhập đầy đủ thông tin !");
-        } else {
-            var info = {
-                username:username,
-                password:password
-            }
-
-            $.ajax({
-                url: "http://localhost:8085/api/auth/login",
-                type: "POST",
-                contentType: 'application/json',
-                data: JSON.stringify(info),
-                success: function(data) {
-                    console.log(data)
-                    alert(data.message);
-                    if(data.data!=null) {
-                        window.location.href='/admin/user';
-                    }else {
-                        location.reload();
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Xử lý lỗi
-                    console.log("Error:", jqXHR.responseText);
-                }
-            });
-        }
+    function showLoginError(message) {
+        const errorAlert = $('#login-error-alert');
+        errorAlert.text(message);
+        errorAlert.removeClass('d-none'); // Hiện thông báo
     }
 
+    function hideLoginError() {
+        $('#login-error-alert').addClass('d-none'); // Ẩn thông báo
+    }
+
+    function loginAction() {
+        hideLoginError(); // Ẩn thông báo lỗi cũ trước khi thực hiện lần mới
+
+        let username = document.getElementById('username').value;
+        let password = document.getElementById('password').value;
+
+        if (username === '' || password === '') {
+            showLoginError("Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!");
+            return;
+        }
+
+        var info = {
+            username: username,
+            password: password
+        }
+
+        // Vẫn sử dụng API login dành riêng cho admin để đảm bảo bảo mật
+        $.ajax({
+            url: "http://localhost:8085/api/auth/admin-login",
+            type: "POST",
+            contentType: 'application/json',
+            data: JSON.stringify(info),
+            success: function(response) {
+                // Đăng nhập thành công, không cần thông báo
+                if (response.data && response.data.accessToken) {
+                    // Lưu token và chuyển hướng
+                    localStorage.setItem('accessToken', response.data.accessToken);
+                    window.location.href = '/user.html'; // Đường dẫn đến trang quản lý user
+                } else {
+                    showLoginError("Lỗi không xác định: Không nhận được token.");
+                }
+            },
+            error: function(jqXHR) {
+                // Lấy thông báo lỗi từ server và hiển thị lên giao diện
+                let errorMessage = "Đã có lỗi xảy ra. Vui lòng thử lại.";
+                if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
+                    errorMessage = jqXHR.responseJSON.message;
+                }
+                showLoginError(errorMessage);
+            }
+        });
+    }
+
+    // Bắt sự kiện nhấn Enter
+    document.getElementById('password').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            loginAction();
+        }
+    });
 </script>
 </body>
 </html>

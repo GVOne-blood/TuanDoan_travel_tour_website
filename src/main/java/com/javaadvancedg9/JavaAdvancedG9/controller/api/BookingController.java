@@ -77,9 +77,6 @@ public class BookingController {
 
     @GetMapping("/{id}")
     public ResponseData<?> getOneBooking(@PathVariable("id") Long id) {
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
         return new ResponseData<>("Thành công",this.bookingService.getBookingById(id));
     }
     @GetMapping("/detail/{id}")

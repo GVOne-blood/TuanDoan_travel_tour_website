@@ -33,6 +33,7 @@ public class TourController {
 
     private final TourService tourService;
 
+
     private final TourStartRepository tourStartRepository;
 
     private final ImageService imageService;
@@ -57,6 +58,10 @@ public class TourController {
         return new ResponseData<>("Thành công",page.getContent());
     }
 
+    @GetMapping("/getAllTourUser")
+    public ResponseData<?> getAllTourStart(){
+        return new ResponseData<>(HttpStatus.OK.value(), "Thanh cong ", tourStartRepository.getAllTourStart());
+    }
     @GetMapping("/{id}")
     public ResponseData<?> getOneTour(@PathVariable("id") Long id) {
 

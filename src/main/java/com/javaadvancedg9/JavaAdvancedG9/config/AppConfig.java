@@ -33,7 +33,7 @@ import static org.springframework.security.web.header.writers.CrossOriginOpenerP
 @RequiredArgsConstructor
 public class AppConfig {
 
-    private final String[] WHITELIST = {"/api/auth/**", "/api/tour/**", "/tours/**", "/api/user/register", "api/booking/vn-pay-callback/**", "/api/user/send-mail"};
+    private final String[] WHITELIST = {"/api/auth/**", "/api/tintuc/**", "/api/tour/**", "/tours/**", "/api/user/register", "api/booking/vn-pay-callback/**", "/api/user/send-mail"};
     private final UserService userService;
     private final PreFilter preFilter;
 

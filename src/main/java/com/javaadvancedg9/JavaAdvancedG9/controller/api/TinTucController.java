@@ -1,6 +1,9 @@
 package com.javaadvancedg9.JavaAdvancedG9.controller.api;
 
+import com.javaadvancedg9.JavaAdvancedG9.dto.TinTucDTO;
+import com.javaadvancedg9.JavaAdvancedG9.dto.TinTucDetailDTO;
 import com.javaadvancedg9.JavaAdvancedG9.dto.response.ResponseData;
+import com.javaadvancedg9.JavaAdvancedG9.dto.response.ResponseError;
 import com.javaadvancedg9.JavaAdvancedG9.entity.TinTuc;
 import com.javaadvancedg9.JavaAdvancedG9.service.TinTucService;
 import com.javaadvancedg9.JavaAdvancedG9.utilities.FileUploadUtil;
@@ -9,6 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,18 +28,24 @@ public class TinTucController {
     private final TinTucService tinTucService;
 
     @GetMapping("/getAllPage")
-    public ResponseData<?> getAllPage(@RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
-                                   @RequestParam(value = "pageIndex") Integer pageIndex) {
-        Page<TinTuc> page = this.tinTucService.getAllPage(PageRequest.of(pageSize,pageIndex));
+    public ResponseData<?> getAllPage(@RequestParam(value = "pageSize", defaultValue = "9") Integer pageSize,
+                                      @RequestParam(value = "pageIndex", defaultValue = "0") Integer pageIndex) {
+        // Tạo Pageable với sắp xếp theo ngày đăng mới nhất
+        Pageable pageable = PageRequest.of(pageIndex, pageSize, Sort.by("ngay_dang").descending());
 
-        return new ResponseData<>("Thành Công",page.getContent());
+        // Gọi service đã được cập nhật
+        Page<TinTucDTO> dtoPage = this.tinTucService.getAllPage(pageable);
+
+        return new ResponseData<>(HttpStatus.OK.value(), "Thành Công", dtoPage);
     }
 
     @GetMapping("/{id}")
     public ResponseData<?> getOnePage(@PathVariable("id") Long id) {
-
-        return new ResponseData<>("Thành công",this.tinTucService.findOnePage(id));
-
+        TinTucDetailDTO detailDto = this.tinTucService.findOnePage(id);
+        if (detailDto == null) {
+            return new ResponseData<>(HttpStatus.NOT_FOUND.value(), "Không tìm thấy tin tức", null);
+        }
+        return new ResponseData<>(HttpStatus.OK.value(), "Thành công", detailDto);
     }
 
     @PostMapping("/add")

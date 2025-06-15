@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public interface AuthService {
 
+    TokenResponse adminAuthenticate(LoginDTO request);
+    
     TokenResponse authenticate(LoginDTO request);
 
     TokenResponse googleAuthenticate(String token) throws Exception;

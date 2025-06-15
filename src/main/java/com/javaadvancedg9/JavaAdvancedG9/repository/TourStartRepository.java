@@ -15,4 +15,7 @@ public interface TourStartRepository extends JpaRepository<TourStart, Long>{
 
     @Query("SELECT new com.javaadvancedg9.JavaAdvancedG9.dto.TourStartDTO(d.id,d.departing_at) FROM TourStart d WHERE d.tour_id = :tour_id")
     List<TourStartDTO> getDateStartByTourId(@Param("tour_id") Long tour_id);
+
+    @Query("SELECT new com.javaadvancedg9.JavaAdvancedG9.dto.TourStartDTO(d.id,d.departing_at) FROM TourStart d")
+    public List<TourStartDTO> getAllTourStart();
 }

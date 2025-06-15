@@ -15,27 +15,27 @@
                     <div class="navbar-collapse">
                         <ul id="nav" class="navbar-nav mx-auto">
                             <li class="nav-item">
-                                <a class="ud-menu-scroll" href="index.html">Trang chủ </a>
+                                <a href="index.html">Trang chủ </a>
                             </li>
                             <li class="nav-item">
-                                <a class="ud-menu-scroll" href="index.html#about">Thông tin</a>
+                                <a href="pricing.html">Giá Tour</a>
+                            </li>
+                            <!-- MỤC TIN TỨC MỚI -->
+                            <li class="nav-item">
+                                <a href="blog.html">Tin Tức</a>
                             </li>
                             <li class="nav-item">
-                                <a class="ud-menu-scroll" href="pricing.html">Giá Tour</a>
+                                <a href="index.html#team">Hướng dẫn viên</a>
                             </li>
                             <li class="nav-item">
-                                <a class="ud-menu-scroll" href="index.html#team">Hướng dẫn viên</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="ud-menu-scroll" href="index.html#contact">Liên hệ</a>
+                                <a href="index.html#contact">Liên hệ</a>
                             </li>
                         </ul>
                     </div>
 
-                    <!-- Thay thế khối .navbar-btn cũ bằng khối này -->
+                    <!-- Khối đăng nhập/profile giữ nguyên như bạn cung cấp -->
                     <div class="navbar-btn d-none d-sm-inline-block">
-                        <!-- Các nút Đăng nhập/Đăng ký cho khách -->
-                        <div class="js-auth-btn">
+                        <div class="js-auth-btn" style="display: inline-block;">
                             <a href="login.html" class="ud-main-btn ud-login-btn">
                                 Đăng nhập
                             </a>
@@ -43,16 +43,14 @@
                                 Đăng kí
                             </a>
                         </div>
-
-                        <!-- Khu vực Profile cho người dùng đã đăng nhập (ẩn mặc định) -->
                         <div class="dropdown js-profile-section" style="display: none;">
                             <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle profile-dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="assets/images/team/default-avatar.png" width="50px" alt="avatar" class="profile-avatar">
                                 <span class="ms-2 text-white">Hi, <span id="user-greet-name"></span></span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end shadow">
-                                <li><a class="dropdown-item" href="#">Tài khoản của tôi</a></li>
-                                <li><a class="dropdown-item" href="#">Lịch sử mua hàng</a></li>
+                                <li><a class="dropdown-item" href="profile.html">Tài khoản của tôi</a></li>
+                                <li><a class="dropdown-item" href="BookingHistory.html">Lịch sử mua hàng</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="#" id="logout-link">Đăng xuất</a></li>
                             </ul>

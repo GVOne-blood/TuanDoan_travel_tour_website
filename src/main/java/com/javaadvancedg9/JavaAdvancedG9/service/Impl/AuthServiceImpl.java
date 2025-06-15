@@ -15,12 +15,16 @@ import com.javaadvancedg9.JavaAdvancedG9.repository.TokenRepository;
 import com.javaadvancedg9.JavaAdvancedG9.repository.UserRepository;
 import com.javaadvancedg9.JavaAdvancedG9.service.AuthService;
 import com.javaadvancedg9.JavaAdvancedG9.service.JwtService;
+import com.javaadvancedg9.JavaAdvancedG9.service.UserService;
 import com.javaadvancedg9.JavaAdvancedG9.utilities.PasswordEncoderUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,9 +40,38 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final TokenRepository tokenRepository;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     @Value("${jwt.google_client_id}")
     private String googleClientId;
+
+
+    public TokenResponse adminAuthenticate(LoginDTO request) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+            );
+        } catch (AuthenticationException e) {
+            throw new BadCredentialsException("Tên đăng nhập hoặc mật khẩu không chính xác.");
+        }
+
+        User user = userService.findUserByUsername(request.getUsername());
+
+        // Logic kiểm tra quyền ADMIN bằng Enum
+        if (user.getRoleName() == null || user.getRoleName().getName() != Role.ADMIN) {
+            throw new AccessDeniedException("Bạn không có quyền truy cập vào hệ thống quản trị.");
+        }
+
+        String jwtToken = jwtService.generateToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
+
+        return TokenResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
 
     @Override
     public TokenResponse authenticate(LoginDTO request) {

@@ -7,38 +7,38 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Quản lý người dùng</title>
-    <link rel="stylesheet" href="/public/admin/css/fontawesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="static/public/admin/css/fontawesome.min.css">
 <!--    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />-->
 <!--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.css"/>-->
-    <link rel="stylesheet" type="text/css" href="/public/admin/css/datatables.min.css"/>
-    <script src="/public/admin/js/moment.min.js"></script>
-    <link href="/public/admin/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="static/public/admin/css/datatables.min.css"/>
+    <script src="static/public/admin/js/moment.min.js"></script>
+    <link href="static/public/admin/css/styles.css" rel="stylesheet" />
 <!--    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>-->
 </head>
 <body class="sb-nav-fixed">
+<!-- File: /admin/_layouts/_header.html -->
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="index.html">Quản lý người dùng</a>
+    <a class="navbar-brand ps-3" href="/user.html">Trang Quản Trị</a>
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
     <!-- Navbar Search-->
     <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-        <div class="input-group">
-            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-        </div>
+        <!-- Có thể bỏ trống hoặc để lại nếu bạn cần chức năng tìm kiếm toàn cục -->
     </form>
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#!">Logout</a></li>
+                <li><a class="dropdown-item" id="logout-button" href="#">Đăng xuất</a></li>
             </ul>
         </li>
     </ul>
 </nav>
 <div id="layoutSidenav">
+    <!-- File: /admin/_layouts/_sidebar.html -->
     <div id="layoutSidenav_nav">
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div class="sb-sidenav-menu">
@@ -49,31 +49,31 @@
                         Trang chủ
                     </a>
                     <div class="sb-sidenav-menu-heading">Trang quản lý</div>
-                    <a class="nav-link" href="/admin/user">
-                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    <a class="nav-link" href="/user.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                         Quản lý người dùng
                     </a>
-                    <a class="nav-link collapsed" href="/admin/tour" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-map-marked-alt"></i></div>
                         Quản lý tour
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
                     <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="/admin/tour">Danh sách Tour</a>
-                            <a class="nav-link" href="/admin/tour">Ngày khởi hành</a>
-                            <a class="nav-link" href="/admin/tour">Quản lý ảnh</a>
+                            <a class="nav-link" href="/tourManage.html">Danh sách Tour</a>
+                            <a class="nav-link" href="/tourstart.html">Ngày khởi hành</a>
+                            <a class="nav-link" href="/tourImage.html">Quản lý ảnh</a>
                         </nav>
                     </div>
-                    <a class="nav-link" href="/admin/booking">
-                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    <a class="nav-link" href="/booking.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                         Quản lý booking
                     </a>
                 </div>
             </div>
             <div class="sb-sidenav-footer">
                 <div class="small">Logged in as:</div>
-                Admin
+                <span id="admin-username">Admin</span>
             </div>
         </nav>
     </div>
@@ -213,188 +213,237 @@
         </main>
     </div>
 </div>
-<script src="/public/admin/js/jquery.js"></script>
-<script src="/public/admin/js/boostrap-bundle.min.js"></script>
-<script src="/public/admin/js/scripts.js"></script>
-<script type="text/javascript" src="/public/admin/js/datatables.min.js"></script>
-<script src="/public/admin/js/all.min.js"></script>
-<script src="/public/admin/js/ckeditor.js"></script>
-<script>
+<script src="static/public/admin/js/jquery.js"></script>
+<script src="static/public/admin/js/boostrap-bundle.min.js"></script>
+<script src="static/public/admin/js/scripts.js"></script>
+<script type="text/javascript" src="static/public/admin/js/datatables.min.js"></script>
+<script src="static/public/admin/js/all.min.js"></script>
+<script src="static/public/admin/js/ckeditor.js"></script>
+<script src="/assets/js/layoutLoader.js"></script>
 
+
+<script>
+    // --- BƯỚC 1: THIẾT LẬP BẢO MẬT VÀ CÁC HÀM TIỆN ÍCH ---
+    const accessToken = localStorage.getItem('accessToken');
+    let dataTable;
+
+    function showSuccessToast(message) {
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: message,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        });
+    }
+
+    function showErrorAlert(message) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Có lỗi xảy ra',
+            text: message,
+        });
+    }
+
+    function logout() {
+        localStorage.removeItem('accessToken');
+        window.location.href = '/login.html'; // Đảm bảo đường dẫn này đúng
+    }
+
+    // --- BƯỚC 2: KIỂM TRA ĐĂNG NHẬP VÀ CẤU HÌNH AJAX ---
+    $(document).ready(function() {
+        if (!accessToken) {
+            Swal.fire({
+                title: 'Chưa đăng nhập!',
+                text: 'Bạn chưa đăng nhập hoặc phiên đã hết hạn. Vui lòng đăng nhập lại.',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = '/login.html'; // Đường dẫn đến trang login
+            });
+            return;
+        }
+
+        $.ajaxSetup({
+            headers: { 'Authorization': 'Bearer ' + accessToken }
+        });
+
+        $('.dropdown-item[href="#!"]').on('click', function(e) {
+            e.preventDefault();
+            logout();
+        });
+
+        // --- BƯỚC 3: KHỞI TẠO DATATABLE VÀ SỬA LỖI ---
+        dataTable = $('#datatablesSimple').DataTable({
+            "processing": true,
+            "ajax": {
+                "url": "http://localhost:8085/api/user/getAll?pageIndex=0&pageSize=1000",
+                // SỬA LỖI TẠI ĐÂY: dataSrc trỏ thẳng vào mảng dữ liệu.
+                "dataSrc": "data",
+                "error": function (jqXHR) {
+                    if (jqXHR.status === 401 || jqXHR.status === 403) {
+                        showErrorAlert("Phiên đăng nhập đã hết hạn. Đang chuyển hướng về trang đăng nhập.");
+                        setTimeout(logout, 2500);
+                    } else {
+                        showErrorAlert("Không thể tải dữ liệu người dùng từ máy chủ.");
+                    }
+                }
+            },
+            // Đảm bảo tên các cột này khớp với key trong DTO/JSON từ API của bạn
+            "columns": [
+                { "data": "id" },
+                { "data": "username" },
+                { "data": "fullname" },
+                { "data": "phone" },
+                { "data": "gender" },
+                { "data": "email" },
+                { "data": "address" },
+                {
+                    "data": null,
+                    "orderable": false,
+                    "searchable": false,
+                    "render": function (data, type, row) {
+                        return `<button class="btn btn-primary btn-sm mx-1" onclick="editUser(${row.id})"><i class="fas fa-edit"></i> Sửa</button>` +
+                            `<button class="btn btn-warning btn-sm mx-1 text-white" onclick="resetPass(${row.id})"><i class="fas fa-key"></i> Reset</button>` +
+                            `<button class="btn btn-danger btn-sm mx-1" onclick="deleteUser(${row.id}, '${row.username}')"><i class="fas fa-trash"></i> Xóa</button>`;
+                    }
+                }
+            ],
+            // Thêm các tùy chọn ngôn ngữ Tiếng Việt cho DataTables
+            "language": {
+                "sProcessing":   "Đang xử lý...",
+                "sLengthMenu":   "Xem _MENU_ mục",
+                "sZeroRecords":  "Không tìm thấy dòng nào phù hợp",
+                "sInfo":         "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+                "sInfoEmpty":    "Đang xem 0 đến 0 trong tổng số 0 mục",
+                "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+                "sInfoPostFix":  "",
+                "sSearch":       "Tìm:",
+                "sUrl":          "",
+                "oPaginate": {
+                    "sFirst":    "Đầu",
+                    "sPrevious": "Trước",
+                    "sNext":     "Tiếp",
+                    "sLast":     "Cuối"
+                }
+            }
+        });
+    });
+
+    // --- BƯỚC 4: ĐỊNH NGHĨA CÁC HÀM THAO TÁC (Đã tối ưu) ---
     function hideModal() {
         $("#editModal").modal('hide');
     }
 
-    function hideDeleteModal() {
-        $("#deleteModal").modal('hide');
-    }
-    function deleteUser(id) {
-        $('#deleteModal').modal('show');
-        $('#deleteModal input[name="deleteId"]').val(id);
-    }
-
-    function deleteUserAction() {
-        let id = $('#deleteModal input[name="deleteId"]').val();
-        $.ajax({
-            url: '/api/user/delete/' + id,
-            type: 'DELETE',
-            success: function(response) {
-                // Nếu xóa thành công, cập nhật lại bảng dữ liệu
-                alert(response.message);
-                location.reload();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // Nếu xóa không thành công, thông báo lỗi
-                alert('Xóa người dùng không thành công: ' + textStatus + ' ' + errorThrown);
-            }
-        });
-
-        // Đóng modal xóa
-        $('#deleteModal').modal('hide');
-    }
-
+    // SỬA USER
     function editUser(id) {
-        // Gọi API lấy thông tin user theo id
         $.ajax({
-            url: '/api/user/' + id,
+            url: 'http://localhost:8085/api/user/' + id,
             type: 'GET',
-            success: function(result) {
-                // Hiển thị modal sửa thông tin user và điền dữ liệu vào form
-                $('#editModal input[name="id"]').val(result.data.id);
-                $('#editModal input[name="username"]').val(result.data.username);
-                $('#editModal input[name="ho_ten"]').val(result.data.ho_ten);
-                $('#editModal input[name="sdt"]').val(result.data.sdt);
-                $('#editModal input[name="gioi_tinh"]').val(result.data.gioi_tinh);
-                $('#editModal input[name="email"]').val(result.data.email);
-                $('#editModal input[name="dia_chi"]').val(result.data.dia_chi);
-                $('#editModal select[name="role"]').val(result.data.role);
-                $('#editModal').modal('show');
+            success: function(response) {
+                if (response.data) {
+                    const user = response.data;
+                    $('#id').val(user.id);
+                    $('#username').val(user.username);
+                    $('#ho_ten').val(user.fullname);
+                    $('#sdt').val(user.phone);
+                    $('#gioi_tinh').val(user.gender);
+                    $('#email').val(user.email);
+                    $('#dia_chi').val(user.address);
+                    $('#editModal').modal('show');
+                } else {
+                    showErrorAlert(response.message || "Không tìm thấy dữ liệu người dùng.");
+                }
             },
-            error: function(xhr, status, error) {
-                // Xử lý lỗi khi không lấy được thông tin user
-                console.log(xhr.responseText);
-            }
+            error: function() { showErrorAlert("Lỗi khi lấy thông tin người dùng."); }
         });
     }
-
-
-    $('#editUserForm').submit(function(e) {
-        e.preventDefault(); // Ngăn chặn sự kiện mặc định của form
-        submitEditForm();
-    });
 
     function submitEditForm() {
-        // Lấy giá trị từ các input trong form
-        var id = $("#id").val();
-        var username = $("#username").val();
-        var hoTen = $("#ho_ten").val();
-        var sdt = $("#sdt").val();
-        var gioiTinh = $("#gioi_tinh").val();
-        var email = $("#email").val();
-        var diaChi = $("#dia_chi").val();
-
-        // Tạo đối tượng UpdateUserDTO để lưu trữ dữ liệu cần cập nhật
-        var updateUserDTO = {
-            username: username,
-            ho_ten: hoTen,
-            sdt: sdt,
-            gioi_tinh: gioiTinh,
-            email: email,
-            dia_chi: diaChi
+        const id = $("#id").val();
+        // Lấy dữ liệu từ các trường trong modal
+        const updateUserDTO = {
+            username: $("#username").val(),
+            fullname: $("#ho_ten").val(),
+            phone: $("#sdt").val(),
+            gender: $("#gioi_tinh").val(),
+            email: $("#email").val(),
+            address: $("#dia_chi").val()
         };
-        console.log(updateUserDTO)
 
-        // Gửi yêu cầu Ajax
         $.ajax({
             url: "http://localhost:8085/api/user/update/" + id,
             type: "PUT",
             data: JSON.stringify(updateUserDTO),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function(data) {
-                // Cập nhật dữ liệu thành công, đóng modal và tải lại trang
-                console.log(data)
-                $("#editModal").modal("hide");
-                alert("Sửa thành công !")
-                location.reload();
+            contentType: "application/json",
+            success: function() {
+                hideModal();
+                showSuccessToast("Cập nhật thành công!");
+                dataTable.ajax.reload(null, false); // Tải lại dữ liệu bảng không cần reload trang
             },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // Xử lý lỗi
-                console.log("Error:", jqXHR.responseText);
+            error: function(jqXHR) {
+                const errorMsg = jqXHR.responseJSON ? jqXHR.responseJSON.message : "Cập nhật thất bại.";
+                showErrorAlert(errorMsg);
             }
         });
     }
 
-
-    function resetPass(id) {
-        $('#resetModal').modal('show');
-        $('#resetId').val(id);
-    }
-    function hideResetModal() {
-        $('#resetModal').modal('hide');
-    }
-
-
-    function resetPassAction() {
-        let userId = $('#resetId').val();
-
-        // Gửi yêu cầu Ajax
-        $.ajax({
-            url: "http://localhost:8085/api/user/update/resetPass/" + userId,
-            type: "PUT",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function(data) {
-                // Cập nhật dữ liệu thành công, đóng modal và tải lại trang
-                console.log(data)
-                $("#resetModal").modal("hide");
-                alert("Khôi phục thành công !")
-                location.reload();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // Xử lý lỗi
-                console.log("Error:", jqXHR.responseText);
-            }
-        });
-    }
-
-    $(document).ready(function() {
-        $('#datatablesSimple').DataTable({
-            "ajax": {
-                "url": "http://localhost:8085/api/user/getAll?pageIndex=0&pageSize=100",
-                "dataSrc": "data"
-            },
-            "columns": [
-                { "data": "id" },
-                { "data": "username" },
-                { "data": "ho_ten" },
-                { "data": "sdt" },
-                { "data": "gioi_tinh" },
-                { "data": "email" },
-                { "data": "dia_chi" },
-                {
-                    "data": null,
-                    "render": function ( data, type, row ) {
-                        return '<button type="button" data-toggle="modal" data-target="#editModal" class="btn btn-primary btn-sm mx-2" onclick="editUser('+data.id+')">Sửa</button>' +
-                            '<button type="button" data-toggle="modal" data-target="#editModal" class="btn btn-primary btn-sm mx-2" onclick="resetPass('+data.id+')">Reset pass</button>' +
-                            '<button type="button" data-toggle="modal" data-target="#deleteModal" class="btn btn-danger btn-sm mx-2" onclick="deleteUser('+data.id+')">Xóa</button>';
+    // XÓA USER
+    function deleteUser(id, username) {
+        Swal.fire({
+            title: `Bạn có chắc muốn xóa người dùng "${username}"?`,
+            text: "Hành động này không thể hoàn tác!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Vâng, xóa đi!',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: 'http://localhost:8085/api/user/delete/' + id,
+                    type: 'DELETE',
+                    success: function(response) {
+                        showSuccessToast(response.message || 'Xóa người dùng thành công!');
+                        dataTable.ajax.reload(null, false);
+                    },
+                    error: function(jqXHR) {
+                        const errorMsg = jqXHR.responseJSON ? jqXHR.responseJSON.message : "Xóa người dùng không thành công.";
+                        showErrorAlert(errorMsg);
                     }
-                }
-            ]
-        } );
+                });
+            }
+        });
+    }
 
-
-
-
-        function deleteUser(id) {
-            // Hiển thị modal xác nhận xóa user
-            $('#deleteModal input[name="id"]').val(id);
-            $('#deleteModal').modal('show');
-        }
-
-
-
-    } );
+    // RESET MẬT KHẨU
+    function resetPass(id) {
+        Swal.fire({
+            title: 'Khôi phục mật khẩu?',
+            text: "Tài khoản sẽ được đặt lại về mật khẩu mặc định.",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "http://localhost:8085/api/user/update/resetPass/" + id,
+                    type: "PUT",
+                    success: function(response) {
+                        showSuccessToast(response.message || "Khôi phục mật khẩu thành công!");
+                    },
+                    error: function(jqXHR) {
+                        const errorMsg = jqXHR.responseJSON ? jqXHR.responseJSON.message : "Khôi phục mật khẩu thất bại.";
+                        showErrorAlert(errorMsg);
+                    }
+                });
+            }
+        });
+    }
 </script>
 </body>
 </html>
