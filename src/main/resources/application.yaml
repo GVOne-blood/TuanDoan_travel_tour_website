@@ -42,7 +42,7 @@ payment:
   vnPay:
     url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
     tmnCode: T2NFMFM4
-    secretKey: 6K1APLELJ0DI53DHVZ5QI014TXU1QNZ6
+    secretKey: W27ZTGD9MHB8GNEOLFZPLUI2NNWD1UUX
     returnUrl: http://localhost:8085/api/booking/vn-pay-callback
     version: 2.1.0
     command: pay

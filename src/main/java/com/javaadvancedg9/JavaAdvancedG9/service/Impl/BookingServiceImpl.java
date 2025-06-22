@@ -89,13 +89,9 @@ public class BookingServiceImpl implements BookingService {
     public boolean deleteBooking(Long id) {
 
         BookingDTO booking = this.getBookingById(id);
+        this.bookingRepository.deleteById(id);
 
-        if(booking.getStatus()==3) {
-            this.bookingRepository.deleteById(id);
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     @Override

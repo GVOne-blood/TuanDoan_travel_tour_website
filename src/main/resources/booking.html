@@ -62,12 +62,12 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Core</div>
-                    <a class="nav-link" href="/admin/user">
+                    <a class="nav-link" href="http://localhost:63342/TuanDoan_travel_tour_website/src/main/resources/user.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Trang chủ
                     </a>
                     <div class="sb-sidenav-menu-heading">Trang quản lý</div>
-                    <a class="nav-link" href="/user.html">
+                    <a class="nav-link" href="http://localhost:63342/TuanDoan_travel_tour_website/src/main/resources/user.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                         Quản lý người dùng
                     </a>
@@ -78,12 +78,12 @@
                     </a>
                     <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="/tourManage.html">Danh sách Tour</a>
-                            <a class="nav-link" href="/tourstart.html">Ngày khởi hành</a>
-                            <a class="nav-link" href="/tourImage.html">Quản lý ảnh</a>
+                            <a class="nav-link" href="http://localhost:63342/TuanDoan_travel_tour_website/src/main/resources/tourManage.html">Danh sách Tour</a>
+                            <a class="nav-link" href="http://localhost:63342/TuanDoan_travel_tour_website/src/main/resources/tourstart.html">Ngày khởi hành</a>
+                            <a class="nav-link" href="http://localhost:63342/TuanDoan_travel_tour_website/src/main/resources/tourImage.html">Quản lý ảnh</a>
                         </nav>
                     </div>
-                    <a class="nav-link" href="/booking.html">
+                    <a class="nav-link" href="http://localhost:63342/TuanDoan_travel_tour_website/src/main/resources/booking.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                         Quản lý booking
                     </a>
@@ -377,7 +377,7 @@
                         const deleteButton = `<button type="button" class="btn btn-danger btn-sm" title="Xóa booking" onclick="deleteBooking(${row.id})"><i class="fa-solid fa-trash"></i></button>`;
                         const viewButton = `<button type="button" class="btn btn-info btn-sm" title="Xem chi tiết" onclick="viewDetailBooking(${row.id})"><i class="fa-solid fa-circle-info"></i></button>`;
                         // Giả sử tourStart là một trang khác, ta tạo link trực tiếp
-                        const calendarButton = `<a href="/admin/tourStart/${row.id}" title="Quản lý ngày khởi hành" class="btn btn-success btn-sm"><i class="fa-solid fa-calendar-days"></i></a>`;
+                        const calendarButton = `<a href="http://localhost:63342/TuanDoan_travel_tour_website/src/main/resources/tourstart.html/${row.id}" title="Quản lý ngày khởi hành" class="btn btn-success btn-sm"><i class="fa-solid fa-calendar-days"></i></a>`;
 
                         // Kết hợp tất cả các nút lại
                         return `<div class="d-flex justify-content-center flex-wrap">${viewButton}${editButton}${deleteButton}${calendarButton}</div>`;
@@ -393,7 +393,7 @@
     // XEM CHI TIẾT
     function viewDetailBooking(id) {
         $.ajax({
-            url: '/api/booking/detail/' + id,
+            url: 'http://localhost:8085/api/booking/detail/' + id,
             type: 'GET',
             success: function(response) {
                 if (response.data) {
@@ -420,7 +420,7 @@
     // CẬP NHẬT TRẠNG THÁI
     function editBooking(id) {
         $.ajax({
-            url: '/api/booking/' + id,
+            url: 'http://localhost:8085/api/booking/' + id,
             type: 'GET',
             success: function(response) {
                 if(response.data) {
@@ -440,7 +440,7 @@
         const trang_thai = $("#editModal #trang_thai").val();
 
         $.ajax({
-            url: `/api/booking/approve/${id}?trang_thai=${trang_thai}`,
+            url: `http://localhost:8085/api/booking/approve/${id}?trang_thai=${trang_thai}`,
             type: "PUT",
             success: function() {
                 $('#editModal').modal("hide");
@@ -465,7 +465,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '/api/booking/delete/' + id,
+                    url: 'http://localhost:8085/api/booking/delete/' + id,
                     type: 'DELETE',
                     success: function(response) {
                         showSuccessToast(response.message || 'Xóa booking thành công!');

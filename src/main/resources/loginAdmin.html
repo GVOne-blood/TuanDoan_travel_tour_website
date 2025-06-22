@@ -42,12 +42,12 @@
         </main>
     </div>
 </div>
-<script src="/public/admin/js/jquery.js"></script>
-<script src="/public/admin/js/boostrap-bundle.min.js"></script>
-<script src="/public/admin/js/scripts.js"></script>
-<script type="text/javascript" src="/public/admin/js/datatables.min.js"></script>
-<script src="/public/admin/js/all.min.js"></script>
-<script src="/public/admin/js/ckeditor.js"></script>
+<script src="static/public/admin/js/jquery.js"></script>
+<script src="static/public/admin/js/boostrap-bundle.min.js"></script>
+<script src="static/public/admin/js/scripts.js"></script>
+<script type="text/javascript" src="static/public/admin/js/datatables.min.js"></script>
+<script src="static/public/admin/js/all.min.js"></script>
+<script src="static/public/admin/js/ckeditor.js"></script>
 
 // file: login.html
 <script>
@@ -88,7 +88,7 @@
                 if (response.data && response.data.accessToken) {
                     // Lưu token và chuyển hướng
                     localStorage.setItem('accessToken', response.data.accessToken);
-                    window.location.href = '/user.html'; // Đường dẫn đến trang quản lý user
+                    window.location.href = 'http://localhost:63342/TuanDoan_travel_tour_website/src/main/resources/user.html'; // Đường dẫn đến trang quản lý user
                 } else {
                     showLoginError("Lỗi không xác định: Không nhận được token.");
                 }

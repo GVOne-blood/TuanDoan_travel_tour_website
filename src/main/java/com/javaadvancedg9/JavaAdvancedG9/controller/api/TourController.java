@@ -76,18 +76,15 @@ public class TourController {
     @PostMapping("/test-up-anh")
     public ResponseData<?> testUpAnh(@RequestParam("image") MultipartFile image) {
 
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
 
-        String uploadDir = "HoangMinhWeb/src/main/resources/static/public/img";
+        String uploadDir = "TuanDoan-travel_tour_website/src/main/resources/static/public/img";
 
         try {
             // Lưu ảnh vào thư mục "upload"
             String fileName = UUID.randomUUID().toString()+ image.getOriginalFilename();
             FileUploadUtil.saveFile(uploadDir, fileName, image);
 
-            return new ResponseData<>("Thành công",fileName);
+            return new ResponseData<>(HttpStatus.OK.value(), "Thành công",fileName);
         } catch (IOException e) {
             // Xử lý exception
             log.info("Lỗi upload file: {}",e.getMessage());
@@ -98,11 +95,8 @@ public class TourController {
     @PostMapping("/add/image")
     public ResponseData<?> createTourImage(@RequestParam("image")MultipartFile image) {
 
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
 
-        String uploadDir = "HoangMinhWeb/src/main/resources/static/public/img";
+        String uploadDir = "TuanDoan-travel_tour_website/src/main/resources/static/public/img";
 
         Tour tour = tourService.findFirstByOrderByIdDesc();
 
@@ -113,7 +107,7 @@ public class TourController {
 
             // Lưu thông tin của tour vào cơ sở dữ liệu
             tour.setTour_illustration(fileName);
-            return new ResponseData<>("Thành công",this.tourService.saveTour(tour));
+            return new ResponseData<>(HttpStatus.OK.value(),"Thành công",this.tourService.saveTour(tour));
         } catch (IOException  e) {
             // Xử lý exception
             log.info("Lỗi upload file: {}",e.getMessage());
@@ -124,9 +118,6 @@ public class TourController {
     @PostMapping("/add")
     public ResponseData<?> createTour(@RequestBody TourDTO tourDTO) {
 
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData("Không có quyền truy cập",null);
-        }
 
         String[] dataGet = tourDTO.getDestination().split("/");
         tourDTO.setDestination(dataGet[0]);
@@ -135,7 +126,7 @@ public class TourController {
 
         Tour tour = this.tourService.addTour(tourDTO);
         if(tour!=null) {
-            return new ResponseData<>("Thành công",tour);
+            return new ResponseData<>(HttpStatus.OK.value(), "Thành công",tour);
         }
         return new ResponseData<>("Thêm thất bại",null);
 
@@ -145,11 +136,8 @@ public class TourController {
     @PutMapping("/update/image/{id}")
     public ResponseData<?> updateTourImage(@PathVariable("id") Long id, @RequestParam("image") MultipartFile image) {
 
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
 
-        String uploadDir = "HoangMinhWeb/src/main/resources/static/public/img";
+        String uploadDir = "TuanDoan-travel_tour_website/src/main/resources/static/public/img";
 
         TourDTO tourDTO = this.tourService.findTourById(id);
         try {
@@ -161,7 +149,7 @@ public class TourController {
             tourDTO.setTour_illustration(fileName);
             Tour updateTour = this.tourService.updateTour(tourDTO,id);
             if(updateTour!=null) {
-                return new ResponseData<>("Thành công",updateTour);
+                return new ResponseData<>(HttpStatus.OK.value(), "Thành công",updateTour);
             }
 
         } catch (IOException  e) {
@@ -174,9 +162,6 @@ public class TourController {
     @PutMapping("/update/{id}")
     public ResponseData<?> updateTour(@PathVariable("id") Long id, @RequestBody TourDTO tourDTO) {
 
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
 
         String[] dataGet = tourDTO.getDestination().split("/");
         tourDTO.setDestination(dataGet[0]);
@@ -184,7 +169,7 @@ public class TourController {
         tourDTO.setEnd_at(DateUtils.convertStringToDate(dataGet[2]));
         Tour updateTour = this.tourService.updateTour(tourDTO,id);
         if(updateTour!=null) {
-            return new ResponseData<>("Thành công",updateTour);
+            return new ResponseData<>(HttpStatus.OK.value(), "Thành công",updateTour);
         }
 
         return new ResponseData<>("Update thất bại",null);
@@ -193,13 +178,10 @@ public class TourController {
     @DeleteMapping("/delete/{id}")
     public ResponseData<?> deleteTour(@PathVariable("id") Long id) {
 
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
 
         if(this.tourService.findTourById(id)!=null) {
             if(this.tourService.deleteTour(id)) {
-                return new ResponseData<>("Xóa thành công",null);
+                return new ResponseData<>(HttpStatus.OK.value(), "Xóa thành công",null);
             }
 
         }
@@ -209,21 +191,14 @@ public class TourController {
     @GetMapping("/getAllImageOfTour/{id}")
     public ResponseData<?> getAllImageOfTour(@PathVariable("id") Long id) {
 
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData("Không có quyền truy cập",null);
-        }
-
-        return new ResponseData<>("Thành công",this.imageService.findByTourId(id));
+        return new ResponseData<>(HttpStatus.OK.value(), "Thành công",this.imageService.findByTourId(id));
     }
 
     @PostMapping("/add-image/{id}")
     public ResponseData<?> addImage(@PathVariable("id") Long id, @RequestParam("image") MultipartFile image) {
 
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
 
-        String uploadDir = "HoangMinhWeb/src/main/resources/static/public/img";
+        String uploadDir = "TuanDoan-travel_tour_website/src/main/resources/static/public/img";
 
         try {
             // Lưu ảnh vào thư mục "upload"
@@ -232,7 +207,7 @@ public class TourController {
 
             if(this.tourService.findTourById(id)!=null) {
 
-                return new ResponseData<>("Thêm thành công",this.imageService.addToTour(id,fileName));
+                return new ResponseData<>(HttpStatus.OK.value(), "Thêm thành công",this.imageService.addToTour(id,fileName));
             }
         } catch (IOException  e) {
             // Xử lý exception
@@ -245,39 +220,31 @@ public class TourController {
 
     @GetMapping("/StartDate/{id}")
     public ResponseData<?> getAllStartDate(@PathVariable("id") Long id) {
-        return new ResponseData<>("Thành công",this.tourStartRepository.getDateStartByTourId(id));
+        return new ResponseData<>(HttpStatus.OK.value(), "Thành công",this.tourStartRepository.getDateStartByTourId(id));
     }
 
 
     @DeleteMapping("/StartDate/delete/{id}")
     public ResponseData<?> deleteStartDate(@PathVariable("id") Long id) {
 
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
+
 
         this.tourStartRepository.deleteById(id);
-        return new ResponseData<>("Xóa thành công",null);
+        return new ResponseData<>(HttpStatus.OK.value(), "Xóa thành công",null);
     }
 
     @DeleteMapping("/TourImage/delete/{id}")
     public ResponseData<?> deleteTourImage(@PathVariable("id") Long id) {
 
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
 
         this.imageService.deleteById(id);
 
-        return new ResponseData<>("Xóa ảnh thành công",null);
+        return new ResponseData<>(HttpStatus.OK.value(), "Xóa ảnh thành công",null);
     }
 
     @PostMapping("/add-date/{id}")
     public ResponseData<?> addStartDate(@PathVariable("id") Long id , @RequestBody TourStartAtdDTO toutStartAddDTO) {
 
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
 
         Date departing_at = DateUtils.convertStringToDate(toutStartAddDTO.getDeparting_at());
 
@@ -293,7 +260,7 @@ public class TourController {
             tourStart.setTour_id(id);
             tourStart.setDeparting_at(calendar.getTime());
 
-            return new ResponseData<>("Thêm thành công",this.tourStartRepository.save(tourStart));
+            return new ResponseData<>(HttpStatus.OK.value(), "Thêm thành công",this.tourStartRepository.save(tourStart));
         }
 
         return new ResponseData<>("Tour không tồn tại khi thêm",null);

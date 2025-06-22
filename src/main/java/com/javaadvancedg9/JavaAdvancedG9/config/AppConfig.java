@@ -83,7 +83,7 @@ public class AppConfig {
                         // Quy tắc này VẪN RẤT QUAN TRỌNG để cho phép preflight request đi qua
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(WHITELIST).permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**", "/api/tour/**", "/api/booking/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )

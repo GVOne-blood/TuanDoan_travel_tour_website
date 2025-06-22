@@ -4,31 +4,21 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Quản lý người dùng</title>
+    <title>Quản lý ngày khởi hành</title>
+
+    <!-- Thư viện và CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="/public/admin/css/fontawesome.min.css">
-    <!--    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />-->
-<!--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.css"/>-->
     <link rel="stylesheet" type="text/css" href="/public/admin/css/datatables.min.css"/>
-    <script src="/public/admin/js/moment.min.js"></script>
     <link href="/public/admin/css/styles.css" rel="stylesheet" />
-    <!--    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>-->
 </head>
 <body class="sb-nav-fixed">
+
+<!-- ======================= HEADER ======================= -->
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-    <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="index.html">Quản lý ngày khởi hành</a>
-    <!-- Sidebar Toggle-->
+    <a class="navbar-brand ps-3" href="#">Quản lý ngày khởi hành</a>
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-    <!-- Navbar Search-->
-    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-        <div class="input-group">
-            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-        </div>
-    </form>
-    <!-- Navbar-->
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"></form>
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
@@ -38,63 +28,48 @@
         </li>
     </ul>
 </nav>
+
 <div id="layoutSidenav">
+    <!-- ======================= SIDEBAR ======================= -->
     <div id="layoutSidenav_nav">
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div class="sb-sidenav-menu">
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Core</div>
-                    <a class="nav-link" href="/admin/user">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Trang chủ
-                    </a>
+                    <a class="nav-link" href="/user.html"><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>Trang chủ</a>
                     <div class="sb-sidenav-menu-heading">Trang quản lý</div>
-                    <a class="nav-link" href="/admin/user">
-                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                        Quản lý người dùng
-                    </a>
-                    <a class="nav-link collapsed" href="/admin/tour" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                        Quản lý tour
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <a class="nav-link" href="/user.html"><div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>Quản lý người dùng</a>
+                    <a class="nav-link collapsed active" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="true"><div class="sb-nav-link-icon"><i class="fas fa-map-marked-alt"></i></div>Quản lý tour<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div></a>
+                    <div class="collapse show" id="collapseLayouts" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="/admin/tour">Danh sách Tour</a>
-                            <a class="nav-link" href="/admin/tour">Ngày khởi hành</a>
-                            <a class="nav-link" href="/admin/tour">Quản lý ảnh</a>
+                            <a class="nav-link" href="http://localhost:63342/TuanDoan_travel_tour_website/src/main/resources/tourManage.html">Danh sách Tour</a>
+                            <a class="nav-link active" href="http://localhost:63342/TuanDoan_travel_tour_website/src/main/resources/tourstart.html">Ngày khởi hành</a>
+                            <a class="nav-link" href="http://localhost:63342/TuanDoan_travel_tour_website/src/main/resources/tourImage.html">Quản lý ảnh</a>
                         </nav>
                     </div>
-                    <a class="nav-link" href="/admin/booking">
-                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                        Quản lý booking
-                    </a>
+                    <a class="nav-link" href="http://localhost:63342/TuanDoan_travel_tour_website/src/main/resources/booking.html"><div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>Quản lý booking</a>
                 </div>
             </div>
-            <div class="sb-sidenav-footer">
-                <div class="small">Logged in as:</div>
-                Admin
-            </div>
+            <div class="sb-sidenav-footer"><div class="small">Logged in as:</div><span>Admin</span></div>
         </nav>
     </div>
+
+    <!-- ======================= MAIN CONTENT ======================= -->
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
                 <h1 id="id_tour_set_title" class="mt-4">Danh sách ngày khởi hành</h1>
                 <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="/tourManage.html">Quản lý Tour</a></li>
                     <li class="breadcrumb-item active">Quản lý ngày khởi hành</li>
                 </ol>
                 <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-table me-1"></i>
-                        Bảng dữ liệu ngày khởi hành
-                    </div>
-                    <div class="">
-                        <button class="btn btn-primary m-4" data-toggle="modal" onclick="addTourStartModel()" data-target="#addTourModal">Thêm ngày khởi hành cho tour</button>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div><i class="fas fa-table me-1"></i>Bảng dữ liệu</div>
+                        <button class="btn btn-primary" onclick="addTourStartModel()"><i class="fas fa-plus me-1"></i>Thêm ngày khởi hành</button>
                     </div>
                     <div class="card-body">
-                        <table id="datatablesSimple">
+                        <table id="datatablesSimple" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                             <tr>
                                 <th>ID</th>
@@ -102,179 +77,165 @@
                                 <th>Action</th>
                             </tr>
                             </thead>
-                            <tfoot>
-                            <tr>
-                                <th>ID</th>
-                                <th>Ngày khởi hành</th>
-                                <th>Action</th>
-                            </tr>
-                            </tfoot>
-                            <tbody >
-
-
-                            </tbody>
                         </table>
-
-
-                        <div class="modal fade"  id="addStartDateModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content p-4">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title p-2" id="addModalLabel">Thêm mới ngày khởi hành</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form id="addTourForm">
-                                            <input type="hidden"  name="id" value="id">
-                                            <div class="form-group">
-                                                <label for="ngay_khoi_hanh">Ngày khởi hành</label>
-                                                <input type="date" pattern="\d{1,2}/\d{1,2}/\d{4}" id="ngay_khoi_hanh" required class="form-control datepicker" name="ngay_khoi_hanh">
-                                            </div>
-
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" onclick="hideAddModal()" data-dismiss="modal">Đóng</button>
-                                        <button type="button" class="btn btn-primary" onclick="submitAddForm()">Thêm mới</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Xóa ảnh</h5>
-                                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <input type="hidden" id="deleteId" name="deleteId" value="deleteId">
-                                    <div class="modal-body">
-                                        <p>Bạn có chắc chắn muốn xóa ảnh này?</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" onclick="hideDeleteModal()" data-dismiss="modal">Hủy</button>
-                                        <button type="button" class="btn btn-danger" data-id="" onclick="deleteUserAction()" id="confirmDeleteBtn">Xóa</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 </div>
+
+<!-- ======================= MODAL THÊM MỚI ======================= -->
+<div class="modal fade" id="addStartDateModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">Thêm mới ngày khởi hành</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addStartDateForm">
+                    <div class="form-group">
+                        <label for="ngay_khoi_hanh" class="form-label">Ngày khởi hành</label>
+                        <input type="date" class="form-control" id="ngay_khoi_hanh" name="ngay_khoi_hanh" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" onclick="submitAddForm()">Thêm mới</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ======================= SCRIPTS ======================= -->
 <script src="/public/admin/js/jquery.js"></script>
 <script src="/public/admin/js/boostrap-bundle.min.js"></script>
 <script src="/public/admin/js/scripts.js"></script>
 <script type="text/javascript" src="/public/admin/js/datatables.min.js"></script>
 <script src="/public/admin/js/all.min.js"></script>
-<script src="/public/admin/js/ckeditor.js"></script>
+
 <script>
+    // --- BƯỚC 1: KHAI BÁO BIẾN TOÀN CỤC VÀ CÁC HÀM TIỆN ÍCH ---
+    const accessToken = localStorage.getItem('accessToken');
+    let dataTable;
+    let tourId; // Biến để lưu ID của tour
 
-    function hideModal() {
-        $("#editModal").modal('hide');
-    }
+    function showSuccessToast(message) { Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: message, showConfirmButton: false, timer: 3000, timerProgressBar: true }); }
+    function showErrorAlert(message) { Swal.fire({ icon: 'error', title: 'Có lỗi xảy ra', text: message }); }
+    function logout() { localStorage.removeItem('accessToken'); window.location.href = '/login.html'; }
 
-
-    function submitAddForm() {
-        let currentUrl = window.location.href;
-        let tour_id = currentUrl.split("/").pop();
-        let ngay_khoi_hanh = $('#ngay_khoi_hanh').val();
-        var today = new Date().toISOString().split('T')[0];
-        if (ngay_khoi_hanh < today) {
-            alert("Ngày khởi hành phải lớn hơn hôm nay !");
+    // --- BƯỚC 2: KHỞI TẠO VÀ CẤU HÌNH ---
+    $(document).ready(function() {
+        if (!accessToken) {
+            showErrorAlert("Bạn chưa đăng nhập hoặc phiên đã hết hạn.");
+            setTimeout(() => window.location.href = '/login.html', 2000);
             return;
         }
 
-        const startDateAddDTO = {
-            ngay_khoi_hanh:ngay_khoi_hanh
+        // Cấu hình Ajax toàn cục để gửi token
+        $.ajaxSetup({ headers: { 'Authorization': 'Bearer ' + accessToken } });
+        $('.dropdown-item[href="#!"]').on('click', (e) => { e.preventDefault(); logout(); });
+
+        // Lấy tourId từ URL
+        try {
+            const urlPath = window.location.pathname; // Lấy phần path của URL, ví dụ: /admin/tourStart/123
+            tourId = urlPath.split('/').pop();
+            if (!tourId || isNaN(tourId)) {
+                showErrorAlert("Không tìm thấy ID của tour trong địa chỉ URL.");
+                return;
+            }
+            $('#id_tour_set_title').text(`Danh sách ngày khởi hành của Tour #${tourId}`);
+        } catch (e) {
+            showErrorAlert("Lỗi khi đọc ID của tour từ URL.");
+            return;
         }
 
-        $.ajax({
-            url: "http://localhost:8085/api/tour/add-date/"+tour_id,
-            type: "POST",
-            contentType: 'application/json',
-            data: JSON.stringify(startDateAddDTO),
-            success: function(response){
-                alert("Thêm mới thành công !")
-                location.reload();
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-                console.log(textStatus, errorThrown);
-            }
-        });
-    }
-
-    function addTourStartModel() {
-        $('#addStartDateModal').modal('show');
-    }
-    function hideAddModal() {
-        $('#addStartDateModal').modal('hide');
-    }
-    function hideDeleteModal() {
-        $("#deleteModal").modal('hide');
-    }
-    function deleteUser(id) {
-        $('#deleteModal').modal('show');
-        $('#deleteModal input[name="deleteId"]').val(id);
-    }
-
-    function deleteUserAction() {
-        let id = $('#deleteModal input[name="deleteId"]').val();
-        $.ajax({
-            url: '/api/tour/StartDate/delete/' + id,
-            type: 'DELETE',
-            success: function(response) {
-                // Nếu xóa thành công, cập nhật lại bảng dữ liệu
-                alert(response.message);
-                location.reload();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // Nếu xóa không thành công, thông báo lỗi
-                alert('Xóa người dùng không thành công: ' + textStatus + ' ' + errorThrown);
-            }
-        });
-
-        // Đóng modal xóa
-        $('#deleteModal').modal('hide');
-    }
-
-
-    $(document).ready(function() {
-        let currentUrl = window.location.href;
-
-        let tour_id = currentUrl.split("/").pop();
-
-        document.getElementById('id_tour_set_title').innerHTML = "Danh sách ngày khởi hành của tour id : " +tour_id;
-
-        $('#datatablesSimple').DataTable({
+        // Khởi tạo DataTable
+        dataTable = $('#datatablesSimple').DataTable({
+            "processing": true,
             "ajax": {
-                "url": "http://localhost:8085/api/tour/StartDate/"+tour_id,
-                "dataSrc": "data"
+                "url": `http://localhost:8085/api/tour/StartDate/${tourId}`,
+                "dataSrc": "data",
+                "error": (jqXHR) => {
+                    if (jqXHR.status === 401 || jqXHR.status === 403) {
+                        showErrorAlert("Phiên đăng nhập không hợp lệ hoặc bạn không có quyền. Đang chuyển hướng...");
+                        setTimeout(logout, 2500);
+                    } else {
+                        showErrorAlert("Không thể tải dữ liệu. Lỗi: " + jqXHR.statusText);
+                    }
+                }
             },
             "columns": [
                 { "data": "id" },
                 { "data": "ngay_khoi_hanh" },
                 {
-                    "data": null,
-                    "render": function ( data, type, row ) {
-                         return  '<button type="button" data-toggle="modal" data-target="#deleteModal" class="btn btn-danger btn-sm mx-2" onclick="deleteUser('+data.id+')">Xóa</button>';
+                    "data": null, "orderable": false, "searchable": false,
+                    "render": function (data, type, row) {
+                        return `<button type="button" class="btn btn-danger btn-sm" title="Xóa ngày khởi hành" onclick="confirmDeleteStartDate(${row.id})"><i class="fas fa-trash"></i> Xóa</button>`;
                     }
                 }
-            ]
-        } );
+            ],
+            "language": { "sSearch": "Tìm kiếm:" }
+        });
+    });
 
+    // --- BƯỚC 3: CÁC HÀM XỬ LÝ SỰ KIỆN ---
 
+    function addTourStartModel() {
+        $('#addStartDateForm')[0].reset();
+        $('#addStartDateModal').modal('show');
+    }
 
-
-        function deleteUser(id) {
-            // Hiển thị modal xác nhận xóa user
-            $('#deleteModal input[name="id"]').val(id);
-            $('#deleteModal').modal('show');
+    function submitAddForm() {
+        const ngay_khoi_hanh = $('#ngay_khoi_hanh').val();
+        if (!ngay_khoi_hanh) {
+            showErrorAlert("Vui lòng chọn ngày khởi hành.");
+            return;
         }
 
-    } );
+        const startDateAddDTO = { ngay_khoi_hanh: ngay_khoi_hanh };
+
+        $.ajax({
+            url: `http://localhost:8085/api/tour/add-date/${tourId}`,
+            type: "POST",
+            contentType: 'application/json',
+            data: JSON.stringify(startDateAddDTO),
+            success: function(response) {
+                $('#addStartDateModal').modal('hide');
+                showSuccessToast(response.message || "Thêm mới thành công!");
+                dataTable.ajax.reload(); // Tải lại dữ liệu bảng
+            },
+            error: (jqXHR) => showErrorAlert(jqXHR.responseJSON?.message || "Thêm mới thất bại.")
+        });
+    }
+
+    function confirmDeleteStartDate(id) {
+        Swal.fire({
+            title: `Bạn có chắc muốn xóa ngày khởi hành này?`,
+            text: "Hành động này không thể hoàn tác!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Vâng, xóa đi!',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/api/tour/StartDate/delete/' + id,
+                    type: 'DELETE',
+                    success: function(response) {
+                        showSuccessToast(response.message || 'Xóa thành công!');
+                        dataTable.ajax.reload(null, false); // Tải lại mà không về trang đầu
+                    },
+                    error: (jqXHR) => showErrorAlert(jqXHR.responseJSON?.message || 'Xóa không thành công.')
+                });
+            }
+        });
+    }
 </script>
+
 </body>
 </html>

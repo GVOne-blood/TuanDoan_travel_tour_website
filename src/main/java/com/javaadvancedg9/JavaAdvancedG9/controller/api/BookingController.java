@@ -71,7 +71,7 @@ public class BookingController {
                                       @RequestParam(value = "pageIndex", required = false) Integer pageIndex){
         Page<BookingDTO> pageFake = this.bookingService.findAllBooking(status,tour_name, PageRequest.of(pageIndex,pageSize));
 
-        return new ResponseData<>("Thành công",pageFake.getContent());
+        return new ResponseData<>(HttpStatus.OK.value(), "Thành công",pageFake.getContent());
 
     }
 
@@ -81,20 +81,15 @@ public class BookingController {
     }
     @GetMapping("/detail/{id}")
     public ResponseData<?> getOneDetailBooking(@PathVariable("id") Long id) {
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
-        return new ResponseData<>("Thành công",this.bookingService.getBookingDetailById(id));
+
+        return new ResponseData<>(HttpStatus.OK.value(), "Thành công",this.bookingService.getBookingDetailById(id));
     }
 
     @PutMapping("/approve/{id}")
     public ResponseData<?> changeStatus(@PathVariable("id") Long id, @RequestParam("status") Integer status) {
 
-
-
-
         if(this.bookingService.approveBooking(id,status)) {
-            return new ResponseData<>("Cập nhật thành công",null);
+            return new ResponseData<>(HttpStatus.OK.value(), "Cập nhật thành công",null);
         }
         return new ResponseError(HttpStatus.BAD_GATEWAY.value(), "Cập nhật thất bại",null);
     }
@@ -103,12 +98,9 @@ public class BookingController {
     @DeleteMapping("/delete/{id}")
     public ResponseData<?> deleteBooking(@PathVariable("id") Long id) {
 
-        if(!this.userService.checkAdminLogin()) {
-            return new ResponseData<>("Không có quyền truy cập",null);
-        }
 
         if(this.bookingService.deleteBooking(id)) {
-            return new ResponseData<>("Xóa thành công",null);
+            return new ResponseData<>(HttpStatus.OK.value(), "Xóa thành công",null);
         }
 
         return new ResponseData<>("Chỉ có thể xóa tour đã hoàn thành và đã hủy",null);
