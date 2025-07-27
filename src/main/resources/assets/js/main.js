@@ -17,12 +17,35 @@
     failedQueue = [];
   };
 
+  const isTokenExpired = (token) => {
+    if (!token) return true;
+    try {
+        const decoded = jwt_decode(token);
+        const currentTime = Date.now() / 1000;
+        // Thêm buffer 30 giây để tránh các vấn đề về timing
+        return decoded.exp < (currentTime + 30);
+    } catch (e) {
+        // Nếu không decode được token, không nên coi là hết hạn ngay
+        console.error('Error decoding token:', e);
+        return false;
+    }
+  };
+
   const refreshToken = () => {
     const refreshTokenValue = localStorage.getItem('refreshToken');
-    if (!refreshTokenValue) {
+    const accessToken = localStorage.getItem('accessToken');
+
+    // Nếu không có refresh token hoặc refresh token đã hết hạn
+    if (!refreshTokenValue || isTokenExpired(refreshTokenValue)) {
       logout();
-      return $.Deferred().reject({ status: 401, responseText: 'No refresh token available' }).promise();
+      return $.Deferred().reject({ status: 401, responseText: 'No valid refresh token available' }).promise();
     }
+
+    // Nếu access token vẫn còn hạn, không cần refresh
+    if (accessToken && !isTokenExpired(accessToken)) {
+      return $.Deferred().resolve({ data: { accessToken } }).promise();
+    }
+
     isRefreshing = true;
     return $.ajax({
       url: 'http://localhost:8085/api/auth/refresh',
@@ -55,17 +78,25 @@
   // Trong main.js
   $.ajaxSetup({
     beforeSend: function(xhr) {
-      const token = localStorage.getItem('accessToken');
-      if (token) {
-        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-      }
+        const token = localStorage.getItem('accessToken');
+
+        if (token) {
+            // Chỉ kiểm tra hết hạn nếu không phải request refresh token
+            if (this.url !== 'http://localhost:8085/api/auth/refresh' && isTokenExpired(token)) {
+                const refreshPromise = refreshToken();
+                return refreshPromise.then(() => {
+                    const newToken = localStorage.getItem('accessToken');
+                    if (newToken) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + newToken);
+                    }
+                });
+            }
+            xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+        }
     },
     error: function(jqXHR) {
       const originalRequest = this;
-      // === THAY ĐỔI Ở ĐÂY ===
-      // Xử lý cả 2 trường hợp 401 (Unauthorized) và 403 (Forbidden)
       if ((jqXHR.status === 401 || jqXHR.status === 403) && !originalRequest._retry) {
-        // =======================
         if (isRefreshing) {
           return new Promise((resolve, reject) => {
             failedQueue.push({ resolve, reject });

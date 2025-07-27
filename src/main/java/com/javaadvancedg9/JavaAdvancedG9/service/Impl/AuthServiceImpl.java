@@ -83,10 +83,10 @@ public class AuthServiceImpl implements AuthService {
         String refresh_token = jwtService.generateRefreshToken(user);
 
         Token userToken = tokenRepository.findByUsername(user.getUsername());
-        if (userToken == null) {
-            userToken = new Token();
-            userToken.setUsername(user.getUsername());
-        }
+//        if (userToken == null) {
+//            userToken = new Token();
+//            userToken.setUsername(user.getUsername());
+//        }
         userToken.setACCESS_TOKEN(access_token);
         userToken.setREFRESH_TOKEN(refresh_token);
         tokenRepository.save(userToken);
