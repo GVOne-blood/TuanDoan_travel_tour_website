@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TinTucRepository extends JpaRepository<TinTuc,Long> {
 
- // THÊM PHƯƠNG THỨC MỚI NÀY
  @Query(value = "SELECT t FROM TinTuc t LEFT JOIN FETCH t.user",
          countQuery = "SELECT count(t) FROM TinTuc t")
  Page<TinTuc> findAllWithUser(Pageable pageable);

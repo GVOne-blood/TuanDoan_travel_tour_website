@@ -20,14 +20,11 @@
   const isTokenExpired = (token) => {
     if (!token) return true;
     try {
-        const decoded = jwt_decode(token);
-        const currentTime = Date.now() / 1000;
-        // Thêm buffer 30 giây để tránh các vấn đề về timing
-        return decoded.exp < (currentTime + 30);
+      const decoded = jwt_decode(token);
+      const currentTime = Date.now() / 1000;
+      return decoded.exp < currentTime;
     } catch (e) {
-        // Nếu không decode được token, không nên coi là hết hạn ngay
-        console.error('Error decoding token:', e);
-        return false;
+      return true;
     }
   };
 
@@ -78,21 +75,23 @@
   // Trong main.js
   $.ajaxSetup({
     beforeSend: function(xhr) {
-        const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('accessToken');
 
-        if (token) {
-            // Chỉ kiểm tra hết hạn nếu không phải request refresh token
-            if (this.url !== 'http://localhost:8085/api/auth/refresh' && isTokenExpired(token)) {
-                const refreshPromise = refreshToken();
-                return refreshPromise.then(() => {
-                    const newToken = localStorage.getItem('accessToken');
-                    if (newToken) {
-                        xhr.setRequestHeader('Authorization', 'Bearer ' + newToken);
-                    }
-                });
-            }
-            xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-        }
+      // Kiểm tra token trước khi gửi request
+      if (token && isTokenExpired(token)) {
+        // Nếu token hết hạn, thử refresh trước khi gửi request
+        const refreshPromise = refreshToken();
+        return refreshPromise.then(() => {
+          const newToken = localStorage.getItem('accessToken');
+          if (newToken) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + newToken);
+          }
+        });
+      }
+
+      if (token) {
+        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+      }
     },
     error: function(jqXHR) {
       const originalRequest = this;
